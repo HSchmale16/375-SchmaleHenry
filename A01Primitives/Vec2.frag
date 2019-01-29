@@ -23,5 +23,5 @@ void
 main ()
 {
   // Output fragment color, with red, green, blue, and alpha components (RGBA)
-  fColor = vec4 (vColor, 1.0f);
+  fColor = vec4 (vColor, 1.2f);
 }

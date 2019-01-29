@@ -1,11 +1,12 @@
 /* 
   Filename: Main.cpp
-  Authors: Gary M. Zoppetti, Ph.D. & Chad Hogg
+  Authors: Gary M. Zoppetti, Ph.D. & Chad Hogg & Henry J Schmale
   Course: CSCI375
   Assignment: A01Primitives
   Description: A beginning OpenGL program that uses OpenGL 3.3 to draw a 
     triangle and point
  */
+
 
 /******************************************************************/
 // System includes
@@ -28,7 +29,7 @@
 // Type declarations/globals variables/prototypes
 
 // One VAO for the triangle, one for the point
-#define NUMBER_OF_VAOS 2
+#define NUMBER_OF_VAOS 3
 
 // The VAOs
 GLuint g_vaos[NUMBER_OF_VAOS];
@@ -395,3 +396,20 @@ outputGlfwError (int error, const char* description)
 }
 
 /******************************************************************/
+/*
+ * 5a. The first drawn shape is put on top of the later drawn shape. I'm
+ * going to guess that things are kind of treated as a stack, and we
+ * start drawing from the foreground to the background, rather than as a
+ * standard pixel buffer as on many vintage computer systems.
+ * 
+ * 5b. In the case that a single point is offscreen, it refers to a
+ * coordinate outside of our viewable area. So that point gets culled
+ * and replaced with the bare minimum to keep it in our screen space.
+ *
+ * 5c. The w coordinate seems to have something to do with it's zoom
+ * factor. If I increase w everything appears to be smaller. If I
+ * decrease w everything appears to be bigger.
+ *
+ * 5d. I'm not really sure what happens to it. It appears that nothing
+ * is really happening. Maybe the colors end up a little bit muted.
+ */
