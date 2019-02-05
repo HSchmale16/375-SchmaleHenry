@@ -1,0 +1,11 @@
+Main.o: Main.cpp ShaderProgram.h Mesh.h
+
+ShaderProgram.h:
+
+Mesh.h:
+ShaderProgram.o: ShaderProgram.cpp ShaderProgram.h
+
+ShaderProgram.h:
+Mesh.o: Mesh.cpp Mesh.h
+
+Mesh.h:
