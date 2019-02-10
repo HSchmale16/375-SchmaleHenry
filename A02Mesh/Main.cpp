@@ -14,6 +14,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <vector>
+#include <cmath>
 
 // Use GLEW so we can access the latest OpenGL functionality
 // Always include GLEW before GLFW!
@@ -249,21 +250,165 @@ resetViewport (GLFWwindow* window, int width, int height)
 
 /******************************************************************/
 
+void 
+push_color(std::vector<float>& v) {
+    static int colorNum = 0;
+    v.push_back(sin(colorNum));
+    colorNum += 1;
+    v.push_back(cos(colorNum));
+    colorNum += 1;
+    v.push_back((colorNum & 7) == 0 ? 1.0f : 0.0f);
+    colorNum += 1;
+}
+
+/** Absolute garbage code, but it works, probably could be optimized
+ * down to a direct initialization.
+ *
+ * x,y,z is the bottom left front corner.
+ */
+std::vector<float> 
+make_cube(float x, float y, float z, float size) {
+    std::vector<float> verts;
+    verts.reserve(18 * 2 * 6);
+
+    // Front Face LL
+    verts.push_back(x);
+    verts.push_back(y);
+    verts.push_back(z);
+    push_color(verts);
+
+    verts.push_back(x + size);
+    verts.push_back(y);
+    verts.push_back(z);
+    push_color(verts);
+
+    verts.push_back(x);
+    verts.push_back(y + size);
+    verts.push_back(z);
+    push_color(verts);
+    
+    // Front Face UR 
+    verts.push_back(x + size);
+    verts.push_back(y + size);
+    verts.push_back(z);
+    push_color(verts);
+
+    verts.push_back(x);
+    verts.push_back(y + size);
+    verts.push_back(z);
+    push_color(verts);
+
+    verts.push_back(x + size);
+    verts.push_back(y);
+    verts.push_back(z);
+    push_color(verts);
+
+    // LEFT Side Face
+    verts.push_back(x);
+    verts.push_back(y);
+    verts.push_back(z);
+    push_color(verts);
+    
+    verts.push_back(x);
+    verts.push_back(y + size);
+    verts.push_back(z);
+    push_color(verts);
+
+    verts.push_back(x);
+    verts.push_back(y);
+    verts.push_back(z - size);
+    push_color(verts);
+
+    verts.push_back(x);
+    verts.push_back(y + size);
+    verts.push_back(z - size);
+    push_color(verts);
+    
+    verts.push_back(x);
+    verts.push_back(y);
+    verts.push_back(z - size);
+    push_color(verts);
+
+    verts.push_back(x);
+    verts.push_back(y + size);
+    verts.push_back(z);
+    push_color(verts);
+    
+    // Top
+    verts.push_back(x);
+    verts.push_back(y + size);
+    verts.push_back(z);
+    push_color(verts);
+
+    verts.push_back(x + size);
+    verts.push_back(y + size);
+    verts.push_back(z);
+    push_color(verts);
+    
+    verts.push_back(x);
+    verts.push_back(y + size);
+    verts.push_back(z - size);
+    push_color(verts);
+
+    // Bottom
+    verts.push_back(x);
+    verts.push_back(y);
+    verts.push_back(z);
+    push_color(verts);
+    
+    verts.push_back(x);
+    verts.push_back(y);
+    verts.push_back(z - size);
+    push_color(verts);
+
+    verts.push_back(x + size);
+    verts.push_back(y);
+    verts.push_back(z);
+    push_color(verts);
+    
+    // Back Face
+    verts.push_back(x + size);
+    verts.push_back(y);
+    verts.push_back(z);
+    push_color(verts);
+
+    verts.push_back(x);
+    verts.push_back(y + size);
+    verts.push_back(z - size);
+    push_color(verts);
+
+    verts.push_back(x + size);
+    verts.push_back(y + size);
+    verts.push_back(z);
+    push_color(verts);
+    
+    verts.push_back(x + size);
+    verts.push_back(y);
+    verts.push_back(z);
+    push_color(verts);
+
+    verts.push_back(x);
+    verts.push_back(y);
+    verts.push_back(z - size);
+    push_color(verts);
+
+    verts.push_back(x + size);
+    verts.push_back(y + size);
+    verts.push_back(z);
+    push_color(verts);
+
+
+    printf("Size of cheesy wedge mesh is %d\n", verts.size()); 
+    return verts;
+}
+
 void
 initScene ()
 {
-    std::vector<float> triVertices {
-      0.0f, 5.0f, 0.0f,   // 3-d coordinates of first vertex (X, Y, Z)
-      1.0f, 0.0f, 0.0f,   // color of first vertex (R, G, B)
-      -5.0f, -5.0f, 0.0f, // 3-d coordinates of second vertex (X, Y, Z)
-      0.0f, 1.0f, 0.0f,   // color of second vertex (R, G, B)
-      5.0f, -5.0f, 0.0f,  // 3-d coordinates of third vertex (X, Y, Z)
-      0.0f, 0.0f, 1.0f    // color of third vertex (R, G, B)
-    };
 
     g_vaos.push_back(new Mesh());
-    
-    g_vaos[0]->addGeometry(triVertices);
+        
+    g_vaos[0]->addGeometry(make_cube(1.0f, 2.0f, 3.0f, 4.0f));
 
     std::vector<float> triVertices2 {
       2.0f, 5.0f, -1.0f,   // 3-d coordinates of first vertex (X, Y, Z)
