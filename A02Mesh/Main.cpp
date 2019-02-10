@@ -252,51 +252,30 @@ resetViewport (GLFWwindow* window, int width, int height)
 void
 initScene ()
 {
-  // These control how our C++ program communicates with the shaders
-/*
-  const GLint POSITION_ATTRIB_INDEX = 0;
-  const GLint COLOR_ATTRIB_INDEX = 1;
-
-  const unsigned NUM_VAOS = 1;
-  g_vaos.resize (NUM_VAOS);
-  glGenVertexArrays (NUM_VAOS, g_vaos.data ());
-
-  //////////////////////////////
-  // Set up triangle geometry
-  glBindVertexArray (g_vaos[0]);
-  GLuint triVbo;
-  glGenBuffers (1, &triVbo);
-  glBindBuffer (GL_ARRAY_BUFFER, triVbo);
-  // 3 3D points, followed by 3 RGB colors
-*/
-  std::vector<float> triVertices {
+    std::vector<float> triVertices {
       0.0f, 5.0f, 0.0f,   // 3-d coordinates of first vertex (X, Y, Z)
       1.0f, 0.0f, 0.0f,   // color of first vertex (R, G, B)
       -5.0f, -5.0f, 0.0f, // 3-d coordinates of second vertex (X, Y, Z)
       0.0f, 1.0f, 0.0f,   // color of second vertex (R, G, B)
       5.0f, -5.0f, 0.0f,  // 3-d coordinates of third vertex (X, Y, Z)
       0.0f, 0.0f, 1.0f    // color of third vertex (R, G, B)
-      };
+    };
 
     g_vaos.push_back(new Mesh());
     
     g_vaos[0]->addGeometry(triVertices);
 
-/*
-  glBufferData (GL_ARRAY_BUFFER, triVertices.size () * sizeof(float),
-		triVertices.data (),
-		GL_STATIC_DRAW);
-  // Tell the shaders how the data in the array is laid out
-  glEnableVertexAttribArray (POSITION_ATTRIB_INDEX);
-  // Positions have 3 parts, each are floats, and start at beginning of array
-  glVertexAttribPointer (POSITION_ATTRIB_INDEX, 3, GL_FLOAT, GL_FALSE, 0,
-			 reinterpret_cast<void*> (0));
-  glEnableVertexAttribArray (COLOR_ATTRIB_INDEX);
-  // Colors have 3 parts, each are floats, and start at 10th position in array
-  glVertexAttribPointer (COLOR_ATTRIB_INDEX, 3, GL_FLOAT, GL_FALSE, 0,
-			 reinterpret_cast<void*> (9 * sizeof(float)));
-  glBindVertexArray (0);
-*/
+    std::vector<float> triVertices2 {
+      2.0f, 5.0f, -1.0f,   // 3-d coordinates of first vertex (X, Y, Z)
+      0.0f, 1.0f, 0.0f,   // color of second vertex (R, G, B)
+      -5.0f, -8.0f, -3.0f, // 3-d coordinates of second vertex (X, Y, Z)
+      1.0f, 0.0f, 0.0f,   // color of first vertex (R, G, B)
+      5.0f, -5.0f, 0.0f,  // 3-d coordinates of third vertex (X, Y, Z)
+      0.0f, 0.0f, 1.0f    // color of third vertex (R, G, B)
+    };
+
+    g_vaos.push_back(new Mesh());
+    g_vaos[1]->addGeometry(triVertices2);
 }
 
 /******************************************************************/
