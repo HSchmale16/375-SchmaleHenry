@@ -21,6 +21,9 @@
 class Mesh {
 public:
     Mesh();
+    Mesh(const Mesh&) = delete;
+    Mesh& operator=(Mesh const&) = delete;
+
     ~Mesh();
 
     void
@@ -30,7 +33,7 @@ public:
     prepareVao();
 
     void
-    draw();
+    draw(ShaderProgram* shader, glm::mat4&);
 
 private:
     GLuint m_vao;

@@ -1,5 +1,14 @@
+/**
+ * Mesh.cpp
+ * Henry J Schmale
+ * CSCI 375 - Spring 2019
+ *
+ */
+
 #include "Mesh.h"
 #include <cassert>
+
+
 
 Mesh::Mesh () {
     glGenVertexArrays (1, &m_vao);
@@ -35,9 +44,14 @@ Mesh::prepareVao () {
 }
 
 void 
-Mesh::draw() {
+Mesh::draw(ShaderProgram* shader, glm::mat4& modelView) {
+    shader->enable();
+    shader->setUniformMatrix("uModelView", modelView);
+
     glBindVertexArray(m_vao);
     glDrawArrays(GL_TRIANGLES, 0, m_geometry.size() / 6);
     glBindVertexArray(0);
+
+    shader->disable();
 }
 

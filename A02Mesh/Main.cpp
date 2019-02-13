@@ -483,10 +483,10 @@ drawScene (GLFWwindow* window)
   //   already set and it will persist.
   // Create view matrix
   glm::mat4 modelView = glm::lookAt (g_camera.position, g_camera.at, g_camera.up);
-  g_shaderProgram->setUniformMatrix ("uModelView", modelView);
+  //g_shaderProgram->setUniformMatrix ("uModelView", modelView);
 
   for (auto mesh : g_vaos) {
-    mesh->draw();
+    mesh->draw(g_shaderProgram, modelView);
   }
   g_shaderProgram->disable ();
 
