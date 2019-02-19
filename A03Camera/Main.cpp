@@ -36,6 +36,7 @@
 // Local includes
 #include "ShaderProgram.h"
 #include "Mesh.h"
+#include "Camera.h"
 
 /******************************************************************/
 // Type declarations/globals variables/prototypes
@@ -46,6 +47,7 @@ std::vector<Mesh*> g_vaos;
 // Need a shader program to transform and light the primitives
 ShaderProgram* g_shaderProgram;
 
+/*
 // A type for a virtual camera, or eye point
 struct Camera
 {
@@ -58,6 +60,7 @@ struct Camera
   // Projection (defines view volume)
   glm::mat4 projection;
 };
+*/
 
 Camera g_camera;
 
@@ -448,15 +451,11 @@ initCamera ()
   float nearZ = 0.01f;
   // Far plane
   float farZ = 40.0f;
-  g_camera.projection = glm::perspective (verticalFov, aspectRatio, nearZ,
-					  farZ);
+
+  g_camera = Camera(glm::vec3(0,0,12.f), glm::vec3(0,0,0), nearZ, farZ, aspectRatio, 50.0f);
   // Enable shader program so we can set uniforms
   g_shaderProgram->enable ();
-  g_shaderProgram->setUniformMatrix ("uProjection", g_camera.projection);
-  // Define the camera's coordinate system
-  g_camera.position = glm::vec3 (0, 0, 12.0f);
-  g_camera.at = glm::vec3 (0, 0, 0);
-  g_camera.up = glm::vec3 (0, 1, 0);
+  g_shaderProgram->setUniformMatrix ("uProjection", g_camera.getProjectionMatrix());
 }
 
 /******************************************************************/
@@ -482,7 +481,7 @@ drawScene (GLFWwindow* window)
   // Only the model-view matrix needs set, since the projection is
   //   already set and it will persist.
   // Create view matrix
-  glm::mat4 modelView = glm::lookAt (g_camera.position, g_camera.at, g_camera.up);
+  glm::mat4 modelView = g_camera.getViewMatrix();
   //g_shaderProgram->setUniformMatrix ("uModelView", modelView);
 
   for (auto mesh : g_vaos) {
@@ -514,19 +513,20 @@ processKeys (GLFWwindow* window, int key, int scanCode, int action,
   // Translate camera/eye point using WASD keys
   const float MOVEMENT_DELTA = 1.0f;
   if (key == GLFW_KEY_W && action == GLFW_PRESS)
-    g_camera.position.z -= MOVEMENT_DELTA;
+    g_camera.moveBack(-MOVEMENT_DELTA);
   else if (key == GLFW_KEY_S && action == GLFW_PRESS)
-    g_camera.position.z += MOVEMENT_DELTA;
-  // TODO: Add support for movement along x and y axes
+    g_camera.moveBack(MOVEMENT_DELTA);
+
   if (key == GLFW_KEY_A && action == GLFW_PRESS)
-    g_camera.position.x -= MOVEMENT_DELTA;
+    g_camera.moveRight(-MOVEMENT_DELTA);
   else if (key == GLFW_KEY_D && action == GLFW_PRESS)
-    g_camera.position.x += MOVEMENT_DELTA;
-  
+    g_camera.moveRight(MOVEMENT_DELTA);
+
   if (key == GLFW_KEY_C && action == GLFW_PRESS)
-    g_camera.position.y -= MOVEMENT_DELTA;
+    g_camera.moveUp(-MOVEMENT_DELTA);
   else if (key == GLFW_KEY_F && action == GLFW_PRESS)
-    g_camera.position.y += MOVEMENT_DELTA;
+    g_camera.moveUp(MOVEMENT_DELTA);
+
 }
 
 /******************************************************************/
