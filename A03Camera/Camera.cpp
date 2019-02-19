@@ -2,6 +2,12 @@
 #include <glm/gtc/matrix_transform.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/rotate_vector.hpp>
+#include <cstdio>
+
+void 
+print_vec(const glm::vec3& v) {
+    printf("%f %f %f\n", v.x, v.y, v.z);
+}
 
 Camera::Camera() {}
 
@@ -18,9 +24,14 @@ Camera::Camera(const glm::vec3& eyePoint, const glm::vec3& localBackDirection,
         m_aspectRatio,
         m_nearClipPlaneDistance,
         m_farClipPlaneDistance);
-    m_up = glm::vec3(0,1,0);
+    m_up = glm::vec3(0.f, 1.0f, 0.f);
     m_right = glm::cross(m_backwardsPoint, m_up);
+
+    printf("%f %f %f\n", m_right.x, m_right.y, m_right.z);
+    print_vec(m_backwardsPoint);
 }
+
+
 
 void
 Camera::setProjection (float verticalFovDegrees, float aspectRatio, float nearZ, float farZ)
@@ -46,8 +57,9 @@ glm::mat4
 Camera::getViewMatrix() 
 {
     if (m_dirty) {
-
-        m_viewMat = glm::lookAt(m_eyePoint, m_eyePoint, m_up);
+        glm::vec3 at = m_eyePoint - m_backwardsPoint;
+        print_vec(at);
+        m_viewMat = glm::lookAt(m_eyePoint, at, m_up);
         m_dirty = false;
     }
     return m_viewMat;
@@ -55,19 +67,19 @@ Camera::getViewMatrix()
 
 void
 Camera::moveUp(float distance) {
-    this->m_eyePoint.y += distance;
+    this->m_eyePoint += m_up * distance;
     m_dirty = true;
 }
 
 void
 Camera::moveRight(float distance) {
-    this->m_eyePoint.x += distance;
+    this->m_eyePoint += m_right * distance;
     m_dirty = true;
 }
 
 void
 Camera::moveBack(float distance) {
-    this->m_eyePoint.z += distance;
+    this->m_eyePoint += m_backwardsPoint * distance;
     m_dirty = true;
 }
 
@@ -81,5 +93,6 @@ void
 Camera::yaw(float degrees) {
     m_dirty = true;
     m_backwardsPoint = glm::rotate(m_backwardsPoint, glm::radians(degrees), m_up);
+    print_vec(m_backwardsPoint);
     m_right = glm::rotate(m_right, glm::radians(degrees), m_up);
 }

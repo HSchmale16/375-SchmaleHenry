@@ -452,7 +452,7 @@ initCamera ()
   // Far plane
   float farZ = 40.0f;
 
-  g_camera = Camera(glm::vec3(0,0,12.f), glm::vec3(0,0,-1.0), nearZ, farZ, aspectRatio, 50.0f);
+  g_camera = Camera(glm::vec3(0, 0, 12.f), glm::vec3(0.f, 0.f, 1.f), nearZ, farZ, aspectRatio, 50.0f);
   // Enable shader program so we can set uniforms
   g_shaderProgram->enable ();
   g_shaderProgram->setUniformMatrix ("uProjection", g_camera.getProjectionMatrix());
