@@ -452,7 +452,7 @@ initCamera ()
   // Far plane
   float farZ = 40.0f;
 
-  g_camera = Camera(glm::vec3(0,0,12.f), glm::vec3(0,0,0), nearZ, farZ, aspectRatio, 50.0f);
+  g_camera = Camera(glm::vec3(0,0,12.f), glm::vec3(0,0,-1.0), nearZ, farZ, aspectRatio, 50.0f);
   // Enable shader program so we can set uniforms
   g_shaderProgram->enable ();
   g_shaderProgram->setUniformMatrix ("uProjection", g_camera.getProjectionMatrix());
@@ -526,6 +526,11 @@ processKeys (GLFWwindow* window, int key, int scanCode, int action,
     g_camera.moveUp(-MOVEMENT_DELTA);
   else if (key == GLFW_KEY_F && action == GLFW_PRESS)
     g_camera.moveUp(MOVEMENT_DELTA);
+
+  if (key == GLFW_KEY_J && action == GLFW_REPEAT)
+    g_camera.yaw(-MOVEMENT_DELTA);
+  else if (key == GLFW_KEY_L && action == GLFW_REPEAT) 
+    g_camera.yaw(MOVEMENT_DELTA);
 
 }
 
