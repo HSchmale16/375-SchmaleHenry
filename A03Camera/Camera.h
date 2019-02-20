@@ -38,6 +38,8 @@ public:
     glm::mat4
     getProjectionMatrix() const;
 
+    void
+    resetRotation();
 private:
 
     bool m_dirty;
@@ -50,6 +52,7 @@ private:
     float m_farClipPlaneDistance;
     float m_aspectRatio;
     float m_verticalFieldOfViewDegrees;
+    float m_currentYaw;
     glm::mat4 m_viewMat;
     glm::mat4 m_projectionMat;
 };

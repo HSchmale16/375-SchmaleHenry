@@ -2,7 +2,7 @@
   Filename: Main.cpp
   Authors: Gary M. Zoppetti & Chad Hogg & Henry Schmale
   Course: CSCI375
-  Assignment: A02Mesh
+  Assignment: A03 Camera
   Description: A beginning OpenGL program that uses OpenGL 3.3 to draw a 
     triangle. The triangle is now specified with 3D coordinates.
    A virtual camera has been defined and limited key-based movement has been 
@@ -518,9 +518,9 @@ processKeys (GLFWwindow* window, int key, int scanCode, int action,
     g_camera.moveBack(MOVEMENT_DELTA);
 
   if (key == GLFW_KEY_A && action == GLFW_PRESS)
-    g_camera.moveRight(-MOVEMENT_DELTA);
-  else if (key == GLFW_KEY_D && action == GLFW_PRESS)
     g_camera.moveRight(MOVEMENT_DELTA);
+  else if (key == GLFW_KEY_D && action == GLFW_PRESS)
+    g_camera.moveRight(-MOVEMENT_DELTA);
 
   if (key == GLFW_KEY_C && action == GLFW_PRESS)
     g_camera.moveUp(-MOVEMENT_DELTA);
@@ -528,9 +528,11 @@ processKeys (GLFWwindow* window, int key, int scanCode, int action,
     g_camera.moveUp(MOVEMENT_DELTA);
 
   if (key == GLFW_KEY_J && action == GLFW_REPEAT)
-    g_camera.yaw(-MOVEMENT_DELTA);
-  else if (key == GLFW_KEY_L && action == GLFW_REPEAT) 
     g_camera.yaw(MOVEMENT_DELTA);
+  else if (key == GLFW_KEY_L && action == GLFW_REPEAT) 
+    g_camera.yaw(-MOVEMENT_DELTA);
+  else if (key == GLFW_KEY_K && action == GLFW_PRESS)
+    g_camera.resetRotation();
 
 }
 
