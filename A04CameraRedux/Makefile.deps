@@ -16,3 +16,6 @@ ShaderProgram.h:
 Camera.o: Camera.cpp Camera.h
 
 Camera.h:
+Vector3.o: Vector3.cpp Vector3.h
+
+Vector3.h:

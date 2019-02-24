@@ -17,6 +17,9 @@ public:
     void
     set(float x, float y, float z);
 
+    void
+    negate();
+
     float
     dot(const Vector3& v) const;
 
@@ -70,7 +73,8 @@ std::ostream&
 operator<< (std::ostream& out, const Vector3& v);
 
 bool
-operator== (const Vector3& v1, const Vector3& v2);
+operator==(const Vector3& v1, const Vector3& v2);
+
 
 
 #endif // VECTOR_H_INC

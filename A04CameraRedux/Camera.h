@@ -4,6 +4,15 @@
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 
+/**
+ * Camera.h
+ * Henry J Schmale
+ * Feb 23, 2018
+ * CSCI 375
+ *
+ * A basic camera for open gl programs.
+ *
+ */
 
 class Camera {
 public:

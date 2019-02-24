@@ -33,7 +33,7 @@ LDPATHS :=
 LDLIBS := -lGLEW -lglfw -lGL
 
 # All source files, separated by spaces. Don't include header files. 
-SRCS := Main.cpp ShaderProgram.cpp Mesh.cpp Camera.cpp
+SRCS := Main.cpp ShaderProgram.cpp Mesh.cpp Camera.cpp Vector3.cpp
 
 # Extension for source files. Do NOT modify.
 SOURCESUFFIX := cpp
@@ -59,6 +59,9 @@ all : $(EXEC)
 $(EXEC) : $(OBJS)
 	$(LINK) $(LDFLAGS) $(LDPATHS) $^ -o $@ $(LDLIBS)
 
+Vector3Test.out: Vector3.o Vector3Test.o
+	$(LINK) $(LDFLAGS) $(LDPATHS) $^ -o $@ $(LDLIBS)
+
 -include Makefile.deps
 
 #############################################################
@@ -71,6 +74,10 @@ clean :
 .PHONY :  Makefile.deps
 Makefile.deps :
 	$(MAKEDEPEND) $(SRCS) > $@
+
+.PHONY : test
+test: Vector3Test.out
+	./$<
 
 #############################################################
 #############################################################
