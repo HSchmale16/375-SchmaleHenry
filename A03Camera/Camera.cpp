@@ -1,3 +1,12 @@
+/**
+ * Camera.cpp
+ * The implementation of my camera class as per the directions
+ *
+ * Henry J Schmale
+ * Feb 26, 2019
+ * 
+ */
+
 #include "Camera.h"
 #include <glm/gtc/matrix_transform.hpp>
 #define GLM_ENABLE_EXPERIMENTAL

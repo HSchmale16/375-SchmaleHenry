@@ -5,6 +5,15 @@
 #include <glm/mat4x4.hpp>
 
 
+/**
+ * Camera.h
+ * A basic camera class for opengl stuff
+ *
+ * Henry J Schmale
+ * Feb 26, 2019
+ *
+ */
+
 class Camera {
 public:
     Camera();
