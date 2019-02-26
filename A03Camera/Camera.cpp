@@ -34,8 +34,12 @@ Camera::Camera(const glm::vec3& eyePoint, const glm::vec3& localBackDirection,
         m_aspectRatio,
         m_nearClipPlaneDistance,
         m_farClipPlaneDistance);
+    
+    // use a guess for the initial up vector
     m_up = glm::vec3(0.f, 1.0f, 0.f);
+     
     m_right = glm::cross(m_backwardsPoint, m_up);
+    m_up = glm::cross(m_backwardsPoint, m_right);
 
     print_vec(m_backwardsPoint);
 }
