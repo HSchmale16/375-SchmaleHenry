@@ -531,8 +531,8 @@ processKeys (GLFWwindow* window, int key, int scanCode, int action,
     g_camera.yaw(MOVEMENT_DELTA);
   else if (key == GLFW_KEY_L && action == GLFW_REPEAT) 
     g_camera.yaw(-MOVEMENT_DELTA);
-  else if (key == GLFW_KEY_K && action == GLFW_PRESS)
-    g_camera.resetRotation();
+  else if (key == GLFW_KEY_R && action == GLFW_PRESS)
+    g_camera.reset();
 
 }
 

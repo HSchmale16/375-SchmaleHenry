@@ -4,13 +4,13 @@
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 
+
 /**
  * Camera.h
- * Henry J Schmale
- * Feb 23, 2018
- * CSCI 375
+ * A basic camera class for opengl stuff
  *
- * A basic camera for open gl programs.
+ * Henry J Schmale
+ * Feb 26, 2019
  *
  */
 
@@ -48,7 +48,7 @@ public:
     getProjectionMatrix() const;
 
     void
-    resetRotation();
+    reset();
 private:
 
     bool m_dirty;
@@ -64,6 +64,9 @@ private:
     float m_currentYaw;
     glm::mat4 m_viewMat;
     glm::mat4 m_projectionMat;
+
+    glm::vec3 m_initEyePoint;
+    glm::vec3 m_initBackwardsPoint;
 };
 
 #endif // CAMERA_H_INC
