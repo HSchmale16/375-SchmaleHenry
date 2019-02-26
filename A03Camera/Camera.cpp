@@ -27,7 +27,9 @@ Camera::Camera(const glm::vec3& eyePoint, const glm::vec3& localBackDirection,
   m_nearClipPlaneDistance(nearClipPlaneDistance),
   m_farClipPlaneDistance(farClipPlaneDistance), m_aspectRatio(aspectRatio), 
   m_verticalFieldOfViewDegrees(verticalFieldOfViewDegrees),
-  m_currentYaw(0)
+  m_currentYaw(0),
+  m_initEyePoint(m_eyePoint),
+  m_initBackwardsPoint(m_backwardsPoint)
 {
     m_projectionMat = glm::perspective(
         glm::radians(m_verticalFieldOfViewDegrees),
@@ -112,6 +114,11 @@ Camera::yaw(float degrees) {
 }
 
 void
-Camera::resetRotation() {
-    this->yaw(-m_currentYaw);
+Camera::reset() {
+    m_up = glm::vec3(0.f, 1.0f, 0.f);
+    m_backwardsPoint = m_initBackwardsPoint; 
+    m_right = glm::cross(m_backwardsPoint, m_up);
+    m_up = glm::cross(m_backwardsPoint, m_right);
+    
+    this->setPosition(m_initEyePoint);
 }

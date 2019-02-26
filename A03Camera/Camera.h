@@ -48,7 +48,7 @@ public:
     getProjectionMatrix() const;
 
     void
-    resetRotation();
+    reset();
 private:
 
     bool m_dirty;
@@ -64,6 +64,9 @@ private:
     float m_currentYaw;
     glm::mat4 m_viewMat;
     glm::mat4 m_projectionMat;
+
+    glm::vec3 m_initEyePoint;
+    glm::vec3 m_initBackwardsPoint;
 };
 
 #endif // CAMERA_H_INC
