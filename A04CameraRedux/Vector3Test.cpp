@@ -2,6 +2,7 @@
 #include "catch.hpp"
 #include "Vector3.h"
 #include <cmath>
+#include <glm/glm.hpp>
 
 TEST_CASE("Vector3()", "[vector3]") {
     Vector3 a;
@@ -79,11 +80,20 @@ TEST_CASE("dot", "[vector3]") {
         REQUIRE(c.dot(b) == (float)(5 + 2 * 6 + 3 * 7));
     }
 
-
-
 }
 
 TEST_CASE("angleBetween", "[vector3]") {
+    Vector3 a(0,1,0);
+    Vector3 b(1,0,0);
+
+    const float degrees90 = glm::radians(90.f);
+
+    REQUIRE(a.angleBetween(b) == degrees90);
+    REQUIRE(b.angleBetween(a) == degrees90);
+
+    b.x = 500;
+    REQUIRE(a.angleBetween(b) == degrees90);
+    REQUIRE(b.angleBetween(a) == degrees90);
 
 }
 
@@ -119,15 +129,35 @@ TEST_CASE("length", "[vector3]") {
 
 
 TEST_CASE ("normalize", "[vector3]") {
+    Vector3 a(3,4,0);
 
+    const Vector3 expected (3.f/5.f, 4.f/5.f, 0.f);
+
+    a.normalize();
+
+    REQUIRE(a == expected);
 }
 
 
 TEST_CASE ("Add Assign", "[vector3]") {
-    
+    Vector3 a(1,1,1), b(1,1,1);
+
+    a += b;
+    REQUIRE (a == Vector3(2,2,2));
+
+    a += a;
+    REQUIRE (a == Vector3(4,4,4));
 }
 
 TEST_CASE ("Minus Assign", "[vector3]") {
+    Vector3 a(1,1,1), b(1,1,1);
+
+    a -= b;
+    REQUIRE (a == Vector3(0.f));
+
+    b -= a;
+    REQUIRE (b == Vector3(1.f));
+    
 }
 
 TEST_CASE ("Scaler Multiply Assign", "[vector3]") {
@@ -144,6 +174,25 @@ TEST_CASE ("Scaler Multiply Assign", "[vector3]") {
 }
 
 TEST_CASE("Scalar Divide Assign", "[vector3]") {
+    const float scalar = 5.f;
+
+    SECTION("Ones") {
+        Vector3 ones(1.f);
+        const Vector3 expected(1.f / scalar);
+
+        ones /= scalar;
+
+        REQUIRE(ones == expected);
+    }
+
+    SECTION("A Quarter") {
+        Vector3 ones(1.f);
+
+        ones /= 1.0f;
+        
+        // 1 / 1 is one.
+        REQUIRE(ones == Vector3(1.f)); 
+    }
 }
 
 TEST_CASE("Infix Add Create New", "[vector3]") {

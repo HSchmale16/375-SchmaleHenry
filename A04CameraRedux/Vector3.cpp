@@ -13,16 +13,13 @@
 const float FLOAT_EQUALITY_TOL = 0.00001f;
 
 Vector3::Vector3() 
-:x(0.f), y(0.f), z(0.f) {
-}
+:x(0.f), y(0.f), z(0.f) { }
 
 Vector3::Vector3(float xyz) 
-:x (xyz), y(xyz), z(xyz) {
-}
+:x (xyz), y(xyz), z(xyz) { }
 
 Vector3::Vector3(float x, float y, float z) 
-:x(x), y(y), z(z) {
-}
+:x(x), y(y), z(z) { }
 
 
 void
@@ -71,14 +68,27 @@ Vector3::length() const {
 
 void 
 Vector3::normalize() {
+    const float len = this->length();
+
+    this->x /= len;
+    this->y /= len;
+    this->z /= len;
 }
 
 Vector3& 
 Vector3::operator +=(const Vector3& v) {
+    x += v.x;
+    y += v.y;
+    z += v.z;
+    return *this;
 }
 
 Vector3& 
 Vector3::operator -=(const Vector3& v) {
+    x -= v.x;
+    y -= v.y;
+    z -= v.z;
+    return *this;
 }
 
 Vector3& 
@@ -86,10 +96,17 @@ Vector3::operator *=(float s) {
     x *= s;
     y *= s;
     z *= s;
+    return *this;
 }
 
 Vector3& 
 Vector3::operator /=(float s) {
+    // transform to multiply by using a good old recipricol.
+    s = 1 / s;
+    x *= s;
+    y *= s;
+    z *= s;
+    return *this;
 }
 
 Vector3 
