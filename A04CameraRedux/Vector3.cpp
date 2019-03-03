@@ -111,10 +111,14 @@ Vector3::operator /=(float s) {
 
 Vector3 
 operator +(const Vector3& v1, const Vector3& v2) {
+    Vector3 res(v1);
+    return res += v2;
 }
 
 Vector3 
 operator -(const Vector3& v1, const Vector3& v2) {
+    Vector3 res(v1);
+    return res -= v2;
 }
 
 Vector3 
@@ -126,14 +130,20 @@ operator -(const Vector3& v) {
 
 Vector3 
 operator *(float s, const Vector3& v) {
+    Vector3 result(v);
+    return result *= s;
 }
 
 Vector3 
 operator *(const Vector3& v, float s) {
+    Vector3 result(v);
+    return result *= s;
 }
 
 Vector3 
 operator /(const Vector3& v, float s) {
+    Vector3 result(v);
+    return result /= s;
 }
 
 std::ostream& 
@@ -147,6 +157,7 @@ operator <<(std::ostream& out, const Vector3& v) {
         << std::setw(10) 
         << std::setprecision(2) 
         << v.z;
+    return out;
 }
 
 inline bool

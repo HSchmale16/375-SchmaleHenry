@@ -136,6 +136,11 @@ TEST_CASE ("normalize", "[vector3]") {
     a.normalize();
 
     REQUIRE(a == expected);
+
+    Vector3 ones(1.f);
+
+    ones.normalize();
+    REQUIRE(ones == Vector3(1.f / sqrt(3.f)));
 }
 
 
@@ -196,10 +201,31 @@ TEST_CASE("Scalar Divide Assign", "[vector3]") {
 }
 
 TEST_CASE("Infix Add Create New", "[vector3]") {
+    Vector3 expected(5), a(2), b(3);
 
+    REQUIRE(expected == a + b);
+    REQUIRE(expected == b + a);
+
+    Vector3 created(a + b);
+
+    REQUIRE(created == expected);
+
+    Vector3 reversed(b + a); 
+    REQUIRE(reversed == expected);
+
+    SECTION ("different values") {
+
+    }
 }
 
 TEST_CASE ("Infix Subtract Create New", "[vector3]") {
+    Vector3 expected(1), a(2), b(3);
+
+    REQUIRE(expected == b - a);
+
+    Vector3 reversed(-1.f);
+
+    REQUIRE(reversed == a - b);
 }
 
 TEST_CASE ("Unary Negation", "[vector3]") {
@@ -225,22 +251,27 @@ TEST_CASE ("Unary Negation", "[vector3]") {
 }
 
 TEST_CASE ("Infix Scalar Multiply", "[vector3]") {
+    const float SCALAR = 5.f;
+    Vector3 expected(SCALAR), ones(1.f);
+
     SECTION ("float vec3") {
-        
+        Vector3 result = SCALAR * ones;
+        REQUIRE (result == expected); 
     }
 
     SECTION ("vec3 float") {
-
+        Vector3 result = ones * SCALAR;
+        REQUIRE (result == expected); 
     }
 }
 
 TEST_CASE ("Infix Scalar Divide" "[vector3]") {
-    SECTION ("float vec3") {
-
-    }
-
+    const float SCALAR = 5.f;
+    Vector3 expected(1.f / SCALAR), ones(1.f);
+    
     SECTION ("vec3 float") {
-
+        Vector3 result = ones / SCALAR;
+        REQUIRE (result == expected); 
     }
 }
 
