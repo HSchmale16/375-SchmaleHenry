@@ -1,10 +1,12 @@
-Main.o: Main.cpp ShaderProgram.h Mesh.h Camera.h
+Main.o: Main.cpp ShaderProgram.h Mesh.h Camera.h Vector3.h
 
 ShaderProgram.h:
 
 Mesh.h:
 
 Camera.h:
+
+Vector3.h:
 ShaderProgram.o: ShaderProgram.cpp ShaderProgram.h
 
 ShaderProgram.h:
@@ -13,9 +15,14 @@ Mesh.o: Mesh.cpp Mesh.h ShaderProgram.h
 Mesh.h:
 
 ShaderProgram.h:
-Camera.o: Camera.cpp Camera.h
+Camera.o: Camera.cpp Camera.h Vector3.h
 
 Camera.h:
+
+Vector3.h:
 Vector3.o: Vector3.cpp Vector3.h
 
 Vector3.h:
+KeyBuffer.o: KeyBuffer.cpp KeyBuffer.h
+
+KeyBuffer.h:

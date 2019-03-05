@@ -33,7 +33,7 @@ LDPATHS :=
 LDLIBS := -lGLEW -lglfw -lGL
 
 # All source files, separated by spaces. Don't include header files. 
-SRCS := Main.cpp ShaderProgram.cpp Mesh.cpp Camera.cpp Vector3.cpp
+SRCS := Main.cpp ShaderProgram.cpp Mesh.cpp Camera.cpp Vector3.cpp KeyBuffer.cpp
 
 # Extension for source files. Do NOT modify.
 SOURCESUFFIX := cpp

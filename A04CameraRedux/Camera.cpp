@@ -14,13 +14,13 @@
 #include <cstdio>
 
 void 
-print_vec(const glm::vec3& v) {
+print_vec(const Vector3& v) {
     printf("%f %f %f\n", v.x, v.y, v.z);
 }
 
 Camera::Camera() {}
 
-Camera::Camera(const glm::vec3& eyePoint, const glm::vec3& localBackDirection,
+Camera::Camera(const Vector3& eyePoint, const Vector3& localBackDirection,
     float nearClipPlaneDistance, float farClipPlaneDistance,
     float aspectRatio, float verticalFieldOfViewDegrees)
 : m_eyePoint(eyePoint), m_backwardsPoint(localBackDirection), 
@@ -38,10 +38,10 @@ Camera::Camera(const glm::vec3& eyePoint, const glm::vec3& localBackDirection,
         m_farClipPlaneDistance);
     
     // use a guess for the initial up vector
-    m_up = glm::vec3(0.f, 1.0f, 0.f);
+    m_up = Vector3(0.f, 1.0f, 0.f);
      
-    m_right = glm::cross(m_backwardsPoint, m_up);
-    m_up = glm::cross(m_backwardsPoint, m_right);
+    m_right = m_backwardsPoint.cross(m_up);
+    m_up = m_backwardsPoint.cross(m_right);
 
     print_vec(m_backwardsPoint);
 }
@@ -72,9 +72,14 @@ glm::mat4
 Camera::getViewMatrix() 
 {
     if (m_dirty) {
-        glm::vec3 at = m_eyePoint - m_backwardsPoint;
+        Vector3 at = m_eyePoint - m_backwardsPoint;
         print_vec(at);
-        m_viewMat = glm::lookAt(m_eyePoint, at, m_up);
+       
+        glm::vec3 up(m_up.x, m_up.y, m_up.z);
+        glm::vec3 vat(at.x, at.y, at.z);
+        glm::vec3 eye(m_eyePoint.x, m_eyePoint.y, m_eyePoint.z);
+
+        m_viewMat = glm::lookAt(eye, vat, up);
         m_dirty = false;
     }
     return m_viewMat;
@@ -99,7 +104,7 @@ Camera::moveBack(float distance) {
 }
 
 void
-Camera::setPosition(const glm::vec3& position) {
+Camera::setPosition(const Vector3& position) {
     m_eyePoint = position;
     m_dirty = true;
 }
@@ -107,18 +112,30 @@ Camera::setPosition(const glm::vec3& position) {
 void
 Camera::yaw(float degrees) {
     m_dirty = true;
-    m_backwardsPoint = glm::rotate(m_backwardsPoint, glm::radians(degrees), m_up);
+
+    m_backwardsPoint = rotateHelper(m_backwardsPoint, degrees, m_up);
     print_vec(m_backwardsPoint);
-    m_right = glm::rotate(m_right, glm::radians(degrees), m_up);
+    m_right = rotateHelper(m_right, degrees, m_up);
     m_currentYaw += degrees;
+}
+
+Vector3
+Camera::rotateHelper(const Vector3& target, float degrees, const Vector3& normal) {
+    glm::vec3 gTar(target.x, target.y, target.z);
+    glm::vec3 norm(normal.x, normal.y, normal.z);
+
+    glm::vec3 res = glm::rotate(gTar, glm::radians(degrees), norm);
+
+    return Vector3(res.x, res.y, res.z);
 }
 
 void
 Camera::reset() {
-    m_up = glm::vec3(0.f, 1.0f, 0.f);
-    m_backwardsPoint = m_initBackwardsPoint; 
-    m_right = glm::cross(m_backwardsPoint, m_up);
-    m_up = glm::cross(m_backwardsPoint, m_right);
+    m_up = Vector3(0.f, 1.0f, 0.f);
+    m_backwardsPoint = m_initBackwardsPoint;
+
+    m_right = m_backwardsPoint.cross(m_up);
+    m_up = m_backwardsPoint.cross(m_right);
     
     this->setPosition(m_initEyePoint);
 }

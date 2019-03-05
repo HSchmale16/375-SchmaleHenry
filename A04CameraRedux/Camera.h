@@ -3,7 +3,7 @@
 
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
-
+#include "Vector3.h"
 
 /**
  * Camera.h
@@ -17,13 +17,13 @@
 class Camera {
 public:
     Camera();
-    Camera(const glm::vec3& eyePoint, const glm::vec3& localBackDirection,
+    Camera(const Vector3& eyePoint, const Vector3& localBackDirection,
             float nearClipPlaneDistance, float farClipPlaneDistance,
             float aspectRatio, float verticalFieldOfViewDegrees);
 
 
     void
-    setPosition(const glm::vec3& position);
+    setPosition(const Vector3& position);
 
     void
     moveRight(float distance);
@@ -53,10 +53,10 @@ private:
 
     bool m_dirty;
 
-    glm::vec3 m_eyePoint;
-    glm::vec3 m_backwardsPoint;
-    glm::vec3 m_right;
-    glm::vec3 m_up;
+    Vector3 m_eyePoint;
+    Vector3 m_backwardsPoint;
+    Vector3 m_right;
+    Vector3 m_up;
     float m_nearClipPlaneDistance;
     float m_farClipPlaneDistance;
     float m_aspectRatio;
@@ -65,8 +65,11 @@ private:
     glm::mat4 m_viewMat;
     glm::mat4 m_projectionMat;
 
-    glm::vec3 m_initEyePoint;
-    glm::vec3 m_initBackwardsPoint;
+    Vector3 m_initEyePoint;
+    Vector3 m_initBackwardsPoint;
+
+    Vector3
+    rotateHelper(const Vector3& target, float degrees, const Vector3& normal);
 };
 
 #endif // CAMERA_H_INC
