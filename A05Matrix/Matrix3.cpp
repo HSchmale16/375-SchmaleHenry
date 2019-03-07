@@ -71,3 +71,17 @@ Vector3
 Matrix3::getBack () const {
     return m_back;
 }
+
+void
+Matrix3::setForward (const Vector3& forward) {
+    Vector3 back(forward);
+    back.negate();
+    m_back = back; 
+}
+
+
+
+
+
+
+
