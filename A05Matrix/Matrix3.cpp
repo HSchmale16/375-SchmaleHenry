@@ -16,3 +16,58 @@ Matrix3::Matrix3(const Vector3& right,
     const Vector3& up,
     const Vector3& back) 
 : m_right(right), m_up(up), m_back(back) {}
+
+void
+Matrix3::setToIdentity() {
+    m_right = Vector3(1.f, 0, 0);
+    m_up = Vector3(0.f, 1.f, 0.f);
+    m_back = Vector3(0.f, 0.f, 1.f);
+}
+
+void 
+Matrix3::setToZero() {
+    m_right = Vector3();
+    m_up = Vector3();
+    m_back = Vector3();
+}
+
+float*
+Matrix3::data() {
+    return &m_right.x;
+}
+
+const float*
+Matrix3::data() const {
+    return &m_right.x;
+}
+
+void
+Matrix3::setRight(const Vector3& right) {
+    m_right = right;
+}
+
+Vector3
+Matrix3::getRight () const {
+    return m_right;
+}
+
+void
+Matrix3::setUp (const Vector3& up) {
+    m_up = up;
+}
+
+
+Vector3
+Matrix3::getUp () const {
+    return m_up;
+}
+
+void
+Matrix3::setBack(const Vector3& back) {
+    m_back = back;
+}
+
+Vector3
+Matrix3::getBack () const {
+    return m_back;
+}
