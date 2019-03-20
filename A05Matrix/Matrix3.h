@@ -209,4 +209,5 @@ bool
 operator== (const Matrix3& m1, const Matrix3& m2);
 
 
+
 #endif//MATRIX3_H

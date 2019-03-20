@@ -79,9 +79,156 @@ Matrix3::setForward (const Vector3& forward) {
     m_back = back; 
 }
 
+Vector3
+Matrix3::getForward() const {
+    Vector3 copy(m_back);
+    copy.negate();
+    return copy;
+}
+
+void
+Matrix3::invertRotation() {
+
+}
+
+void
+Matrix3::invert () {
+
+}
+
+float
+Matrix3::determinant () const {
+    float minar1 = m_up.y * m_back.z - m_up.z * m_back.y;
+    float minar2 = (m_right.y * m_up.z - m_right.z * m_up.y) * -1;
+    return 0.f; 
+}
+
+void
+Matrix3::transpose() {
+
+}
+
+void
+Matrix3::orthonormalize () {
+    
+}
+
+void
+Matrix3::setToScale (float scale) {
+
+}
+
+void
+Matrix3::setToScale (float scaleX, float scaleY, float scaleZ) {
+
+}
+
+void
+Matrix3::setToShearXByYz (float shearY, float shearZ) {
+
+}
+
+void
+Matrix3::setToShearXByYz (float shearX, float shearZ) {
+}
 
 
+void
+Matrix3::setToShearZByXy (float shearX, float shearY) {
+
+}
 
 
+void
+Matrix3::setToRotationX (float angleDegrees) {
 
+}
 
+void
+Matrix3::setToRotationY (float angleDegrees) {
+
+}
+
+void
+Matrix3::setToRotationZ (float angleDegrees) {
+
+}
+
+void
+Matrix3::setFromAngleAxis(float angleDegrees, const Vector3& axis) {
+
+}
+
+void
+Matrix3::negate() {
+    m_right.negate();
+    m_back.negate();
+    m_up.negate();
+}
+
+Vector3
+Matrix3::transform( const Vector3& v) const {
+
+}
+
+Matrix3&
+operator+= (const Matrix3& m) {
+
+}
+
+Matrix3&
+operator-= (const Matrix3& m) {
+
+}
+
+Matrix3&
+operator*= (float scalar) {
+
+}
+
+Matrix3&
+operator*= (const Matrix3& m) {
+
+}
+
+Matrix3
+operator+ (const Matrix3& m1, const Matrix3& m2) {
+
+}
+
+Matrix3
+operator- (const Matrix3& m1, const Matrix3& m2) {
+    
+}
+
+Matrix3
+operator- (const Matrix3& m) {
+
+}
+
+Matrix3
+operator* (float scalar, const Matrix3& m) {
+
+}
+
+Matrix3
+operator* (const Matrix3& m1, const Matrix3& m2) {
+
+}
+
+Vector3
+operator* (const Matrix3& m, const Vector3& v) {
+
+}
+
+std::ostream&
+operator<< (std::ostream& out, const Matrix3& m) {
+
+}
+
+bool
+operator== (const Matrix3& m1, const Matrix3& m2) {
+    return m1.getRight() == m2.getRight() &&
+        m1.getUp() == m2.getUp() &&
+        m1.getBack() == m2.getBack();
+}
