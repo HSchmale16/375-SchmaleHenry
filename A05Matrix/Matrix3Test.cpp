@@ -24,3 +24,12 @@ TEST_CASE("determinant", "[matrix3]") {
 
     REQUIRE(mat.determinant() == expected);
 }
+
+TEST_CASE("Times Equals Mat3 is MatMul", "[matrix3]") {
+    Matrix3 expected(30, 66, 102, 36, 81, 126, 42, 96, 150);
+    Matrix3 input(1,4,7,2,5,8,3,6,9);
+    Matrix3 res (input);
+
+    res *= input;
+    REQUIRE(res == expected);
+}
