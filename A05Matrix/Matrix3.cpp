@@ -44,7 +44,7 @@ Matrix3::setToZero() {
 
 float*
 Matrix3::data() {
-    return &m_right.x;
+    return (float*)this;
 }
 
 const float*
@@ -283,6 +283,7 @@ operator* (const Matrix3& m1, const Matrix3& m2) {
 
 Vector3
 operator* (const Matrix3& m, const Vector3& v) {
+    return m.transform(v);
 }
 
 std::ostream&
