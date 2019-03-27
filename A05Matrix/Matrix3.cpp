@@ -1,5 +1,7 @@
 #include "Matrix3.h"
 #include <cmath>
+#include <cassert>
+
 
 /**
  *
@@ -97,18 +99,36 @@ Matrix3::getForward() const {
     return copy;
 }
 
-static inline float
+static constexpr inline float
 det2x2(float a, float b, float c, float d) {
     return a * d - b * c;
 }
 
 void
 Matrix3::invertRotation() {
+    this->transpose();
 }
 
 void
 Matrix3::invert () {
-
+    float det_1 = this->determinant();
+    assert(det_1 != 0.f);
+    Matrix3 temp(
+        Vector3(
+            m_up.y * m_back.z - m_up.z * m_back.y,
+            m_up.z * m_back.x - m_up.x * m_back.z,
+            m_up.x * m_back.y - m_up.y * m_back.x),
+        Vector3(
+            m_right.z * m_back.y - m_right.y * m_back.z,
+            m_right.x * m_back.z - m_right.z * m_back.x,
+            m_right.y * m_back.x - m_right.x * m_back.y),
+        Vector3(
+            m_right.y * m_up.z - m_right.z * m_up.y,
+            m_right.z * m_up.x - m_right.x * m_up.z,
+            m_right.x * m_up.y - m_right.y * m_up.x)
+    );
+    temp *= 1.f / det_1;
+    *this = temp;
 }
 
 float
@@ -158,6 +178,12 @@ Matrix3::setToShearXByYz (float shearY, float shearZ) {
     m_back.x = shearZ;
 }
 
+void Matrix3::setToShearYByXz (float shearX, float shearZ) {
+    setToIdentity();
+
+    m_right.y = shearX;
+    m_back.y = shearZ; 
+}
 
 void
 Matrix3::setToShearZByXy (float shearX, float shearY) {
@@ -198,6 +224,30 @@ Matrix3::setToRotationZ (float angleDegrees) {
 
 void
 Matrix3::setFromAngleAxis(float angleDegrees, const Vector3& axis) {
+    float r = RADIANS(angleDegrees);
+
+    // https://stackoverflow.com/a/6721649/4335488
+    // factor out trig
+    float c = cos(r);
+    float s = sin(r);
+    float c1 = 1.f - c;
+
+    Vector3 v(axis);
+    v.normalize();
+
+    *this = Matrix3(
+        c + v.x * v.x * c1,
+        v.y * v.x * c1 + v.z * s,
+        v.z * v.x * c1 - v.y * s,
+        // end m_right
+        v.x * v.y * c1 - v.z * s,
+        c + v.y * v.y * c1,
+        v.z * v.y * c1 + v.x * s,
+        // end m_up
+        v.x * v.z * c1 + v.y * s,
+        v.y * v.z * c1 - v.x * s,
+        c + v.z * v.z * c1
+    ); 
 }
 
 void
@@ -241,11 +291,20 @@ Matrix3::operator*= (float scalar) {
 
 Matrix3&
 Matrix3::operator*= (const Matrix3& m) {
-    m_right.x = m_right.dot(Vector3(m.m_right.x, m.m_up.x, m.m_back.x));  
-    m_right.y = m_right.dot(Vector3(m.m_right.y, m.m_up.y, m.m_back.y));  
-    m_right.z = m_right.dot(Vector3(m.m_right.z, m.m_up.z, m.m_back.z));  
-    m_up    = m_up.dot   (Vector3(m.m_right.y, m.m_up.y, m.m_back.y));  
-    m_back  = m_back.dot (Vector3(m.m_right.z, m.m_up.z, m.m_back.z));
+    Matrix3 res;
+
+    res.m_right.x = m_right.dot(Vector3(m.m_right.x, m.m_up.x, m.m_back.x));  
+    res.m_right.y = m_right.dot(Vector3(m.m_right.y, m.m_up.y, m.m_back.y));  
+    res.m_right.z = m_right.dot(Vector3(m.m_right.z, m.m_up.z, m.m_back.z));  
+    res.m_up.x = m_up.dot(Vector3(m.m_right.x, m.m_up.x, m.m_back.x));  
+    res.m_up.y = m_up.dot(Vector3(m.m_right.y, m.m_up.y, m.m_back.y));  
+    res.m_up.z = m_up.dot(Vector3(m.m_right.z, m.m_up.z, m.m_back.z));  
+    res.m_back.x = m_back.dot(Vector3(m.m_right.x, m.m_up.x, m.m_back.x));  
+    res.m_back.y = m_back.dot(Vector3(m.m_right.y, m.m_up.y, m.m_back.y));  
+    res.m_back.z = m_back.dot(Vector3(m.m_right.z, m.m_up.z, m.m_back.z));  
+    
+    *this = res;
+
     return *this;   
 }
 

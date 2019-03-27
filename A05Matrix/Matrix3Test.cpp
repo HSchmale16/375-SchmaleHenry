@@ -116,7 +116,20 @@ TEST_CASE("invert rotation", "[matrix3]") {
 }
 
 TEST_CASE("general invert", "[matrix3]") {
+    // based on numpy
+    Matrix3 test(
+        1, 2, 3,
+        0, 1, 4,
+        5, 6, 0);
 
+    const Matrix3 expected(
+          -24.f,  20.f, -5.f,
+           18.f, -15.f,  4.f,
+            5.f,  -4.f,  1.f 
+    );
+
+    test.invert();
+    REQUIRE(expected == test);
 }
 
 TEST_CASE("determinant", "[matrix3]") {
@@ -140,20 +153,45 @@ TEST_CASE("setToScale", "[matrix3]") {
 
     }
 
-    SECTION("multiplei xyz") {
+    SECTION("multiple xyz") {
 
     }
 }
 
 TEST_CASE ("shear x by yz", "[matrix3]") {
+    Matrix3 test;
 
+    for (float y = -50; y < 50; ++y) {
+        for (float z = -50; z < 50; ++z) {
+            test.setToShearXByYz(y, z);
+
+            REQUIRE(test.determinant() == 1.f);
+        }
+    }
 }
 
 TEST_CASE("shear y by xz", "[matrix3]") {
+    Matrix3 test;
+    
+    for (float y = -50; y < 50; ++y) {
+        for (float z = -50; z < 50; ++z) {
+            test.setToShearYByXz(y, z);
 
+            REQUIRE(test.determinant() == 1.f);
+        }
+    }
 }
 
 TEST_CASE("shear z by yx", "[matrix3]") {
+    Matrix3 test;
+    
+    for (float y = -50; y < 50; ++y) {
+        for (float z = -50; z < 50; ++z) {
+            test.setToShearZByXy(y, z);
+
+            REQUIRE(test.determinant() == 1.f);
+        }
+    }
 
 }
 
@@ -206,3 +244,34 @@ TEST_CASE("Times Equals Mat3 is MatMul", "[matrix3]") {
     res *= input;
     REQUIRE(res == expected);
 }
+
+TEST_CASE("Add 2 Mat3s", "[matrix3]") {
+
+}
+
+TEST_CASE("Sub 2 Mat3s", "[matrix3]") {
+
+}
+
+TEST_CASE("Uniary Negation", "[matrix3]") {
+
+}
+
+TEST_CASE("scalar multiply", "[matrix3]") {
+    SECTION("mat3 float") {
+
+    }
+
+    SECTION("float mat3") {
+
+    }
+}
+
+TEST_CASE("mat3 multiply", "[matrix3]") {
+
+}
+
+TEST_CASE("equality", "[matrix3]") {
+
+}
+
