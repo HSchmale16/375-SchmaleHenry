@@ -4,6 +4,7 @@
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 #include "Vector3.h"
+#include "Matrix3.h"
 
 /**
  * Camera.h
@@ -37,6 +38,12 @@ public:
     void
     yaw(float degrees);
 
+    void
+    roll(float degrees);
+
+    void
+    pitch(float degrees);
+
     glm::mat4
     getViewMatrix();
 
@@ -54,9 +61,11 @@ private:
     bool m_dirty;
 
     Vector3 m_eyePoint;
-    Vector3 m_backwardsPoint;
-    Vector3 m_right;
-    Vector3 m_up;
+    // Vector3 m_backwardsPoint;
+    // Vector3 m_right;
+    // Vector3 m_up;
+
+    Matrix3 m_directions;
     float m_nearClipPlaneDistance;
     float m_farClipPlaneDistance;
     float m_aspectRatio;

@@ -23,13 +23,13 @@ Camera::Camera() {}
 Camera::Camera(const Vector3& eyePoint, const Vector3& localBackDirection,
     float nearClipPlaneDistance, float farClipPlaneDistance,
     float aspectRatio, float verticalFieldOfViewDegrees)
-: m_eyePoint(eyePoint), m_backwardsPoint(localBackDirection), 
+: m_eyePoint(eyePoint), // m_backwardsPoint(localBackDirection), 
   m_nearClipPlaneDistance(nearClipPlaneDistance),
   m_farClipPlaneDistance(farClipPlaneDistance), m_aspectRatio(aspectRatio), 
   m_verticalFieldOfViewDegrees(verticalFieldOfViewDegrees),
   m_currentYaw(0),
   m_initEyePoint(m_eyePoint),
-  m_initBackwardsPoint(m_backwardsPoint)
+  m_initBackwardsPoint(localBackDirection)
 {
     m_projectionMat = glm::perspective(
         glm::radians(m_verticalFieldOfViewDegrees),
@@ -38,12 +38,12 @@ Camera::Camera(const Vector3& eyePoint, const Vector3& localBackDirection,
         m_farClipPlaneDistance);
     
     // use a guess for the initial up vector
-    m_up = Vector3(0.f, 1.0f, 0.f);
-     
-    m_right = m_backwardsPoint.cross(m_up);
-    m_up = m_backwardsPoint.cross(m_right);
+    Vector3 up = Vector3(0.f, 1.0f, 0.f);
+    Vector3 right = localBackDirection.cross(up);
+    up = localBackDirection.cross(right);
 
-    print_vec(m_backwardsPoint);
+    m_directions = Matrix3(right, up, localBackDirection);
+
 }
 
 
@@ -72,9 +72,11 @@ glm::mat4
 Camera::getViewMatrix() 
 {
     if (m_dirty) {
-        Vector3 at = m_eyePoint - m_backwardsPoint;
+        Vector3 at = m_eyePoint - m_directions.getBack();
         print_vec(at);
-       
+      
+        const Vector3 m_up = m_directions.getUp(); 
+        
         glm::vec3 up(m_up.x, m_up.y, m_up.z);
         glm::vec3 vat(at.x, at.y, at.z);
         glm::vec3 eye(m_eyePoint.x, m_eyePoint.y, m_eyePoint.z);
@@ -87,19 +89,19 @@ Camera::getViewMatrix()
 
 void
 Camera::moveUp(float distance) {
-    this->m_eyePoint += m_up * distance;
+    this->m_eyePoint += m_directions.getUp() * distance;
     m_dirty = true;
 }
 
 void
 Camera::moveRight(float distance) {
-    this->m_eyePoint += m_right * distance;
+    this->m_eyePoint += m_directions.getRight() * distance;
     m_dirty = true;
 }
 
 void
 Camera::moveBack(float distance) {
-    this->m_eyePoint += m_backwardsPoint * distance;
+    this->m_eyePoint += m_directions.getBack() * distance;
     m_dirty = true;
 }
 
@@ -112,30 +114,42 @@ Camera::setPosition(const Vector3& position) {
 void
 Camera::yaw(float degrees) {
     m_dirty = true;
-
-    m_backwardsPoint = rotateHelper(m_backwardsPoint, degrees, m_up);
-    print_vec(m_backwardsPoint);
-    m_right = rotateHelper(m_right, degrees, m_up);
-    m_currentYaw += degrees;
+    
+    Matrix3 rot;
+    rot.setToRotationY(degrees);
+    m_directions *= rot;
 }
 
-Vector3
-Camera::rotateHelper(const Vector3& target, float degrees, const Vector3& normal) {
-    glm::vec3 gTar(target.x, target.y, target.z);
-    glm::vec3 norm(normal.x, normal.y, normal.z);
+void
+Camera::roll(float degrees) {
+    m_dirty = true;
+    
+    Matrix3 rot;
+    rot.setToRotationZ(degrees);
+    m_directions *= rot;
+}
 
-    glm::vec3 res = glm::rotate(gTar, glm::radians(degrees), norm);
-
-    return Vector3(res.x, res.y, res.z);
+void
+Camera::pitch(float degrees) {
+    m_dirty = true;
+    
+    Matrix3 rot;
+    rot.setToRotationX(degrees);
+    m_directions *= rot;
 }
 
 void
 Camera::reset() {
-    m_up = Vector3(0.f, 1.0f, 0.f);
-    m_backwardsPoint = m_initBackwardsPoint;
+    /*
+    Vector3 m_up = Vector3(0.f, 1.0f, 0.f);
+    m_directions.setBack(m_initBackwardsPoint);
 
-    m_right = m_backwardsPoint.cross(m_up);
-    m_up = m_backwardsPoint.cross(m_right);
+    Vector3 m_right = m_initBackwardsPoint.cross(m_up);
+    m_up = m_initBackwardsPoint.cross(m_right);
+
+    m_directions.setRight(m_right);
+    m_directions.setUp(m_up);
+    */
     
     this->setPosition(m_initEyePoint);
 }

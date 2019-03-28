@@ -30,6 +30,16 @@ Matrix3::Matrix3(const Vector3& right,
     const Vector3& back) 
 : m_right(right), m_up(up), m_back(back) {}
 
+Matrix3::Matrix3(const Vector3& right, const Vector3& up,
+        bool makeOrthonormal) 
+:m_right(right), m_up(up) {
+    
+    m_back = m_right.cross(m_up);
+
+    if (makeOrthonormal)
+        this->orthonormalize();
+}
+
 void
 Matrix3::setToIdentity() {
     m_right = Vector3(1.f, 0, 0);

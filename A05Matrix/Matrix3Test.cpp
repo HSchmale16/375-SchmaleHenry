@@ -195,8 +195,20 @@ TEST_CASE("shear z by yx", "[matrix3]") {
 
 }
 
+// Rotations calculated by
+// http://www.nh.cas.cz/people/lazar/celler/online_tools.php?start_vec=0,1,0&rot_ax=40,0,0&rot_ang=90
 TEST_CASE("rot x", "[matrix3]") {
+    Vector3 current(0,1,0);
+    float amount = 40.f;
 
+    Vector3 expected(0,0.766044,0.642788);
+
+    Matrix3 rot;
+    rot.setToRotationX(amount);
+
+    current = rot.transform(current);
+
+    REQUIRE(current == expected);
 }
 
 TEST_CASE("rot y", "[matrix3]") {
