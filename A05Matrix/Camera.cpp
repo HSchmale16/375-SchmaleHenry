@@ -140,7 +140,6 @@ Camera::pitch(float degrees) {
 
 void
 Camera::reset() {
-    /*
     Vector3 m_up = Vector3(0.f, 1.0f, 0.f);
     m_directions.setBack(m_initBackwardsPoint);
 
@@ -149,7 +148,7 @@ Camera::reset() {
 
     m_directions.setRight(m_right);
     m_directions.setUp(m_up);
-    */
-    
+
+         
     this->setPosition(m_initEyePoint);
 }
