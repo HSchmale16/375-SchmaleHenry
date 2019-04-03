@@ -1,0 +1,15 @@
+  [-X/2] Problems that still remain from earlier assignments.
+  [-20] Each source file that does not compile.
+  [-2] Each compiler warning.
+  [-50] Removing or modifying any features of the Transform class.
+  [-50] Camera still uses glm::lookat.
+  [40] Transform class exists, is complete, and works correctly.
+  [15] Camera stores its own world matrix, and uses it to calculate view matrix.
+  [5] AiScene implementation was completed.
+  [10] Mesh class supports construction from an AiScene.
+  [5] Mesh stores its own world matrix and uses it to calculate model-view.
+  [10] Mesh has implementation of all the transformation functions.
+  [10] Main supports the 10 operations for transforming a Mesh.
+  [5] The world has at least 2 non-overlapping objects.
+
+  
