@@ -137,6 +137,7 @@ Matrix3::invert () {
             m_right.z * m_up.x - m_right.x * m_up.z,
             m_right.x * m_up.y - m_right.y * m_up.x)
     );
+    transpose();
     temp *= 1.f / det_1;
     *this = temp;
 }
@@ -210,6 +211,7 @@ Matrix3::setToRotationX (float angleDegrees) {
             Vector3(1,0,0),
             Vector3(0, cos(rad), -sin(rad)), 
             Vector3(0, sin(rad), cos(rad)));
+    transpose();
 }
 
 void
@@ -220,6 +222,7 @@ Matrix3::setToRotationY (float angleDegrees) {
             Vector3(cos(rad), 0, sin(rad)),
             Vector3(0.f, 1.f, 0.f),
             Vector3(-sin(rad), 0, cos(rad)));
+    transpose();
 }
 
 void
@@ -230,6 +233,7 @@ Matrix3::setToRotationZ (float angleDegrees) {
             Vector3(cos(rad), -sin(rad), 0),
             Vector3(sin(rad), cos(rad), 0),
             Vector3(0, 0, 1.f));
+    transpose();
 }
 
 void
@@ -257,7 +261,8 @@ Matrix3::setFromAngleAxis(float angleDegrees, const Vector3& axis) {
         v.x * v.z * c1 + v.y * s,
         v.y * v.z * c1 - v.x * s,
         c + v.z * v.z * c1
-    ); 
+    );
+    transpose();
 }
 
 void
@@ -303,15 +308,15 @@ Matrix3&
 Matrix3::operator*= (const Matrix3& m) {
     Matrix3 res;
 
-    res.m_right.x = m_right.dot(Vector3(m.m_right.x, m.m_up.x, m.m_back.x));  
-    res.m_right.y = m_right.dot(Vector3(m.m_right.y, m.m_up.y, m.m_back.y));  
-    res.m_right.z = m_right.dot(Vector3(m.m_right.z, m.m_up.z, m.m_back.z));  
-    res.m_up.x = m_up.dot(Vector3(m.m_right.x, m.m_up.x, m.m_back.x));  
-    res.m_up.y = m_up.dot(Vector3(m.m_right.y, m.m_up.y, m.m_back.y));  
-    res.m_up.z = m_up.dot(Vector3(m.m_right.z, m.m_up.z, m.m_back.z));  
-    res.m_back.x = m_back.dot(Vector3(m.m_right.x, m.m_up.x, m.m_back.x));  
-    res.m_back.y = m_back.dot(Vector3(m.m_right.y, m.m_up.y, m.m_back.y));  
-    res.m_back.z = m_back.dot(Vector3(m.m_right.z, m.m_up.z, m.m_back.z));  
+    res.m_right.x = m.m_right.dot(Vector3(m_right.x, m_up.x, m_back.x));  
+    res.m_right.y = m.m_right.dot(Vector3(m_right.y, m_up.y, m_back.y));  
+    res.m_right.z = m.m_right.dot(Vector3(m_right.z, m_up.z, m_back.z));  
+    res.m_up.x    = m.m_up.dot(Vector3(m_right.x,    m_up.x, m_back.x));  
+    res.m_up.y    = m.m_up.dot(Vector3(m_right.y,    m_up.y, m_back.y));  
+    res.m_up.z    = m.m_up.dot(Vector3(m_right.z,    m_up.z, m_back.z));  
+    res.m_back.x  = m.m_back.dot(Vector3(m_right.x,  m_up.x, m_back.x));  
+    res.m_back.y  = m.m_back.dot(Vector3(m_right.y,  m_up.y, m_back.y));  
+    res.m_back.z  = m.m_back.dot(Vector3(m_right.z,  m_up.z, m_back.z));  
     
     *this = res;
 
@@ -327,7 +332,7 @@ operator+ (const Matrix3& m1, const Matrix3& m2) {
 Matrix3
 operator- (const Matrix3& m1, const Matrix3& m2) {
     Matrix3 res(m1);
-    return res += m2; 
+    return res -= m2; 
 }
 
 // Uniary Negation
@@ -336,6 +341,11 @@ operator- (const Matrix3& m) {
     Matrix3 res(m);
     res.negate();
     return res;
+}
+
+Matrix3
+operator* (const Matrix3& m, float scalar) {
+    return scalar * m;
 }
 
 Matrix3

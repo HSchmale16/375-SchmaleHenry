@@ -39,7 +39,9 @@ SRCS := Main.cpp \
 	Camera.cpp \
 	Vector3.cpp \
 	KeyBuffer.cpp \
-	Matrix3.cpp
+	Matrix3.cpp \
+	Transform.cpp \
+	AiScene.cpp
 
 TESTSRCS := TestMain.cpp \
 	Vector3Test.cpp \

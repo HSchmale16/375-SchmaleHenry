@@ -38,16 +38,6 @@ Matrix3.o: Matrix3.cpp Matrix3.h Vector3.h
 Matrix3.h:
 
 Vector3.h:
-Transform.o: Transform.cpp Transform.h Matrix3.h Vector3.h
-
-Transform.h:
-
-Matrix3.h:
-
-Vector3.h:
-AiScene.o: AiScene.cpp AiScene.h
-
-AiScene.h:
 TestMain.o: TestMain.cpp catch.hpp
 
 catch.hpp:

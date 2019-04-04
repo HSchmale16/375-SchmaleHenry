@@ -12,6 +12,12 @@
  */
 
 TEST_CASE("default ctor is identity", "[matrix3]") {
+    Matrix3 def;
+    Matrix3 expected;
+
+    expected.setToIdentity();
+
+    REQUIRE(expected == def);
 }
 
 TEST_CASE("element ctor", "[matrix3]") {
