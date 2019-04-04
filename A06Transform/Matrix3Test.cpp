@@ -124,9 +124,9 @@ TEST_CASE("invert rotation", "[matrix3]") {
 TEST_CASE("general invert", "[matrix3]") {
     // based on numpy
     Matrix3 test(
-        1, 2, 3,
-        0, 1, 4,
-        5, 6, 0);
+        1, 0, 5,
+        2, 1, 6,
+        3, 4, 0);
 
     const Matrix3 expected(
           -24.f,  20.f, -5.f,

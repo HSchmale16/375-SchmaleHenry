@@ -1,9 +1,7 @@
 #include "Transform.h"
 
 
-Transform::Transform() {
-
-}
+Transform::Transform() {}
 
 void
 Transform::orthonormalize () {
@@ -17,12 +15,13 @@ Transform::reset() {
 
 glm::mat4
 Transform::getTransform () const {
-
+    glm::mat4x4 m4;
+    return m4;
 }
 
 void
 Transform::getTransform (float array[16]) const {
-
+    
 }
 
 Vector3

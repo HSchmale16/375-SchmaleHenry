@@ -137,8 +137,8 @@ Matrix3::invert () {
             m_right.z * m_up.x - m_right.x * m_up.z,
             m_right.x * m_up.y - m_right.y * m_up.x)
     );
-    transpose();
     temp *= 1.f / det_1;
+    temp.transpose();
     *this = temp;
 }
 
@@ -262,7 +262,7 @@ Matrix3::setFromAngleAxis(float angleDegrees, const Vector3& axis) {
         v.y * v.z * c1 - v.x * s,
         c + v.z * v.z * c1
     );
-    transpose();
+    //transpose();
 }
 
 void

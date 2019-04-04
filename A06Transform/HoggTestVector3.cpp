@@ -6,7 +6,6 @@
   Description: Catch2 test cases for the Vector3 class.
 */
 
-#define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 #include "Vector3.h"
 

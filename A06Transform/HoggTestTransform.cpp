@@ -5,7 +5,6 @@
   Description: Catch2 test cases for the Transform class.
 */
 
-#define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 #include "Vector3.h"
 #include "Matrix3.h"
