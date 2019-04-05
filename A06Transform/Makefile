@@ -24,13 +24,13 @@ CXXFLAGS := -g -O0 -Wall -std=c++14 $(INCDIRS)
 LINK := $(CXX)
 
 # Linker flags. Usually none.
-LDFLAGS := -lassimp 
+LDFLAGS :=  
 
 # Library paths, prefaced with "-L". Usually none.
 LDPATHS := 
 
 # Libraries used, prefaced with "-l".
-LDLIBS := -lGLEW -lglfw -lGL
+LDLIBS := -lassimp -lGLEW -lglfw -lGL
 
 # All source files, separated by spaces. Don't include header files. 
 SRCS := Main.cpp \

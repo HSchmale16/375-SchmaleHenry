@@ -472,7 +472,8 @@ drawScene (GLFWwindow* window)
     // Only the model-view matrix needs set, since the projection is
     //   already set and it will persist.
     // Create view matrix
-    glm::mat4 modelView = g_camera.getViewMatrix();
+    Transform view = g_camera.getViewMatrix();
+    glm::mat4 modelView = view.getTransform();
     //g_shaderProgram->setUniformMatrix ("uModelView", modelView);
 
     for (auto mesh : g_vaos) {
