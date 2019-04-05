@@ -24,7 +24,7 @@ CXXFLAGS := -g -O0 -Wall -std=c++14 $(INCDIRS)
 LINK := $(CXX)
 
 # Linker flags. Usually none.
-LDFLAGS := 
+LDFLAGS := -lassimp 
 
 # Library paths, prefaced with "-L". Usually none.
 LDPATHS := 
@@ -48,8 +48,10 @@ TESTSRCS := TestMain.cpp \
 	Matrix3Test.cpp \
 	Vector3.cpp \
 	Matrix3.cpp \
+	Transform.cpp \
 	HoggTestMatrix3.cpp \
-	HoggTestVector3.cpp
+	HoggTestVector3.cpp \
+	HoggTestTransform.cpp
 
 # Extension for source files. Do NOT modify.
 SOURCESUFFIX := cpp

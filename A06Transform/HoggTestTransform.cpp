@@ -5,6 +5,7 @@
   Description: Catch2 test cases for the Transform class.
 */
 
+#include <iomanip>
 #include "catch.hpp"
 #include "Vector3.h"
 #include "Matrix3.h"

@@ -71,6 +71,13 @@ Matrix3.o: Matrix3.cpp Matrix3.h Vector3.h
 Matrix3.h:
 
 Vector3.h:
+Transform.o: Transform.cpp Transform.h Matrix3.h Vector3.h
+
+Transform.h:
+
+Matrix3.h:
+
+Vector3.h:
 HoggTestMatrix3.o: HoggTestMatrix3.cpp catch.hpp Vector3.h Matrix3.h
 
 catch.hpp:
@@ -83,3 +90,13 @@ HoggTestVector3.o: HoggTestVector3.cpp catch.hpp Vector3.h
 catch.hpp:
 
 Vector3.h:
+HoggTestTransform.o: HoggTestTransform.cpp catch.hpp Vector3.h Matrix3.h \
+ Transform.h
+
+catch.hpp:
+
+Vector3.h:
+
+Matrix3.h:
+
+Transform.h:
