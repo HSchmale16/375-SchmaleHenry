@@ -35,7 +35,9 @@ public:
   readVertexData (unsigned meshNum) const;
 
   // You may find other methods useful...
-  
+  size_t
+  countMeshes() const;
+
 private:
   // Importer dtor destroys the scene!
   Assimp::Importer m_importer;

@@ -74,3 +74,8 @@ AiScene::readVertexData (unsigned meshNum) const
   }
   return vertexData;
 }
+
+size_t
+AiScene::countMeshes () const {
+    return m_scene->mNumMeshes;
+}

@@ -400,7 +400,7 @@ make_cube(float x, float y, float z, float size) {
 void
 initScene ()
 {
-
+/*
     g_vaos.push_back(new Mesh());
 
     g_vaos[0]->addGeometry(make_cube(1.0f, 2.0f, 3.0f, 4.0f));
@@ -416,8 +416,10 @@ initScene ()
 
     g_vaos.push_back(new Mesh());
     g_vaos[1]->addGeometry(triVertices2);
-
+*/
     g_vaos.push_back(new Mesh(AiScene("bear.obj")));
+
+    g_vaos.push_back(new Mesh(AiScene("bear2.obj")));
 }
 
 /******************************************************************/

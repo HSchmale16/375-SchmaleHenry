@@ -18,10 +18,12 @@ Mesh::Mesh ()
 
 Mesh::Mesh (const AiScene& scene) 
 : usesNormals(true) {
-   glGenVertexArrays (1, &m_vao);
-   glGenBuffers(1, &m_vbo); 
-
-   addGeometry(scene.readVertexData(0));
+    glGenVertexArrays (1, &m_vao);
+    glGenBuffers(1, &m_vbo); 
+    
+    for (size_t i = 0; i < scene.countMeshes(); ++i) {
+        addGeometry(scene.readVertexData(i));
+    } 
 }
 
 Mesh::~Mesh () {
