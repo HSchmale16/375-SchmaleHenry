@@ -71,3 +71,94 @@ bool
 Mesh::getUsesNormals() const {
     return usesNormals;
 }
+
+Transform
+Mesh::getWorld () const {
+    return m_world;
+}
+
+void 
+Mesh::moveRight(float d) {
+
+}
+
+void
+Mesh::moveUp(float d) {
+
+}
+
+void
+Mesh::moveBack(float d) {
+
+}
+
+void
+Mesh::moveLocal(float d, const Vector3& loc) {
+
+}
+
+void
+Mesh::moveWorld (float d, const Vector3& wd) {
+
+}
+
+void
+Mesh::pitch(float angleDegrees) {
+
+}
+
+void
+Mesh::yaw(float angDegrees) {
+
+}
+
+void
+Mesh::roll(float angDegress) {
+
+}
+
+void
+Mesh::rotateLocal(float angDegrees, const Vector3& axis) {
+
+}
+
+void
+Mesh::alignWithWorldY () {
+
+}
+
+void
+Mesh::scaleLocal (float s) {
+
+}
+
+void
+Mesh::scaleLocal(float x, float y, float z) {
+
+}
+
+void
+Mesh::scaleWorld(float s) {
+
+}
+
+void
+Mesh::scaleWorld(float x, float y, float z) {
+
+}
+
+void
+Mesh::shearLocalXByYz(float y, float z) {
+
+}
+
+void
+Mesh::shearLocalYByXz(float x, float z) {
+
+}
+
+void
+Mesh::shearLocalZByXy(float x, float y) {
+
+}
+
