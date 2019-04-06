@@ -257,167 +257,9 @@ push_color(std::vector<float>& v) {
     colorNum += 1;
 }
 
-/** Absolute garbage code, but it works, probably could be optimized
- * down to a direct initialization.
- *
- * x,y,z is the bottom left front corner.
- */
-std::vector<float> 
-make_cube(float x, float y, float z, float size) {
-    std::vector<float> verts;
-    verts.reserve(18 * 2 * 6);
-
-    // Front Face LL
-    verts.push_back(x);
-    verts.push_back(y);
-    verts.push_back(z);
-    push_color(verts);
-
-    verts.push_back(x + size);
-    verts.push_back(y);
-    verts.push_back(z);
-    push_color(verts);
-
-    verts.push_back(x);
-    verts.push_back(y + size);
-    verts.push_back(z);
-    push_color(verts);
-
-    // Front Face UR 
-    verts.push_back(x + size);
-    verts.push_back(y + size);
-    verts.push_back(z);
-    push_color(verts);
-
-    verts.push_back(x);
-    verts.push_back(y + size);
-    verts.push_back(z);
-    push_color(verts);
-
-    verts.push_back(x + size);
-    verts.push_back(y);
-    verts.push_back(z);
-    push_color(verts);
-
-    // LEFT Side Face
-    verts.push_back(x);
-    verts.push_back(y);
-    verts.push_back(z);
-    push_color(verts);
-
-    verts.push_back(x);
-    verts.push_back(y + size);
-    verts.push_back(z);
-    push_color(verts);
-
-    verts.push_back(x);
-    verts.push_back(y);
-    verts.push_back(z - size);
-    push_color(verts);
-
-    verts.push_back(x);
-    verts.push_back(y + size);
-    verts.push_back(z - size);
-    push_color(verts);
-
-    verts.push_back(x);
-    verts.push_back(y);
-    verts.push_back(z - size);
-    push_color(verts);
-
-    verts.push_back(x);
-    verts.push_back(y + size);
-    verts.push_back(z);
-    push_color(verts);
-
-    // Top
-    verts.push_back(x);
-    verts.push_back(y + size);
-    verts.push_back(z);
-    push_color(verts);
-
-    verts.push_back(x + size);
-    verts.push_back(y + size);
-    verts.push_back(z);
-    push_color(verts);
-
-    verts.push_back(x);
-    verts.push_back(y + size);
-    verts.push_back(z - size);
-    push_color(verts);
-
-    // Bottom
-    verts.push_back(x);
-    verts.push_back(y);
-    verts.push_back(z);
-    push_color(verts);
-
-    verts.push_back(x);
-    verts.push_back(y);
-    verts.push_back(z - size);
-    push_color(verts);
-
-    verts.push_back(x + size);
-    verts.push_back(y);
-    verts.push_back(z);
-    push_color(verts);
-
-    // Back Face
-    verts.push_back(x + size);
-    verts.push_back(y);
-    verts.push_back(z);
-    push_color(verts);
-
-    verts.push_back(x);
-    verts.push_back(y + size);
-    verts.push_back(z - size);
-    push_color(verts);
-
-    verts.push_back(x + size);
-    verts.push_back(y + size);
-    verts.push_back(z);
-    push_color(verts);
-
-    verts.push_back(x + size);
-    verts.push_back(y);
-    verts.push_back(z);
-    push_color(verts);
-
-    verts.push_back(x);
-    verts.push_back(y);
-    verts.push_back(z - size);
-    push_color(verts);
-
-    verts.push_back(x + size);
-    verts.push_back(y + size);
-    verts.push_back(z);
-    push_color(verts);
-
-
-    printf("Size of cheesy wedge mesh is %ld\n", verts.size()); 
-    return verts;
-}
-
 void
 initScene ()
 {
-/*
-    g_vaos.push_back(new Mesh());
-
-    g_vaos[0]->addGeometry(make_cube(1.0f, 2.0f, 3.0f, 4.0f));
-
-    std::vector<float> triVertices2 {
-        2.0f, 5.0f, -1.0f,   // 3-d coordinates of first vertex (X, Y, Z)
-            0.0f, 1.0f, 0.0f,   // color of second vertex (R, G, B)
-            -5.0f, -8.0f, -3.0f, // 3-d coordinates of second vertex (X, Y, Z)
-            1.0f, 0.0f, 0.0f,   // color of first vertex (R, G, B)
-            5.0f, -5.0f, 0.0f,  // 3-d coordinates of third vertex (X, Y, Z)
-            0.0f, 0.0f, 1.0f    // color of third vertex (R, G, B)
-    };
-
-    g_vaos.push_back(new Mesh());
-    g_vaos[1]->addGeometry(triVertices2);
-*/
     g_vaos.push_back(new Mesh(AiScene("bear.obj")));
 
     g_vaos.push_back(new Mesh(AiScene("bear2.obj")));
@@ -451,7 +293,7 @@ initCamera ()
     // Near plane
     float nearZ = 0.01f;
     // Far plane
-    float farZ = 400.0f;
+    float farZ = 4000.0f;
 
     g_camera = Camera(Vector3(0, 0, 12.f), Vector3(0.f, 0.f, 1.f), nearZ, farZ, aspectRatio, 50.0f);
     // Enable shader program so we can set uniforms
@@ -517,6 +359,16 @@ processKeys (GLFWwindow* window, int key, int scanCode, int action,
     switch(action) {
         case GLFW_PRESS:
             g_keybuffer.setKeyDown(key);
+            if ((modifiers & GLFW_MOD_SHIFT) == GLFW_MOD_SHIFT) {
+                if (key == GLFW_KEY_COMMA) {
+                    activeMeshId = (activeMeshId - 1) % g_vaos.size();
+                    printf("Previous Mesh (ID=%ld)\n", activeMeshId);
+                }
+                if (key == GLFW_KEY_PERIOD) {
+                    activeMeshId = (activeMeshId + 1) % g_vaos.size();
+                    printf("Next Mesh (ID=%ld)\n", activeMeshId);
+                }
+            }
             break;
         case GLFW_RELEASE:
             g_keybuffer.setKeyUp(key);
@@ -583,8 +435,7 @@ dealWithKeys()
         g_camera.pitch(-MOVEMENT_DELTA);
     else if (g_keybuffer.isKeyDown(GLFW_KEY_K))
         g_camera.pitch(MOVEMENT_DELTA);
-
-    if (g_keybuffer.isKeyDown(GLFW_KEY_N))
+if (g_keybuffer.isKeyDown(GLFW_KEY_N))
        g_camera.roll(-MOVEMENT_DELTA);
     else if (g_keybuffer.isKeyDown(GLFW_KEY_M))
        g_camera.roll(MOVEMENT_DELTA); 
@@ -593,6 +444,44 @@ dealWithKeys()
     if (g_keybuffer.isKeyDown(GLFW_KEY_R))
         g_camera.reset();
 
+    // MESH CONTROLS
+    if (g_keybuffer.isKeyDown(GLFW_KEY_1)) {
+        g_vaos[activeMeshId]->moveRight(MOVEMENT_DELTA);
+    }
 
+    if (g_keybuffer.isKeyDown(GLFW_KEY_2)) {
+        g_vaos[activeMeshId]->moveUp(MOVEMENT_DELTA);
+    }
 
+    if (g_keybuffer.isKeyDown(GLFW_KEY_3)) {
+        g_vaos[activeMeshId]->moveWorld(MOVEMENT_DELTA, Vector3(-1, -1, -1));
+    }
+
+    if (g_keybuffer.isKeyDown(GLFW_KEY_4)) {
+        g_vaos[activeMeshId]->pitch(MOVEMENT_DELTA);
+    }
+
+    if (g_keybuffer.isKeyDown(GLFW_KEY_5)) {
+        g_vaos[activeMeshId]->yaw(MOVEMENT_DELTA); 
+    } 
+
+    if (g_keybuffer.isKeyDown(GLFW_KEY_6)) {
+        g_vaos[activeMeshId]->roll(MOVEMENT_DELTA);
+    }
+
+    if (g_keybuffer.isKeyDown(GLFW_KEY_7)) {
+        g_vaos[activeMeshId]->alignWithWorldY();
+    }
+
+    if (g_keybuffer.isKeyDown(GLFW_KEY_8)) {
+        g_vaos[activeMeshId]->scaleLocal(1.1f);
+    }
+
+    if (g_keybuffer.isKeyDown(GLFW_KEY_9)) {
+        g_vaos[activeMeshId]->scaleWorld(1.1f);
+    }
+
+    if (g_keybuffer.isKeyDown(GLFW_KEY_0)) {
+        g_vaos[activeMeshId]->shearLocalXByYz(1.1f, 1.2f);
+    }
 }
