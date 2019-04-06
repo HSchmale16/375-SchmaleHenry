@@ -44,6 +44,7 @@ added.
 
 // We use one VAO for each object we draw
 std::vector<Mesh*> g_vaos;
+size_t activeMeshId = 0;
 
 // Need a shader program to transform and light the primitives
 ShaderProgram* g_shaderProgram;
@@ -591,5 +592,7 @@ dealWithKeys()
     // R - Reset
     if (g_keybuffer.isKeyDown(GLFW_KEY_R))
         g_camera.reset();
+
+
 
 }
