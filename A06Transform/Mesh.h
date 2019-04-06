@@ -37,10 +37,13 @@ public:
     void
     draw(ShaderProgram* shader, glm::mat4&);
 
+    bool
+    getUsesNormals() const;
 private:
     GLuint m_vao;
     GLuint m_vbo;
     std::vector<float> m_geometry;
+    bool usesNormals;
 };
 
 #endif // MESH_H_INC

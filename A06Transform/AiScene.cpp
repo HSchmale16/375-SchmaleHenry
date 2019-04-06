@@ -1,6 +1,6 @@
 /*
   Filename: AiScene.cpp
-  Authors: Gary M. Zoppetti, Ph.D. & Chad Hogg
+  Authors: Gary M. Zoppetti, Ph.D. & Chad Hogg & Henry J Schmale
   Course: CSCI375
   Assignment: A06Transform
   Description: A class that simplifies importing scenes with the AssImp library.
@@ -8,6 +8,7 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <cassert>
 
 #include <assimp/postprocess.h>
 
@@ -35,10 +36,12 @@ AiScene::AiScene (const std::string& fileName)
 std::vector<float>
 AiScene::readVertexData (unsigned meshNum) const
 {
+  assert(meshNum < m_scene->mNumMeshes);
   // Get the correct mesh object
   const aiMesh* mesh = m_scene->mMeshes[meshNum];
   // Container for holding vertex data
   std::vector<float> vertexData;
+  vertexData.reserve(mesh->mNumFaces * 3);
   
   // Go through array of faces
   for (unsigned faceNum = 0; faceNum < mesh->mNumFaces; ++faceNum)

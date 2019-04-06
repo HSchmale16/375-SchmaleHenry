@@ -47,6 +47,7 @@ std::vector<Mesh*> g_vaos;
 
 // Need a shader program to transform and light the primitives
 ShaderProgram* g_shaderProgram;
+ShaderProgram* g_normalShader;
 
 KeyBuffer g_keybuffer;
 Camera g_camera;
@@ -392,7 +393,7 @@ make_cube(float x, float y, float z, float size) {
     push_color(verts);
 
 
-    printf("Size of cheesy wedge mesh is %d\n", verts.size()); 
+    printf("Size of cheesy wedge mesh is %ld\n", verts.size()); 
     return verts;
 }
 
@@ -415,6 +416,8 @@ initScene ()
 
     g_vaos.push_back(new Mesh());
     g_vaos[1]->addGeometry(triVertices2);
+
+    g_vaos.push_back(new Mesh(AiScene("bear.obj")));
 }
 
 /******************************************************************/
@@ -428,6 +431,11 @@ initShaders ()
     g_shaderProgram->createVertexShader ("Vec3.vert");
     g_shaderProgram->createFragmentShader ("Vec3.frag");
     g_shaderProgram->link ();
+
+    g_normalShader = new ShaderProgram ();
+    g_normalShader->createVertexShader("Vec3Norm.vert");
+    g_normalShader->createFragmentShader("Vec3.frag");
+    g_normalShader->link();
 }
 
 /******************************************************************/
@@ -436,17 +444,19 @@ void
 initCamera ()
 {
     // Define the projection, which will remain constant
-    float verticalFov = glm::radians (50.0f);
     float aspectRatio = 1200.0f / 900;
     // Near plane
     float nearZ = 0.01f;
     // Far plane
-    float farZ = 40.0f;
+    float farZ = 400.0f;
 
     g_camera = Camera(Vector3(0, 0, 12.f), Vector3(0.f, 0.f, 1.f), nearZ, farZ, aspectRatio, 50.0f);
     // Enable shader program so we can set uniforms
     g_shaderProgram->enable ();
     g_shaderProgram->setUniformMatrix ("uProjection", g_camera.getProjectionMatrix());
+
+    g_normalShader->enable ();
+    g_normalShader->setUniformMatrix("uProjection", g_camera.getProjectionMatrix());
 }
 
 /******************************************************************/
@@ -464,10 +474,7 @@ drawScene (GLFWwindow* window)
 {
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // Iterate over each object in scene and draw it
-    // The shader program is already enabled, but we do not want to
-    //   make that assumption in general.
-    g_shaderProgram->enable ();
+    
     // Set shader uniforms
     // Only the model-view matrix needs set, since the projection is
     //   already set and it will persist.
@@ -477,9 +484,12 @@ drawScene (GLFWwindow* window)
     //g_shaderProgram->setUniformMatrix ("uModelView", modelView);
 
     for (auto mesh : g_vaos) {
-        mesh->draw(g_shaderProgram, modelView);
+        if (mesh->getUsesNormals()) {
+            mesh->draw(g_normalShader, modelView);
+        } else {
+            mesh->draw(g_shaderProgram, modelView);
+        }
     }
-    g_shaderProgram->disable ();
 
     // Swap the front and back buffers.
     // We draw to the back buffer, which is then swapped with the front
@@ -519,6 +529,7 @@ releaseGlResources ()
     // Delete OpenGL resources, particularly important if program will
     //   continue running
     delete g_shaderProgram;
+    delete g_normalShader;
     for (auto mesh : g_vaos) {
         delete mesh;
     }
@@ -546,34 +557,34 @@ dealWithKeys()
 
     // A & D
     if (g_keybuffer.isKeyDown(GLFW_KEY_A))
-        g_camera.moveRight(-MOVEMENT_DELTA);
-    else if (g_keybuffer.isKeyDown(GLFW_KEY_D))
         g_camera.moveRight(MOVEMENT_DELTA);
+    else if (g_keybuffer.isKeyDown(GLFW_KEY_D))
+        g_camera.moveRight(-MOVEMENT_DELTA);
 
     // C & F
     if (g_keybuffer.isKeyDown(GLFW_KEY_C))
-        g_camera.moveUp(-MOVEMENT_DELTA);
-    else if (g_keybuffer.isKeyDown(GLFW_KEY_F))
         g_camera.moveUp(MOVEMENT_DELTA);
+    else if (g_keybuffer.isKeyDown(GLFW_KEY_F))
+        g_camera.moveUp(-MOVEMENT_DELTA);
 
     // ROTATION
     // J & L - yaw
     if (g_keybuffer.isKeyDown(GLFW_KEY_J))
-        g_camera.yaw(MOVEMENT_DELTA);
-    else if (g_keybuffer.isKeyDown(GLFW_KEY_L))
         g_camera.yaw(-MOVEMENT_DELTA);
+    else if (g_keybuffer.isKeyDown(GLFW_KEY_L))
+        g_camera.yaw(MOVEMENT_DELTA);
    
 
     // I & K - PITCH
     if (g_keybuffer.isKeyDown(GLFW_KEY_I))
-        g_camera.pitch(MOVEMENT_DELTA);
-    else if (g_keybuffer.isKeyDown(GLFW_KEY_K))
         g_camera.pitch(-MOVEMENT_DELTA);
+    else if (g_keybuffer.isKeyDown(GLFW_KEY_K))
+        g_camera.pitch(MOVEMENT_DELTA);
 
     if (g_keybuffer.isKeyDown(GLFW_KEY_N))
-       g_camera.roll(MOVEMENT_DELTA);
+       g_camera.roll(-MOVEMENT_DELTA);
     else if (g_keybuffer.isKeyDown(GLFW_KEY_M))
-       g_camera.roll(-MOVEMENT_DELTA); 
+       g_camera.roll(MOVEMENT_DELTA); 
 
     // R - Reset
     if (g_keybuffer.isKeyDown(GLFW_KEY_R))

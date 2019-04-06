@@ -10,16 +10,18 @@
 
 
 
-Mesh::Mesh () {
+Mesh::Mesh () 
+: usesNormals(false) {
     glGenVertexArrays (1, &m_vao);
     glGenBuffers (1, &m_vbo);
 }
 
-Mesh::Mesh (const AiScene& scene) {
+Mesh::Mesh (const AiScene& scene) 
+: usesNormals(true) {
    glGenVertexArrays (1, &m_vao);
    glGenBuffers(1, &m_vbo); 
 
-
+   addGeometry(scene.readVertexData(0));
 }
 
 Mesh::~Mesh () {
@@ -63,3 +65,7 @@ Mesh::draw(ShaderProgram* shader, glm::mat4& modelView) {
     shader->disable();
 }
 
+bool
+Mesh::getUsesNormals() const {
+    return usesNormals;
+}
