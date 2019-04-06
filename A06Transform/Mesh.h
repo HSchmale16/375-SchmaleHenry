@@ -17,10 +17,12 @@
 #include <GL/glew.h>
 
 #include "ShaderProgram.h"
+#include "AiScene.h"
 
 class Mesh {
 public:
     Mesh();
+    Mesh(const AiScene& s);
     Mesh(const Mesh&) = delete;
     Mesh& operator=(Mesh const&) = delete;
 

@@ -54,9 +54,19 @@ AiScene::readVertexData (unsigned meshNum) const
       // Indexing is used so data isn't duplicated
       auto vertexNum = face.mIndices[indexNum];
       aiVector3D position = mesh->mVertices[vertexNum];
+      
       // TODO: Put the position in vertexData
+      vertexData.push_back(position.x);
+      vertexData.push_back(position.y);
+      vertexData.push_back(position.z);
+
       aiVector3D normal = mesh->mNormals[vertexNum];
       // TODO: Put the normal in vertexData
+
+      vertexData.push_back(normal.x);
+      vertexData.push_back(normal.y);
+      vertexData.push_back(normal.z);
+      
     }
   }
   return vertexData;

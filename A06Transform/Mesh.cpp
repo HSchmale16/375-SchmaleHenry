@@ -15,6 +15,13 @@ Mesh::Mesh () {
     glGenBuffers (1, &m_vbo);
 }
 
+Mesh::Mesh (const AiScene& scene) {
+   glGenVertexArrays (1, &m_vao);
+   glGenBuffers(1, &m_vbo); 
+
+
+}
+
 Mesh::~Mesh () {
     glDeleteVertexArrays (1, &m_vao);
     glDeleteBuffers(1, &m_vbo);
