@@ -38,7 +38,7 @@ Camera::Camera(const Vector3& eyePoint, const Vector3& localBackDirection,
     
     // use a guess for the initial up vector
     Vector3 up = Vector3(0.f, 1.0f, 0.f);
-    Vector3 right = localBackDirection.cross(up);
+    Vector3 right = up.cross(localBackDirection);
     up = localBackDirection.cross(right);
 
     m_world.setOrientation(Matrix3(right, up, localBackDirection));
@@ -69,6 +69,10 @@ Camera::getProjectionMatrix() const
 
 Transform
 Camera::getViewMatrix() {
+    Transform t(m_world);
+    t.invertRt();
+    return t;
+    /*
     Vector3 eye = m_world.getPosition();
     Vector3 at = eye - m_world.getOrientation().getBack();
 
@@ -87,6 +91,7 @@ Camera::getViewMatrix() {
                 -eye.dot(up),
                 -eye.dot(back)));
     return view;
+    */
 }
 
 void
