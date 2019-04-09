@@ -56,12 +56,13 @@ Mesh::prepareVao () {
 }
 
 void 
-Mesh::draw(ShaderProgram* shader, glm::mat4& view) {
-    glm::mat4 transform = m_world.getTransform();
-    transform *= view;
+Mesh::draw(ShaderProgram* shader, const Transform& view) {
 
     shader->enable();
-    shader->setUniformMatrix("uModelView", transform);
+
+    Transform t(view);
+    t.combine(m_world);
+    shader->setUniformMatrix("uModelView", t.getTransform());
 
     glBindVertexArray(m_vao);
     glDrawArrays(GL_TRIANGLES, 0, m_geometry.size() / 6);

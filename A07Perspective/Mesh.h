@@ -36,7 +36,7 @@ public:
     prepareVao();
 
     void
-    draw(ShaderProgram* shader, glm::mat4&);
+    draw(ShaderProgram* shader, const Transform&);
 
     bool
     getUsesNormals() const;

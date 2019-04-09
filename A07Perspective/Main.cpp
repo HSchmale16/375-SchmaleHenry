@@ -330,9 +330,9 @@ drawScene (GLFWwindow* window)
 
     for (auto mesh : g_vaos) {
         if (mesh->getUsesNormals()) {
-            mesh->draw(g_normalShader, modelView);
+            mesh->draw(g_normalShader, view);
         } else {
-            mesh->draw(g_shaderProgram, modelView);
+            mesh->draw(g_shaderProgram, view);
         }
     }
 
