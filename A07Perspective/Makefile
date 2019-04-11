@@ -51,7 +51,11 @@ TESTSRCS := TestMain.cpp \
 	Transform.cpp \
 	HoggTestMatrix3.cpp \
 	HoggTestVector3.cpp \
-	HoggTestTransform.cpp
+	HoggTestTransform.cpp \
+	HoggTestMatrix4.cpp \
+	HoggTestVector4.cpp \
+	Vector4.cpp \
+	Matrix4.cpp
 
 # Extension for source files. Do NOT modify.
 SOURCESUFFIX := cpp

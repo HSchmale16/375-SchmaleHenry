@@ -6,8 +6,7 @@
   Description: Catch2 test cases for the Vector4 class.
 */
 
-#define CATCH_CONFIG_MAIN
-#include <catch.hpp>
+#include "catch.hpp"
 #include "Vector4.h"
 
 TEST_CASE ("Vector4() sets all components to 0", "[Vector4]") {

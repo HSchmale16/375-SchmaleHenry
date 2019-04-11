@@ -6,8 +6,7 @@
   Description: Catch2 test cases for the Matrix4 class.
 */
 
-#define CATCH_CONFIG_MAIN
-#include <catch.hpp>
+#include "catch.hpp"
 #include <iostream>
 #include <iomanip>
 #include "Vector4.h"
