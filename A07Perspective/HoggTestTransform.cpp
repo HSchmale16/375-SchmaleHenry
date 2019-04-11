@@ -1,15 +1,16 @@
 /*
-  Filename: CatchTestTransform.cpp
+  Filename: HoggTestTransform.cpp
   Author: Chad Hogg
-  Assignment: A06Transform
+  Assignment: A07Projection
   Description: Catch2 test cases for the Transform class.
 */
 
-#include <iomanip>
 #include "catch.hpp"
+#include <iomanip>
 #include "Vector3.h"
 #include "Matrix3.h"
 #include "Transform.h"
+#include "Matrix4.h"
 
 class MyMatrix4
 {
@@ -281,16 +282,12 @@ TEST_CASE ("Transform::getTransform() and getTransform(float[16]) work", "[Trans
       ARBITRARY_VECTOR.x, ARBITRARY_VECTOR.y, ARBITRARY_VECTOR.z, 1.0f};
   float receivedArray[16];
   t.getTransform (receivedArray);
-  glm::mat4 expectedMat4 (expectedArray[0], expectedArray[1], expectedArray[2], expectedArray[3], expectedArray[4], expectedArray[5], expectedArray[6], expectedArray[7], expectedArray[8], expectedArray[9], expectedArray[10], expectedArray[11], expectedArray[12], expectedArray[13], expectedArray[14], expectedArray[15]);
-  glm::mat4 receivedMat4 (t.getTransform ());
+  Matrix4 expectedMatrix4 (Vector4 (expectedArray[0], expectedArray[1], expectedArray[2], expectedArray[3]), Vector4 (expectedArray[4], expectedArray[5], expectedArray[6], expectedArray[7]), Vector4 (expectedArray[8], expectedArray[9], expectedArray[10], expectedArray[11]), Vector4 (expectedArray[12], expectedArray[13], expectedArray[14], expectedArray[15]));
+  Matrix4 receivedMatrix4 (t.getTransform ());
   for(unsigned int i = 0; i < 16; i++) {
     CHECK (expectedArray[i] == receivedArray[i]);
   }
-  for(unsigned int i = 0; i < 4; i++) {
-    for(unsigned int j = 0; j < 4; j++) {
-      CHECK (expectedMat4[i][j] == receivedMat4[i][j]);
-    }
-  }
+  CHECK (expectedMatrix4 == receivedMatrix4);
 }
 
 TEST_CASE ("Transform::orthonormalize() works", "[Transform]") {

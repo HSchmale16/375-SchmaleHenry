@@ -40,7 +40,6 @@ public:
   void
   reset ();
   
-  // Return this as a 4x4 GLM matrix.
   Matrix4
   getTransform () const;
   
