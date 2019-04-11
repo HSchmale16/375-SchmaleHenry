@@ -8,9 +8,6 @@
  */
 
 #include "Camera.h"
-#include <glm/gtc/matrix_transform.hpp>
-#define GLM_ENABLE_EXPERIMENTAL
-#include <glm/gtx/rotate_vector.hpp>
 #include <cstdio>
 
 void 
@@ -30,12 +27,7 @@ Camera::Camera(const Vector3& eyePoint, const Vector3& localBackDirection,
   m_initEyePoint(eyePoint),
   m_initBackwardsPoint(localBackDirection)
 {
-    m_projectionMat = glm::perspective(
-        glm::radians(m_verticalFieldOfViewDegrees),
-        m_aspectRatio,
-        m_nearClipPlaneDistance,
-        m_farClipPlaneDistance);
-    
+    setProjection(verticalFieldOfViewDegrees, aspectRatio, nearClipPlaneDistance, farClipPlaneDistance);
     // use a guess for the initial up vector
     Vector3 up = Vector3(0.f, 1.0f, 0.f);
     Vector3 right = up.cross(localBackDirection);
@@ -54,14 +46,12 @@ Camera::setProjection (float verticalFovDegrees, float aspectRatio, float nearZ,
     m_aspectRatio = aspectRatio;
     m_nearClipPlaneDistance = nearZ;
     m_farClipPlaneDistance = farZ;
-    m_projectionMat = glm::perspective(
-        glm::radians(m_verticalFieldOfViewDegrees),
-        m_aspectRatio,
-        m_nearClipPlaneDistance,
-        m_farClipPlaneDistance);
+    
+    m_projectionMat.setToPerspectiveProjection(verticalFovDegrees, aspectRatio, nearZ, farZ);
+
 }
 
-glm::mat4
+Matrix4
 Camera::getProjectionMatrix() const 
 {
     return m_projectionMat;

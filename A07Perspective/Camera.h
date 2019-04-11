@@ -1,9 +1,8 @@
 #ifndef CAMERA_H_INC
 #define CAMERA_H_INC
 
-#include <glm/vec3.hpp>
-#include <glm/mat4x4.hpp>
 #include "Transform.h"
+#include "Matrix4.h"
 
 /**
  * Camera.h
@@ -50,7 +49,7 @@ public:
     setProjection (float verticalFovDegrees, float aspectRatio,
             float nearZ, float farZ);
 
-    glm::mat4
+    Matrix4
     getProjectionMatrix() const;
 
     void
@@ -65,7 +64,7 @@ private:
     float m_aspectRatio;
     float m_verticalFieldOfViewDegrees;
     float m_currentYaw;
-    glm::mat4 m_projectionMat;
+    Matrix4 m_projectionMat;
 
     Vector3 m_initEyePoint;
     Vector3 m_initBackwardsPoint;

@@ -41,7 +41,9 @@ SRCS := Main.cpp \
 	KeyBuffer.cpp \
 	Matrix3.cpp \
 	Transform.cpp \
-	AiScene.cpp
+	AiScene.cpp \
+	Matrix4.cpp \
+	Vector4.cpp
 
 TESTSRCS := TestMain.cpp \
 	Vector3Test.cpp \

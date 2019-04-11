@@ -14,8 +14,6 @@
 
 #include <GL/glew.h>
 
-#include <glm/gtc/type_ptr.hpp>
-
 #include "ShaderProgram.h"
 
 ShaderProgram::ShaderProgram ()
@@ -45,10 +43,10 @@ ShaderProgram::getUniformLocation (const std::string& uniformName) const
 }
 
 void
-ShaderProgram::setUniformMatrix (const std::string& uniform, const glm::mat4x4& value)
+ShaderProgram::setUniformMatrix (const std::string& uniform, const Matrix4& value)
 {
   GLint location = this->getUniformLocation (uniform);
-  glUniformMatrix4fv (location, 1, GL_FALSE, glm::value_ptr (value));
+  glUniformMatrix4fv (location, 1, GL_FALSE, value.data());
 }
 
 void

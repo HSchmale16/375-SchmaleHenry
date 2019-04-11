@@ -12,7 +12,7 @@
 #include <string>
 
 #include <GL/glew.h>
-#include <glm/mat4x4.hpp>
+#include "Matrix4.h"
 
 class ShaderProgram
 {
@@ -32,7 +32,7 @@ public:
   getUniformLocation (const std::string& uniformName) const;
 
   void
-  setUniformMatrix (const std::string& uniform, const glm::mat4x4& value);
+  setUniformMatrix(const std::string& uniform, const Matrix4& value);
 
   void
   createVertexShader (const std::string& vertexShaderFilename);

@@ -23,12 +23,37 @@ Transform::reset() {
     m_position = Vector3();
 }
 
-glm::mat4
+Matrix4
 Transform::getTransform () const {
-    float data[16];
-    getTransform(data);
-     
-    return glm::make_mat4(data);
+    // float data[16];
+    // getTransform(data);
+    
+    return Matrix4(
+        Vector4(
+            m_rotScale.getRight().x,
+            m_rotScale.getRight().y,
+            m_rotScale.getRight().z,
+            0.f
+        ),
+        Vector4(
+            m_rotScale.getUp().x,
+            m_rotScale.getUp().y,
+            m_rotScale.getUp().z,
+            0.f
+        ),
+        Vector4(
+            m_rotScale.getBack().x,
+            m_rotScale.getBack().y,
+            m_rotScale.getBack().z,
+            0.f
+        ),
+        Vector4(
+            m_position.x,
+            m_position.y,
+            m_position.z,
+            1.f
+        )
+    );
 }
 
 void

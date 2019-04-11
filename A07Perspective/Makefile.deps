@@ -1,7 +1,11 @@
-Main.o: Main.cpp ShaderProgram.h Mesh.h AiScene.h Transform.h Matrix3.h \
- Vector3.h Camera.h KeyBuffer.h
+Main.o: Main.cpp ShaderProgram.h Matrix4.h Vector4.h Mesh.h AiScene.h \
+ Transform.h Matrix3.h Vector3.h Camera.h KeyBuffer.h
 
 ShaderProgram.h:
+
+Matrix4.h:
+
+Vector4.h:
 
 Mesh.h:
 
@@ -16,15 +20,23 @@ Vector3.h:
 Camera.h:
 
 KeyBuffer.h:
-ShaderProgram.o: ShaderProgram.cpp ShaderProgram.h
+ShaderProgram.o: ShaderProgram.cpp ShaderProgram.h Matrix4.h Vector4.h
 
 ShaderProgram.h:
-Mesh.o: Mesh.cpp Mesh.h ShaderProgram.h AiScene.h Transform.h Matrix3.h \
- Vector3.h
+
+Matrix4.h:
+
+Vector4.h:
+Mesh.o: Mesh.cpp Mesh.h ShaderProgram.h Matrix4.h Vector4.h AiScene.h \
+ Transform.h Matrix3.h Vector3.h
 
 Mesh.h:
 
 ShaderProgram.h:
+
+Matrix4.h:
+
+Vector4.h:
 
 AiScene.h:
 
@@ -33,7 +45,8 @@ Transform.h:
 Matrix3.h:
 
 Vector3.h:
-Camera.o: Camera.cpp Camera.h Transform.h Matrix3.h Vector3.h
+Camera.o: Camera.cpp Camera.h Transform.h Matrix3.h Vector3.h Matrix4.h \
+ Vector4.h
 
 Camera.h:
 
@@ -42,6 +55,10 @@ Transform.h:
 Matrix3.h:
 
 Vector3.h:
+
+Matrix4.h:
+
+Vector4.h:
 Vector3.o: Vector3.cpp Vector3.h
 
 Vector3.h:
@@ -53,16 +70,29 @@ Matrix3.o: Matrix3.cpp Matrix3.h Vector3.h
 Matrix3.h:
 
 Vector3.h:
-Transform.o: Transform.cpp Transform.h Matrix3.h Vector3.h
+Transform.o: Transform.cpp Transform.h Matrix3.h Vector3.h Matrix4.h \
+ Vector4.h
 
 Transform.h:
 
 Matrix3.h:
 
 Vector3.h:
+
+Matrix4.h:
+
+Vector4.h:
 AiScene.o: AiScene.cpp AiScene.h
 
 AiScene.h:
+Matrix4.o: Matrix4.cpp Matrix4.h Vector4.h
+
+Matrix4.h:
+
+Vector4.h:
+Vector4.o: Vector4.cpp Vector4.h
+
+Vector4.h:
 TestMain.o: TestMain.cpp catch.hpp
 
 catch.hpp:
@@ -86,13 +116,18 @@ Matrix3.o: Matrix3.cpp Matrix3.h Vector3.h
 Matrix3.h:
 
 Vector3.h:
-Transform.o: Transform.cpp Transform.h Matrix3.h Vector3.h
+Transform.o: Transform.cpp Transform.h Matrix3.h Vector3.h Matrix4.h \
+ Vector4.h
 
 Transform.h:
 
 Matrix3.h:
 
 Vector3.h:
+
+Matrix4.h:
+
+Vector4.h:
 HoggTestMatrix3.o: HoggTestMatrix3.cpp catch.hpp Vector3.h Matrix3.h
 
 catch.hpp:
@@ -106,7 +141,7 @@ catch.hpp:
 
 Vector3.h:
 HoggTestTransform.o: HoggTestTransform.cpp catch.hpp Vector3.h Matrix3.h \
- Transform.h
+ Transform.h Matrix4.h Vector4.h
 
 catch.hpp:
 
@@ -115,6 +150,10 @@ Vector3.h:
 Matrix3.h:
 
 Transform.h:
+
+Matrix4.h:
+
+Vector4.h:
 HoggTestMatrix4.o: HoggTestMatrix4.cpp catch.hpp Vector4.h Matrix4.h
 
 catch.hpp:

@@ -23,14 +23,6 @@ added.
 //   platform-independent way
 #include <GLFW/glfw3.h>
 
-// GLM is a header-only library, so we do not need to link to it
-// It provides matrix classes and mathematical functions
-#include <glm/vec3.hpp>
-#include <glm/mat4x4.hpp>
-// Need for "value_ptr", which allows us to get a pointer from a matrix
-#include <glm/gtc/type_ptr.hpp>
-// Transforms like lookat, perspective, rotate, scale, translate
-#include <glm/gtc/matrix_transform.hpp>
 
 /******************************************************************/
 // Local includes
@@ -325,7 +317,6 @@ drawScene (GLFWwindow* window)
     //   already set and it will persist.
     // Create view matrix
     Transform view = g_camera.getViewMatrix();
-    glm::mat4 modelView = view.getTransform();
     //g_shaderProgram->setUniformMatrix ("uModelView", modelView);
 
     for (auto mesh : g_vaos) {

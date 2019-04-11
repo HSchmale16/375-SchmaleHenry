@@ -12,9 +12,7 @@
 #include <iostream>
 
 #include "Matrix3.h"
-// Uncomment if you decide to write a "Matrix4" class. 
-//#include "Matrix4.h"
-#include <glm/mat4x4.hpp>
+#include "Matrix4.h"
 #include "Vector3.h"
 
 // A Transform represents a 3x4 matrix, stored in
@@ -43,7 +41,7 @@ public:
   reset ();
   
   // Return this as a 4x4 GLM matrix.
-  glm::mat4
+  Matrix4
   getTransform () const;
   
   // Store this transform in "array". 
