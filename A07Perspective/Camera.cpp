@@ -9,6 +9,7 @@
 
 #include "Camera.h"
 #include <cstdio>
+#include <algorithm>
 
 void 
 print_vec(const Vector3& v) {
@@ -27,7 +28,7 @@ Camera::Camera(const Vector3& eyePoint, const Vector3& localBackDirection,
   m_initEyePoint(eyePoint),
   m_initBackwardsPoint(localBackDirection)
 {
-    setProjection(verticalFieldOfViewDegrees, aspectRatio, nearClipPlaneDistance, farClipPlaneDistance);
+    setProjectionSymmetricPerspective(verticalFieldOfViewDegrees, aspectRatio, nearClipPlaneDistance, farClipPlaneDistance);
     // use a guess for the initial up vector
     Vector3 up = Vector3(0.f, 1.0f, 0.f);
     Vector3 right = up.cross(localBackDirection);
@@ -40,7 +41,8 @@ Camera::Camera(const Vector3& eyePoint, const Vector3& localBackDirection,
 
 
 void
-Camera::setProjection (float verticalFovDegrees, float aspectRatio, float nearZ, float farZ)
+Camera::setProjectionSymmetricPerspective (
+        float verticalFovDegrees, float aspectRatio, float nearZ, float farZ)
 {
     m_verticalFieldOfViewDegrees = verticalFovDegrees;
     m_aspectRatio = aspectRatio;
@@ -48,7 +50,21 @@ Camera::setProjection (float verticalFovDegrees, float aspectRatio, float nearZ,
     m_farClipPlaneDistance = farZ;
     
     m_projectionMat.setToPerspectiveProjection(verticalFovDegrees, aspectRatio, nearZ, farZ);
+    m_current_projection = SYMMETRIC;
+}
 
+void
+Camera::setProjectionAsymmetricPerspective(double l, double r,
+        double b, double t, double nz, double fz) {
+    m_projectionMat.setToPerspectiveProjection(l, r, b, t, nz, fz);
+    m_current_projection = ASYMMETRIC;
+}
+
+void
+Camera::setProjectionOrthographic(double l, double r,
+        double b, double t, double nz, double fz) {
+    m_projectionMat.setToOrthographicProjection(l, r, b, t, nz, fz);
+    m_current_projection = ORTHORGRAPHIC;
 }
 
 Matrix4
@@ -128,4 +144,17 @@ Camera::reset() {
 
     m_world.setOrientation(Matrix3(m_right, m_up, m_initBackwardsPoint)); 
     m_world.setPosition(m_initEyePoint);
+}
+
+void
+Camera::zoom(float delta) {
+    if (m_current_projection == SYMMETRIC) {
+        m_verticalFieldOfViewDegrees = std::clamp(m_verticalFieldOfViewDegrees + delta, 1.f, 120.f);
+        setProjectionSymmetricPerspective(
+            m_verticalFieldOfViewDegrees,
+            m_aspectRatio,
+            m_nearClipPlaneDistance,
+            m_farClipPlaneDistance
+        );
+    }
 }

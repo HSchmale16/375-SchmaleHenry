@@ -17,7 +17,7 @@ INCDIRS  :=
 
 # C++ compiler flags
 # Use the first for debugging, the second for release
-CXXFLAGS := -g -Wall -std=c++14 $(INCDIRS)
+CXXFLAGS := -g -Wall -std=c++17 $(INCDIRS)
 #CXXFLAGS := -O3 -Wall -std=c++14 $(INCDIRS)
 
 # Linker. For C++ should be $(CXX).

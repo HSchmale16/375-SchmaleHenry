@@ -1,5 +1,4 @@
-/* 
-Filename: Main.cpp
+/* Filename: Main.cpp
 Authors: Gary M. Zoppetti & Chad Hogg & Henry Schmale
 Course: CSCI375
 Assignment: A03 Camera
@@ -103,6 +102,12 @@ outputGlfwError (int error, const char* description);
 void
 dealWithKeys();
 
+void
+handleScrollEvents(GLFWwindow*, double, double);
+
+void
+updateProjection();
+
 /******************************************************************/
 
 int
@@ -113,12 +118,14 @@ main (int argc, char* argv[])
 
     // Game/render loop
     double previousTime = glfwGetTime ();
+    int count = 0;
     while (!glfwWindowShouldClose (window))
     {
         double currentTime = glfwGetTime ();
         // Compute frame times, which we can use later for frame rate computation,
         //   animation, and physics.
         double deltaTime = currentTime - previousTime;
+
         previousTime = currentTime;
         updateScene (deltaTime);
         drawScene (window);
@@ -188,6 +195,7 @@ initWindow (GLFWwindow*& window)
     // Swap buffers after 1 frame
     glfwSwapInterval (1);
     glfwSetKeyCallback (window, processKeys);
+    glfwSetScrollCallback(window, handleScrollEvents);
     glfwSetFramebufferSizeCallback (window, resetViewport);
 
     // Specify background color
@@ -234,6 +242,9 @@ resetViewport (GLFWwindow* window, int width, int height)
     // Render into entire window
     // Origin for window coordinates is lower-left of window
     glViewport (0, 0, width, height);
+    g_camera.setProjectionSymmetricPerspective(
+                60.f, (float)width / (float)height, 40, 4000);
+    updateProjection();
 }
 
 /******************************************************************/
@@ -392,6 +403,19 @@ outputGlfwError (int error, const char* description)
 /******************************************************************/
 
 void
+updateProjection() {
+
+    Matrix4 proj = g_camera.getProjectionMatrix();
+    g_shaderProgram->enable();
+    g_shaderProgram->setUniformMatrix("uProjection", proj);
+    g_shaderProgram->disable();
+
+    g_normalShader->enable();
+    g_normalShader->setUniformMatrix("uProjection", proj);
+    g_normalShader->disable();
+}
+
+void
 dealWithKeys() 
 {
     // Translate camera/eye point using WASD keys
@@ -426,7 +450,7 @@ dealWithKeys()
         g_camera.pitch(-MOVEMENT_DELTA);
     else if (g_keybuffer.isKeyDown(GLFW_KEY_K))
         g_camera.pitch(MOVEMENT_DELTA);
-if (g_keybuffer.isKeyDown(GLFW_KEY_N))
+    if (g_keybuffer.isKeyDown(GLFW_KEY_N))
        g_camera.roll(-MOVEMENT_DELTA);
     else if (g_keybuffer.isKeyDown(GLFW_KEY_M))
        g_camera.roll(MOVEMENT_DELTA); 
@@ -475,4 +499,29 @@ if (g_keybuffer.isKeyDown(GLFW_KEY_N))
     if (g_keybuffer.isKeyDown(GLFW_KEY_0)) {
         g_vaos[activeMeshId]->shearLocalXByYz(1.1f, 1.2f);
     }
+
+    // Camera projection types
+    if (g_keybuffer.isKeyDown(GLFW_KEY_P)) {
+        g_camera.setProjectionSymmetricPerspective(
+                60.f, 1200.f / 900.f, 40, 4000);
+        updateProjection();
+    }
+
+    if (g_keybuffer.isKeyDown(GLFW_KEY_LEFT_BRACKET)) {
+        g_camera.setProjectionAsymmetricPerspective(
+                -10, 20, -30, 40, 40, 4000);
+        updateProjection();
+    }
+
+    if (g_keybuffer.isKeyDown(GLFW_KEY_O)) {
+        g_camera.setProjectionOrthographic(-10, 20, -30, 40, 5, 4000);
+        updateProjection();
+    }
+}
+
+void
+handleScrollEvents(GLFWwindow* wnd, double xoff, double yoff) {
+    printf("scroll x = %lf, y = %lf\n", xoff, yoff);
+    g_camera.zoom(yoff);
+    updateProjection();
 }

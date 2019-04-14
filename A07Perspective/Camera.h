@@ -46,17 +46,39 @@ public:
     getViewMatrix();
 
     void
-    setProjection (float verticalFovDegrees, float aspectRatio,
+    setProjectionSymmetricPerspective (
+            float verticalFovDegrees, float aspectRatio,
             float nearZ, float farZ);
+    
+    void
+    setProjectionAsymmetricPerspective(
+            double left, double right,
+            double bottom, double top,
+            double nearPlaneZ, double farPlaneZ);
+
+    void
+    setProjectionOrthographic(
+            double left, double right,
+            double bottom, double top,
+            double nearPlaneZ, double farPlaneZ);
 
     Matrix4
     getProjectionMatrix() const;
+
+    void
+    zoom(float delta);
 
     void
     reset();
 private:
 
     bool m_dirty;
+
+    enum ProjectionType {
+        ORTHORGRAPHIC,
+        SYMMETRIC,
+        ASYMMETRIC
+    } m_current_projection;
 
     Transform m_world;
     float m_nearClipPlaneDistance;
