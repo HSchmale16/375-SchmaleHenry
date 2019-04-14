@@ -1,6 +1,6 @@
 /*
   Filename: AiScene.h
-  Authors: Gary M. Zoppetti, Ph.D. & Chad Hogg
+  Authors: Gary M. Zoppetti, Ph.D. & Chad Hogg & Henry J Schmale
   Course: CSCI375
   Assignment: A06Transform
   Description: A class that simplifies importing scenes with the AssImp library.
@@ -37,6 +37,9 @@ public:
   // You may find other methods useful...
   size_t
   countMeshes() const;
+
+  std::vector<unsigned>
+  readTriangleIndices(unsigned meshNum) const;
 
 private:
   // Importer dtor destroys the scene!

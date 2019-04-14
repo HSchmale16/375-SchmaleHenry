@@ -107,8 +107,11 @@ public:
 private:
     GLuint m_vao;
     GLuint m_vbo;
-    std::vector<float> m_geometry;
+    GLuint m_ibo;
     Transform m_world;
+
+    std::vector<unsigned> m_indices;
+    std::vector<float> m_geometry;
 
     bool usesNormals;
 };

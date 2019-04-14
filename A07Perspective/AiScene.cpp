@@ -41,8 +41,23 @@ AiScene::readVertexData (unsigned meshNum) const
   const aiMesh* mesh = m_scene->mMeshes[meshNum];
   // Container for holding vertex data
   std::vector<float> vertexData;
-  vertexData.reserve(mesh->mNumFaces * 3);
-  
+  vertexData.reserve(mesh->mNumFaces * 6);
+
+  for (unsigned vertexNum = 0; vertexNum < mesh->mNumVertices; ++vertexNum) {
+    aiVector3D pos = mesh->mVertices[vertexNum];
+
+    vertexData.push_back(pos.x);
+    vertexData.push_back(pos.y);
+    vertexData.push_back(pos.z);
+
+    aiVector3D nor = mesh->mNormals[vertexNum];
+
+    vertexData.push_back(nor.x);
+    vertexData.push_back(nor.y);
+    vertexData.push_back(nor.z);
+  }
+
+  /*
   // Go through array of faces
   for (unsigned faceNum = 0; faceNum < mesh->mNumFaces; ++faceNum)
   {
@@ -70,6 +85,39 @@ AiScene::readVertexData (unsigned meshNum) const
       vertexData.push_back(normal.y);
       vertexData.push_back(normal.z);
       
+    }
+  }
+  */
+  return vertexData;
+}
+
+std::vector<unsigned>
+AiScene::readTriangleIndices(unsigned meshNum) const {
+    assert(meshNum < m_scene->mNumMeshes);
+
+    // Get the correct mesh object
+  const aiMesh* mesh = m_scene->mMeshes[meshNum];
+  // Container for holding vertex data
+  std::vector<unsigned> vertexData;
+  vertexData.reserve(mesh->mNumFaces * 3);
+  
+  // Go through array of faces
+  for (unsigned faceNum = 0; faceNum < mesh->mNumFaces; ++faceNum)
+  {
+    // Get a face
+    const aiFace& face = mesh->mFaces[faceNum];
+    // Faces are triangles, so three indices
+    const unsigned INDICES_PER_FACE = 3;
+    // Go through the 3 indices
+    for (unsigned indexNum = 0; indexNum < INDICES_PER_FACE; ++indexNum)
+    {
+      // Get vertex number at location "indexNum"
+      // Indexing is used so data isn't duplicated
+
+      auto vertexNum = face.mIndices[indexNum];
+
+      vertexData.push_back(vertexNum);
+
     }
   }
   return vertexData;

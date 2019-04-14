@@ -14,21 +14,34 @@ Mesh::Mesh ()
 : usesNormals(false) {
     glGenVertexArrays (1, &m_vao);
     glGenBuffers (1, &m_vbo);
+    glGenBuffers(1, &m_ibo);
 }
 
 Mesh::Mesh (const AiScene& scene) 
 : usesNormals(true) {
     glGenVertexArrays (1, &m_vao);
     glGenBuffers(1, &m_vbo); 
-    
+    glGenBuffers(1, &m_ibo);
+
     for (size_t i = 0; i < scene.countMeshes(); ++i) {
-        addGeometry(scene.readVertexData(i));
-    } 
+        std::vector<unsigned> ids = scene.readTriangleIndices(i);
+        std::vector<float> geo = scene.readVertexData(i);
+
+        unsigned offset = m_geometry.size();
+        for (auto& id : ids) {
+            id += offset;
+        }
+        m_indices.insert(m_indices.end(), ids.begin(), ids.end());
+        m_geometry.insert(m_geometry.end(), geo.begin(), geo.end());
+
+    }
+    prepareVao();
 }
 
 Mesh::~Mesh () {
     glDeleteVertexArrays (1, &m_vao);
     glDeleteBuffers(1, &m_vbo);
+    glDeleteBuffers(1, &m_ibo);
 }
 
 void
@@ -52,6 +65,16 @@ Mesh::prepareVao () {
     glEnableVertexAttribArray (1);
     glVertexAttribPointer (1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float),
         reinterpret_cast<void*> (3 * sizeof (float)));
+
+
+    // upload indexing data
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+        m_indices.size() * sizeof(unsigned),
+        m_indices.data(),
+        GL_STATIC_DRAW);
+
+
     glBindVertexArray (0);
 }
 
@@ -65,7 +88,9 @@ Mesh::draw(ShaderProgram* shader, const Transform& view) {
     shader->setUniformMatrix("uModelView", t.getTransform());
 
     glBindVertexArray(m_vao);
-    glDrawArrays(GL_TRIANGLES, 0, m_geometry.size() / 6);
+    //glDrawArrays(GL_TRIANGLES, 0, m_geometry.size() / 6);
+    glDrawElements (GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 
+        reinterpret_cast<void*>(0));
     glBindVertexArray(0);
 
     shader->disable();

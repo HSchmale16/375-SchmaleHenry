@@ -243,7 +243,7 @@ resetViewport (GLFWwindow* window, int width, int height)
     // Origin for window coordinates is lower-left of window
     glViewport (0, 0, width, height);
     g_camera.setProjectionSymmetricPerspective(
-                60.f, (float)width / (float)height, 40, 4000);
+                60.f, (float)width / (float)height, 5, 4000);
     updateProjection();
 }
 
@@ -503,13 +503,13 @@ dealWithKeys()
     // Camera projection types
     if (g_keybuffer.isKeyDown(GLFW_KEY_P)) {
         g_camera.setProjectionSymmetricPerspective(
-                60.f, 1200.f / 900.f, 40, 4000);
+                60.f, 1200.f / 900.f, 5, 4000);
         updateProjection();
     }
 
     if (g_keybuffer.isKeyDown(GLFW_KEY_LEFT_BRACKET)) {
         g_camera.setProjectionAsymmetricPerspective(
-                -10, 20, -30, 40, 40, 4000);
+                -10, 20, -30, 40, 5, 4000);
         updateProjection();
     }
 
