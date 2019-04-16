@@ -189,9 +189,12 @@ void
 Transform::alignWithWorldY () {
     Vector3 up = Vector3(0, 1, 0);
     m_rotScale.setUp(up);
-    Vector3 right = m_rotScale.getBack().cross(m_rotScale.getUp());
-    Vector3 back  = m_rotScale.getRight().cross(m_rotScale.getUp());
-    right = back.cross(up);
+
+    Vector3 old_back = m_rotScale.getBack();
+    Vector3 right = up.cross(old_back);
+    // Vector3 right = up.cross(old_back);
+    Vector3 back = right.cross(up);
+    right = up.cross(old_back);
     
     right.normalize();
     back.normalize();
