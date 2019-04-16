@@ -1,4 +1,5 @@
 #include "Transform.h"
+#include <iomanip>
 
 /**
  * Transform.cpp
@@ -289,11 +290,24 @@ std::ostream&
 operator<< (std::ostream& out, const Transform& t) {
     Matrix3 mat(t.getOrientation());
     Vector3 pos(t.getPosition());
-
-    out << mat.getRight().x << mat.getUp().x << mat.getBack().x << pos.x << '\n'
-        << mat.getRight().y << mat.getUp().y << mat.getBack().y << pos.y << '\n'
-        << mat.getRight().z << mat.getUp().z << mat.getBack().z << pos.z << '\n'
-        << 0.f << 0.f << 0.f << 1.f << '\n';
+    
+    out << std::setw(10) << std::setprecision(2);
+    out << std::setw(10) << mat.getRight().x 
+        << std::setw(10) << mat.getUp().x 
+        << std::setw(10) << mat.getBack().x 
+        << std::setw(10) << pos.x << '\n'
+        << std::setw(10) << mat.getRight().y 
+        << std::setw(10) << mat.getUp().y 
+        << std::setw(10) << mat.getBack().y 
+        << std::setw(10) << pos.y << '\n'
+        << std::setw(10) << mat.getRight().z 
+        << std::setw(10) << mat.getUp().z 
+        << std::setw(10) << mat.getBack().z 
+        << std::setw(10) << pos.z << '\n'
+        << std::setw(10) << 0.f 
+        << std::setw(10) << 0.f 
+        << std::setw(10) << 0.f 
+        << std::setw(10) << 1.f << '\n';
 
     return out;
 }

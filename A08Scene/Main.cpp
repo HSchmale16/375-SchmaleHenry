@@ -118,7 +118,6 @@ main (int argc, char* argv[])
 
     // Game/render loop
     double previousTime = glfwGetTime ();
-    int count = 0;
     while (!glfwWindowShouldClose (window))
     {
         double currentTime = glfwGetTime ();
@@ -450,6 +449,8 @@ dealWithKeys()
         g_camera.pitch(-MOVEMENT_DELTA);
     else if (g_keybuffer.isKeyDown(GLFW_KEY_K))
         g_camera.pitch(MOVEMENT_DELTA);
+   
+    // N & M - ROLL 
     if (g_keybuffer.isKeyDown(GLFW_KEY_N))
        g_camera.roll(-MOVEMENT_DELTA);
     else if (g_keybuffer.isKeyDown(GLFW_KEY_M))
@@ -525,3 +526,4 @@ handleScrollEvents(GLFWwindow* wnd, double xoff, double yoff) {
     g_camera.zoom(yoff);
     updateProjection();
 }
+

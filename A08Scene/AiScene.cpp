@@ -21,8 +21,9 @@ AiScene::AiScene (const std::string& fileName)
   // Meshes may not have normals, so if they don't, have the importer
   //   generate them. 
   // Vertices may not be unique, so have them joined if they are the same.
-  unsigned flags = aiProcess_Triangulate | aiProcess_GenSmoothNormals
-      | aiProcess_JoinIdenticalVertices;
+  unsigned flags = aiProcess_Triangulate | 
+        aiProcess_GenSmoothNormals |
+        aiProcess_JoinIdenticalVertices;
   m_scene = m_importer.ReadFile (fileName, flags);
   if (m_scene == nullptr)
   {
@@ -95,7 +96,7 @@ std::vector<unsigned>
 AiScene::readTriangleIndices(unsigned meshNum) const {
     assert(meshNum < m_scene->mNumMeshes);
 
-    // Get the correct mesh object
+  // Get the correct mesh object
   const aiMesh* mesh = m_scene->mMeshes[meshNum];
   // Container for holding vertex data
   std::vector<unsigned> vertexData;

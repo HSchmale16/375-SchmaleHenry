@@ -7,7 +7,7 @@
 
 #include "Mesh.h"
 #include <cassert>
-
+#include <iostream>
 
 
 Mesh::Mesh () 
@@ -81,10 +81,12 @@ Mesh::prepareVao () {
 void 
 Mesh::draw(ShaderProgram* shader, const Transform& view) {
 
-    shader->enable();
+    shader->enable(); 
 
     Transform t(view);
     t.combine(m_world);
+
+    std::cout << t << std::endl;
     shader->setUniformMatrix("uModelView", t.getTransform());
 
     glBindVertexArray(m_vao);
