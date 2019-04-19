@@ -7,7 +7,10 @@ class MouseBuffer {
 public:
     MouseBuffer();
 
-
+private:
+    bool m_leftDown;
+    bool m_rightDown;
+    
 
 };
 

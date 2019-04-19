@@ -439,22 +439,22 @@ dealWithKeys()
     // ROTATION
     // J & L - yaw
     if (g_keybuffer.isKeyDown(GLFW_KEY_J))
-        g_camera.yaw(-MOVEMENT_DELTA);
-    else if (g_keybuffer.isKeyDown(GLFW_KEY_L))
         g_camera.yaw(MOVEMENT_DELTA);
+    else if (g_keybuffer.isKeyDown(GLFW_KEY_L))
+        g_camera.yaw(-MOVEMENT_DELTA);
    
 
     // I & K - PITCH
     if (g_keybuffer.isKeyDown(GLFW_KEY_I))
-        g_camera.pitch(-MOVEMENT_DELTA);
-    else if (g_keybuffer.isKeyDown(GLFW_KEY_K))
         g_camera.pitch(MOVEMENT_DELTA);
+    else if (g_keybuffer.isKeyDown(GLFW_KEY_K))
+        g_camera.pitch(-MOVEMENT_DELTA);
    
     // N & M - ROLL 
     if (g_keybuffer.isKeyDown(GLFW_KEY_N))
-       g_camera.roll(-MOVEMENT_DELTA);
+       g_camera.roll(MOVEMENT_DELTA);
     else if (g_keybuffer.isKeyDown(GLFW_KEY_M))
-       g_camera.roll(MOVEMENT_DELTA); 
+       g_camera.roll(-MOVEMENT_DELTA); 
 
     // R - Reset
     if (g_keybuffer.isKeyDown(GLFW_KEY_R))
