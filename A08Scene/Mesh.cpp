@@ -86,7 +86,6 @@ Mesh::draw(ShaderProgram* shader, const Transform& view) {
     Transform t(view);
     t.combine(m_world);
 
-    std::cout << t << std::endl;
     shader->setUniformMatrix("uModelView", t.getTransform());
 
     glBindVertexArray(m_vao);

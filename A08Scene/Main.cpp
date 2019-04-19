@@ -29,6 +29,7 @@ added.
 #include "Mesh.h"
 #include "Camera.h"
 #include "KeyBuffer.h"
+#include "MouseBuffer.h"
 
 /******************************************************************/
 // Type declarations/globals variables/prototypes
@@ -42,6 +43,7 @@ ShaderProgram* g_shaderProgram;
 ShaderProgram* g_normalShader;
 
 KeyBuffer g_keybuffer;
+MouseBuffer g_mousebuffer;
 Camera g_camera;
 
 /******************************************************************/
@@ -196,6 +198,14 @@ initWindow (GLFWwindow*& window)
     glfwSetKeyCallback (window, processKeys);
     glfwSetScrollCallback(window, handleScrollEvents);
     glfwSetFramebufferSizeCallback (window, resetViewport);
+    
+    glfwSetCursorPosCallback(window, [](GLFWwindow* w, double x, double y) {
+        g_mousebuffer.setPosition(x, y);
+    });
+
+    glfwSetMouseButtonCallback(window, [](GLFWwindow* w, int b, int a, int m) {
+        g_mousebuffer.setButton(b, a, m);
+    }); 
 
     // Specify background color
     glClearColor (0.0f, 0.0f, 0.0f, 1.0f);
@@ -518,6 +528,20 @@ dealWithKeys()
         g_camera.setProjectionOrthographic(-10, 20, -30, 40, 5, 4000);
         updateProjection();
     }
+
+    // Remember that y is flipped for mouse
+    const double ROT_ADJ_FACTOR = 0.25;    
+    if (g_mousebuffer.leftIsDown()) {
+        std::cout << g_mousebuffer.getDx() << "   " << g_mousebuffer.getDy()
+            << "\n";
+
+        g_camera.yaw(g_mousebuffer.getDx() * ROT_ADJ_FACTOR);
+        g_camera.pitch(g_mousebuffer.getDy() * ROT_ADJ_FACTOR);
+    }
+
+    if (g_mousebuffer.rightIsDown()) {
+        g_camera.roll(g_mousebuffer.getDx() * ROT_ADJ_FACTOR);
+    } 
 }
 
 void
