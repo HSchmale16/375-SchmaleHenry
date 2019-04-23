@@ -9,7 +9,9 @@
  * CSCI 375
  */
 
-Scene::Scene() {}
+Scene::Scene() {
+    m_current = m_meshes.end();
+}
 
 Scene::~Scene() {
     clear();
@@ -24,6 +26,10 @@ Scene::add(const std::string& name, Mesh* mesh) {
         thing->second = mesh;
     } else {
         m_meshes[name] = mesh;
+    }
+
+    if (m_current == m_meshes.end()) {
+        setActiveMesh(name);
     }
 }
 

@@ -442,6 +442,69 @@ dealWithKeys()
         g_camera.setProjectionOrthographic(-10, 20, -30, 40, 5, 4000);
         updateProjection();
     }
+
+    // Mesh changing
+    Mesh* activeMesh = g_scene.getActiveMesh();
+
+    if (g_keybuffer.isKeyDown(GLFW_KEY_J)) {
+        activeMesh->yaw(ROT_ADJ_FACTOR);
+    }
+    if (g_keybuffer.isKeyDown(GLFW_KEY_L)) {
+        activeMesh->yaw(-ROT_ADJ_FACTOR);
+    }
+
+    if (g_keybuffer.isKeyDown(GLFW_KEY_I)) {
+        activeMesh->pitch(ROT_ADJ_FACTOR);
+    }
+    if (g_keybuffer.isKeyDown(GLFW_KEY_K)) {
+        activeMesh->pitch(-ROT_ADJ_FACTOR);
+    }
+
+    if (g_keybuffer.isKeyDown(GLFW_KEY_N)) {
+        activeMesh->roll(ROT_ADJ_FACTOR);
+    }
+    if (g_keybuffer.isKeyDown(GLFW_KEY_M)) {
+        activeMesh->roll(-ROT_ADJ_FACTOR);
+    }
+
+    if (g_keybuffer.isKeyDown(GLFW_KEY_1)) {
+        activeMesh->moveRight(ROT_ADJ_FACTOR);
+    }
+    if (g_keybuffer.isKeyDown(GLFW_KEY_2)) {
+        activeMesh->moveRight(-ROT_ADJ_FACTOR);
+    }
+
+    if (g_keybuffer.isKeyDown(GLFW_KEY_3)) {
+        activeMesh->moveUp(ROT_ADJ_FACTOR);
+    }
+    if (g_keybuffer.isKeyDown(GLFW_KEY_4)) {
+        activeMesh->moveUp(-ROT_ADJ_FACTOR);
+    }
+    
+    if (g_keybuffer.isKeyDown(GLFW_KEY_5)) {
+        activeMesh->moveBack(ROT_ADJ_FACTOR);
+    }
+    if (g_keybuffer.isKeyDown(GLFW_KEY_6)) {
+        activeMesh->moveBack(-ROT_ADJ_FACTOR);
+    }
+
+    if (g_keybuffer.isKeyDown(GLFW_KEY_7)) {
+        activeMesh->scaleLocal(1.01);
+    }
+    if (g_keybuffer.isKeyDown(GLFW_KEY_8)) {
+        activeMesh->scaleLocal(0.99);
+    }
+
+    static bool LAST_MINUS = 0;
+    static bool LAST_EQUALS = 0;
+
+    if (g_keybuffer.isKeyDown(GLFW_KEY_MINUS)) {
+        g_scene.activatePreviousMesh();
+    }
+
+    if (g_keybuffer.isKeyDown(GLFW_KEY_EQUAL)) {
+        g_scene.activateNextMesh();
+    }
 }
 
 void
@@ -450,4 +513,5 @@ handleScrollEvents(GLFWwindow* wnd, double xoff, double yoff) {
     g_camera.zoom(yoff);
     updateProjection();
 }
+
 

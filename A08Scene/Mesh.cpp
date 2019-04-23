@@ -119,7 +119,7 @@ Mesh::moveUp(float d) {
 
 void
 Mesh::moveBack(float d) {
-    m_world.moveUp(d);
+    m_world.moveBack(d);
 }
 
 void
