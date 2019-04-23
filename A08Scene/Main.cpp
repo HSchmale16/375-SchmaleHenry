@@ -1,7 +1,7 @@
 /* Filename: Main.cpp
 Authors: Gary M. Zoppetti & Chad Hogg & Henry Schmale
 Course: CSCI375
-Assignment: A03 Camera
+Assignment: A08 Scene
 Description: A beginning OpenGL program that uses OpenGL 3.3 to draw a 
 triangle. The triangle is now specified with 3D coordinates.
 A virtual camera has been defined and limited key-based movement has been 
@@ -30,16 +30,17 @@ added.
 #include "Camera.h"
 #include "KeyBuffer.h"
 #include "MouseBuffer.h"
+#include "Scene.h"
 
 /******************************************************************/
 // Type declarations/globals variables/prototypes
 
 // We use one VAO for each object we draw
+Scene g_scene;
 std::vector<Mesh*> g_vaos;
 size_t activeMeshId = 0;
 
 // Need a shader program to transform and light the primitives
-ShaderProgram* g_shaderProgram;
 ShaderProgram* g_normalShader;
 
 KeyBuffer g_keybuffer;
@@ -258,23 +259,11 @@ resetViewport (GLFWwindow* window, int width, int height)
 
 /******************************************************************/
 
-void 
-push_color(std::vector<float>& v) {
-    static int colorNum = 0;
-    v.push_back(sin(colorNum));
-    colorNum += 1;
-    v.push_back(cos(colorNum));
-    colorNum += 1;
-    v.push_back((colorNum & 7) == 0 ? 1.0f : 0.0f);
-    colorNum += 1;
-}
-
 void
 initScene ()
 {
-    g_vaos.push_back(new Mesh(AiScene("bear.obj")));
-
-    g_vaos.push_back(new Mesh(AiScene("bear2.obj")));
+    g_scene.add("Bear 1", new Mesh(AiScene("bear.obj")));
+    g_scene.add("Bear 2", new Mesh(AiScene("bear2.obj")));
 }
 
 /******************************************************************/
@@ -284,11 +273,6 @@ initShaders ()
 {
     // Create shader programs, which consist of linked shaders.
     // No need to use the program until we draw or set uniform variables.
-    g_shaderProgram = new ShaderProgram ();
-    g_shaderProgram->createVertexShader ("Vec3.vert");
-    g_shaderProgram->createFragmentShader ("Vec3.frag");
-    g_shaderProgram->link ();
-
     g_normalShader = new ShaderProgram ();
     g_normalShader->createVertexShader("Vec3Norm.vert");
     g_normalShader->createFragmentShader("Vec3.frag");
@@ -309,11 +293,7 @@ initCamera ()
 
     g_camera = Camera(Vector3(0, 0, 12.f), Vector3(0.f, 0.f, 1.f), nearZ, farZ, aspectRatio, 50.0f);
     // Enable shader program so we can set uniforms
-    g_shaderProgram->enable ();
-    g_shaderProgram->setUniformMatrix ("uProjection", g_camera.getProjectionMatrix());
-
-    g_normalShader->enable ();
-    g_normalShader->setUniformMatrix("uProjection", g_camera.getProjectionMatrix());
+    updateProjection();
 }
 
 /******************************************************************/
@@ -330,22 +310,13 @@ void
 drawScene (GLFWwindow* window)
 {
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    
+ 
     // Set shader uniforms
     // Only the model-view matrix needs set, since the projection is
     //   already set and it will persist.
     // Create view matrix
-    Transform view = g_camera.getViewMatrix();
-    //g_shaderProgram->setUniformMatrix ("uModelView", modelView);
 
-    for (auto mesh : g_vaos) {
-        if (mesh->getUsesNormals()) {
-            mesh->draw(g_normalShader, view);
-        } else {
-            mesh->draw(g_shaderProgram, view);
-        }
-    }
+    g_scene.draw(g_normalShader, g_camera);
 
     // Swap the front and back buffers.
     // We draw to the back buffer, which is then swapped with the front
@@ -367,24 +338,13 @@ processKeys (GLFWwindow* window, int key, int scanCode, int action,
         glfwSetWindowShouldClose (window, GL_TRUE);
         return;
     }
-    switch(action) {
-        case GLFW_PRESS:
-            g_keybuffer.setKeyDown(key);
-            if ((modifiers & GLFW_MOD_SHIFT) == GLFW_MOD_SHIFT) {
-                if (key == GLFW_KEY_COMMA) {
-                    activeMeshId = (activeMeshId - 1) % g_vaos.size();
-                    printf("Previous Mesh (ID=%ld)\n", activeMeshId);
-                }
-                if (key == GLFW_KEY_PERIOD) {
-                    activeMeshId = (activeMeshId + 1) % g_vaos.size();
-                    printf("Next Mesh (ID=%ld)\n", activeMeshId);
-                }
-            }
-            break;
-        case GLFW_RELEASE:
-            g_keybuffer.setKeyUp(key);
-            break;
+
+    if (action == GLFW_PRESS) {
+        g_keybuffer.setKeyDown(key);
+    } else if (action == GLFW_RELEASE) {
+        g_keybuffer.setKeyUp(key);
     }
+
 }
 
 /******************************************************************/
@@ -394,7 +354,6 @@ releaseGlResources ()
 {
     // Delete OpenGL resources, particularly important if program will
     //   continue running
-    delete g_shaderProgram;
     delete g_normalShader;
     for (auto mesh : g_vaos) {
         delete mesh;
@@ -415,9 +374,6 @@ void
 updateProjection() {
 
     Matrix4 proj = g_camera.getProjectionMatrix();
-    g_shaderProgram->enable();
-    g_shaderProgram->setUniformMatrix("uProjection", proj);
-    g_shaderProgram->disable();
 
     g_normalShader->enable();
     g_normalShader->setUniformMatrix("uProjection", proj);
@@ -429,10 +385,14 @@ dealWithKeys()
 {
     // Translate camera/eye point using WASD keys
     const float MOVEMENT_DELTA = 1.0f;
-    if (g_keybuffer.isKeyDown(GLFW_KEY_W))
+
+    // W & D
+    if (g_keybuffer.isKeyDown(GLFW_KEY_W)) {
         g_camera.moveBack(-MOVEMENT_DELTA);
-    else if (g_keybuffer.isKeyDown(GLFW_KEY_S))
+        std::cout << g_camera.getViewMatrix().getPosition() << "\n";
+    } else if (g_keybuffer.isKeyDown(GLFW_KEY_S)) {
         g_camera.moveBack(MOVEMENT_DELTA);
+    }
 
     // A & D
     if (g_keybuffer.isKeyDown(GLFW_KEY_A))
@@ -446,70 +406,24 @@ dealWithKeys()
     else if (g_keybuffer.isKeyDown(GLFW_KEY_F))
         g_camera.moveUp(MOVEMENT_DELTA);
 
-    // ROTATION
-    // J & L - yaw
-    if (g_keybuffer.isKeyDown(GLFW_KEY_J))
-        g_camera.yaw(MOVEMENT_DELTA);
-    else if (g_keybuffer.isKeyDown(GLFW_KEY_L))
-        g_camera.yaw(-MOVEMENT_DELTA);
-   
+    // Remember that y is flipped for mouse
+    const double ROT_ADJ_FACTOR = 0.25;    
+    if (g_mousebuffer.leftIsDown()) {
+        std::cout << g_mousebuffer.getDx() << "   " << g_mousebuffer.getDy()
+            << "\n";
 
-    // I & K - PITCH
-    if (g_keybuffer.isKeyDown(GLFW_KEY_I))
-        g_camera.pitch(MOVEMENT_DELTA);
-    else if (g_keybuffer.isKeyDown(GLFW_KEY_K))
-        g_camera.pitch(-MOVEMENT_DELTA);
-   
-    // N & M - ROLL 
-    if (g_keybuffer.isKeyDown(GLFW_KEY_N))
-       g_camera.roll(MOVEMENT_DELTA);
-    else if (g_keybuffer.isKeyDown(GLFW_KEY_M))
-       g_camera.roll(-MOVEMENT_DELTA); 
+        g_camera.yaw(g_mousebuffer.getDx() * ROT_ADJ_FACTOR);
+        g_camera.pitch(g_mousebuffer.getDy() * ROT_ADJ_FACTOR);
+    }
+
+    if (g_mousebuffer.rightIsDown()) {
+        g_camera.roll(g_mousebuffer.getDx() * ROT_ADJ_FACTOR);
+    } 
 
     // R - Reset
     if (g_keybuffer.isKeyDown(GLFW_KEY_R))
         g_camera.reset();
 
-    // MESH CONTROLS
-    if (g_keybuffer.isKeyDown(GLFW_KEY_1)) {
-        g_vaos[activeMeshId]->moveRight(MOVEMENT_DELTA);
-    }
-
-    if (g_keybuffer.isKeyDown(GLFW_KEY_2)) {
-        g_vaos[activeMeshId]->moveUp(MOVEMENT_DELTA);
-    }
-
-    if (g_keybuffer.isKeyDown(GLFW_KEY_3)) {
-        g_vaos[activeMeshId]->moveWorld(MOVEMENT_DELTA, Vector3(-1, -1, -1));
-    }
-
-    if (g_keybuffer.isKeyDown(GLFW_KEY_4)) {
-        g_vaos[activeMeshId]->pitch(MOVEMENT_DELTA);
-    }
-
-    if (g_keybuffer.isKeyDown(GLFW_KEY_5)) {
-        g_vaos[activeMeshId]->yaw(MOVEMENT_DELTA); 
-    } 
-
-    if (g_keybuffer.isKeyDown(GLFW_KEY_6)) {
-        g_vaos[activeMeshId]->roll(MOVEMENT_DELTA);
-    }
-
-    if (g_keybuffer.isKeyDown(GLFW_KEY_7)) {
-        g_vaos[activeMeshId]->alignWithWorldY();
-    }
-
-    if (g_keybuffer.isKeyDown(GLFW_KEY_8)) {
-        g_vaos[activeMeshId]->scaleLocal(1.1f);
-    }
-
-    if (g_keybuffer.isKeyDown(GLFW_KEY_9)) {
-        g_vaos[activeMeshId]->scaleWorld(1.1f);
-    }
-
-    if (g_keybuffer.isKeyDown(GLFW_KEY_0)) {
-        g_vaos[activeMeshId]->shearLocalXByYz(1.1f, 1.2f);
-    }
 
     // Camera projection types
     if (g_keybuffer.isKeyDown(GLFW_KEY_P)) {
@@ -528,20 +442,6 @@ dealWithKeys()
         g_camera.setProjectionOrthographic(-10, 20, -30, 40, 5, 4000);
         updateProjection();
     }
-
-    // Remember that y is flipped for mouse
-    const double ROT_ADJ_FACTOR = 0.25;    
-    if (g_mousebuffer.leftIsDown()) {
-        std::cout << g_mousebuffer.getDx() << "   " << g_mousebuffer.getDy()
-            << "\n";
-
-        g_camera.yaw(g_mousebuffer.getDx() * ROT_ADJ_FACTOR);
-        g_camera.pitch(g_mousebuffer.getDy() * ROT_ADJ_FACTOR);
-    }
-
-    if (g_mousebuffer.rightIsDown()) {
-        g_camera.roll(g_mousebuffer.getDx() * ROT_ADJ_FACTOR);
-    } 
 }
 
 void

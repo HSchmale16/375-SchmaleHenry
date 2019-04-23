@@ -27,7 +27,7 @@ Mesh::Mesh (const AiScene& scene)
         std::vector<unsigned> ids = scene.readTriangleIndices(i);
         std::vector<float> geo = scene.readVertexData(i);
 
-        unsigned offset = m_geometry.size();
+        unsigned offset = m_geometry.size() / 6;
         for (auto& id : ids) {
             id += offset;
         }

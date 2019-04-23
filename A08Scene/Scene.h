@@ -1,6 +1,6 @@
 /*
   File: Scene.h
-  Author: Chad Hogg
+  Author: Chad Hogg & Henry J Schmale
   Course: CSCI375
   Assignment: A08Scene
   Description: A collection of all Meshes in the world.
@@ -9,13 +9,19 @@
 #ifndef SCENE_H
 #define SCENE_H
 
+#include <string>
+#include <map>
+
+#include "Mesh.h"
+#include "Camera.h"
+
 class Scene
 {
  public:
   // Initialize this Scene.
   // You may want to have multiple ctors.
   // Determine sensible parameters. 
-  Scene (DECIDE WHAT PARAMETERS YOU MIGHT LIKE);
+  Scene ();
 
   // Remove all meshes from this Scene.
   // Resource management is up to you (whether you release
@@ -23,7 +29,10 @@ class Scene
   ~Scene ();
 
   // Prevent Scene-s from being copied and copy assigned!
-  DECIDE HOW TO DO THIS
+  Scene(const Scene&) = delete;
+  
+  Scene&
+  operator=(const Scene&) = delete;
 
   // Add Mesh "mesh" with name "meshName" to this Scene. 
   // Return type is up to you
@@ -53,7 +62,7 @@ class Scene
   // Draw all meshes in this Scene.
   // Determine sensible parameters. 
   void
-  draw (DETERMINE WHAT PARAMETERS YOU MIGHT LIKE);
+  draw (ShaderProgram* s, Camera& c);
 
   // Changes the active mesh to the next one.
   // Switch to first if you were at last.
@@ -68,7 +77,8 @@ class Scene
 
  private:
   //TODO: Some data members will be needed
-
+  std::map<std::string,Mesh*> m_meshes;
+  std::map<std::string,Mesh*>::iterator m_current;
 };
 
 #endif//SCENE_H

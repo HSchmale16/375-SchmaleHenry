@@ -44,7 +44,8 @@ SRCS := Main.cpp \
 	AiScene.cpp \
 	Matrix4.cpp \
 	Vector4.cpp \
-	MouseBuffer.cpp
+	MouseBuffer.cpp \
+	Scene.cpp
 
 TESTSRCS := TestMain.cpp \
 	Vector3Test.cpp \
