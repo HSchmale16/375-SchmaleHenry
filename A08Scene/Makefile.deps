@@ -1,5 +1,5 @@
-Main.o: Main.cpp ShaderProgram.h Matrix4.h Vector4.h Mesh.h AiScene.h \
- Transform.h Matrix3.h Vector3.h Camera.h KeyBuffer.h MouseBuffer.h \
+Main.o: Main.cpp ShaderProgram.h Matrix4.h Vector4.h Vector3.h Mesh.h \
+ AiScene.h Transform.h Matrix3.h Camera.h KeyBuffer.h MouseBuffer.h \
  Scene.h
 
 ShaderProgram.h:
@@ -8,6 +8,8 @@ Matrix4.h:
 
 Vector4.h:
 
+Vector3.h:
+
 Mesh.h:
 
 AiScene.h:
@@ -15,8 +17,6 @@ AiScene.h:
 Transform.h:
 
 Matrix3.h:
-
-Vector3.h:
 
 Camera.h:
 
@@ -25,15 +25,18 @@ KeyBuffer.h:
 MouseBuffer.h:
 
 Scene.h:
-ShaderProgram.o: ShaderProgram.cpp ShaderProgram.h Matrix4.h Vector4.h
+ShaderProgram.o: ShaderProgram.cpp ShaderProgram.h Matrix4.h Vector4.h \
+ Vector3.h
 
 ShaderProgram.h:
 
 Matrix4.h:
 
 Vector4.h:
-Mesh.o: Mesh.cpp Mesh.h ShaderProgram.h Matrix4.h Vector4.h AiScene.h \
- Transform.h Matrix3.h Vector3.h
+
+Vector3.h:
+Mesh.o: Mesh.cpp Mesh.h ShaderProgram.h Matrix4.h Vector4.h Vector3.h \
+ AiScene.h Transform.h Matrix3.h
 
 Mesh.h:
 
@@ -43,13 +46,13 @@ Matrix4.h:
 
 Vector4.h:
 
+Vector3.h:
+
 AiScene.h:
 
 Transform.h:
 
 Matrix3.h:
-
-Vector3.h:
 Camera.o: Camera.cpp Camera.h Transform.h Matrix3.h Vector3.h Matrix4.h \
  Vector4.h
 
@@ -102,7 +105,7 @@ MouseBuffer.o: MouseBuffer.cpp MouseBuffer.h
 
 MouseBuffer.h:
 Scene.o: Scene.cpp Scene.h Mesh.h ShaderProgram.h Matrix4.h Vector4.h \
- AiScene.h Transform.h Matrix3.h Vector3.h Camera.h
+ Vector3.h AiScene.h Transform.h Matrix3.h Camera.h
 
 Scene.h:
 
@@ -114,13 +117,13 @@ Matrix4.h:
 
 Vector4.h:
 
+Vector3.h:
+
 AiScene.h:
 
 Transform.h:
 
 Matrix3.h:
-
-Vector3.h:
 
 Camera.h:
 TestMain.o: TestMain.cpp catch.hpp

@@ -264,6 +264,7 @@ initScene ()
 {
     g_scene.add("Bear 1", new Mesh(AiScene("bear.obj")));
     g_scene.add("Bear 2", new Mesh(AiScene("bear2.obj")));
+    g_scene.add("SWORD", new Mesh(AiScene("SWORDS.obj")));
 }
 
 /******************************************************************/

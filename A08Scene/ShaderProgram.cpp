@@ -50,6 +50,12 @@ ShaderProgram::setUniformMatrix (const std::string& uniform, const Matrix4& valu
 }
 
 void
+ShaderProgram::setUniformVector (const std::string& u, const Vector3& v) {
+    GLint loc = this->getUniformLocation (u);
+    glUniform3f(loc, v.x, v.y, v.z);
+}
+
+void
 ShaderProgram::createVertexShader (const std::string& vertexShaderFilename)
 {
   m_vertexShaderId = glCreateShader (GL_VERTEX_SHADER);

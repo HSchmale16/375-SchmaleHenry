@@ -1,6 +1,5 @@
 /*
-  Filename: ShaderProgram.h
-  Authors: Gary M. Zoppetti, Ph.D. & Chad Hogg
+  Filename: ShaderProgram.h Authors: Gary M. Zoppetti, Ph.D. & Chad Hogg
   Course: CSCI375
   Assignment: A02Mesh
   Description: A class that simplifies loading and running OpenGL shaders.
@@ -13,6 +12,8 @@
 
 #include <GL/glew.h>
 #include "Matrix4.h"
+#include "Vector3.h"
+
 
 class ShaderProgram
 {
@@ -34,6 +35,9 @@ public:
   void
   setUniformMatrix(const std::string& uniform, const Matrix4& value);
 
+  void
+  setUniformVector(const std::string& uniform, const Vector3& value);
+  
   void
   createVertexShader (const std::string& vertexShaderFilename);
 

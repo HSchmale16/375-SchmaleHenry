@@ -79,6 +79,8 @@ class Scene
   //TODO: Some data members will be needed
   std::map<std::string,Mesh*> m_meshes;
   std::map<std::string,Mesh*>::iterator m_current;
+  Vector3 m_lightIntensity;
+  Vector3 m_lightSource; 
 };
 
 #endif//SCENE_H

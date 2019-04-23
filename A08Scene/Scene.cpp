@@ -11,6 +11,8 @@
 
 Scene::Scene() {
     m_current = m_meshes.end();
+    m_lightIntensity = Vector3(0,0,1);
+    m_lightSource = Vector3(0, 0, 1);
 }
 
 Scene::~Scene() {
@@ -65,6 +67,10 @@ Scene::getActiveMesh() {
 
 void
 Scene::draw(ShaderProgram* s, Camera& c) {
+    s->enable();
+    s->setUniformVector("uLightDir", m_lightSource);
+    s->setUniformVector("uLightIntensity", m_lightIntensity);
+
     Transform t = c.getViewMatrix();
     for (const auto& m : m_meshes) {
         m.second->draw(s, t); 
