@@ -24,6 +24,9 @@ class Mesh {
 public:
     Mesh();
     Mesh(const AiScene& s);
+    Mesh(const AiScene& s, int meshNum);
+
+    // Remove access
     Mesh(const Mesh&) = delete;
     Mesh& operator=(Mesh const&) = delete;
 

@@ -126,6 +126,28 @@ Transform.h:
 Matrix3.h:
 
 Camera.h:
+Model.o: Model.cpp Model.h tree.hh Mesh.h ShaderProgram.h Matrix4.h \
+ Vector4.h Vector3.h AiScene.h Transform.h Matrix3.h
+
+Model.h:
+
+tree.hh:
+
+Mesh.h:
+
+ShaderProgram.h:
+
+Matrix4.h:
+
+Vector4.h:
+
+Vector3.h:
+
+AiScene.h:
+
+Transform.h:
+
+Matrix3.h:
 TestMain.o: TestMain.cpp catch.hpp
 
 catch.hpp:

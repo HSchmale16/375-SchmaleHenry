@@ -38,6 +38,19 @@ Mesh::Mesh (const AiScene& scene)
     prepareVao();
 }
 
+Mesh::Mesh(const AiScene& scene, int MeshNum) 
+: usesNormals(true) {
+    glGenVertexArrays (1, &m_vao);
+    glGenBuffers(1, &m_vbo); 
+    glGenBuffers(1, &m_ibo);
+    
+    std::vector<unsigned> ids = scene.readTriangleIndices(MeshNum);
+    std::vector<float> geo = scene.readVertexData(MeshNum);
+    m_indices.insert(m_indices.end(), ids.begin(), ids.end());
+    m_geometry.insert(m_geometry.end(), geo.begin(), geo.end());
+    prepareVao();
+}
+
 Mesh::~Mesh () {
     glDeleteVertexArrays (1, &m_vao);
     glDeleteBuffers(1, &m_vbo);
