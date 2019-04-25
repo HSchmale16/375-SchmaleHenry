@@ -1,0 +1,8 @@
+  [-X/2] Problems that still remain from earlier assignments.
+  [-20] Each source file that does not compile.
+  [-2] Each compiler warning.
+  [20] Matrix4 class is complete and correct.
+  [20] Matrix4 is used everywhere -- GLM is completely removed.
+  [15] Switching between 3 types of projections works.
+  [15] Zooming and changing the aspect ratio works.
+  [30] Indexed models works.
