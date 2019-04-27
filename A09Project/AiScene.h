@@ -11,11 +11,20 @@
 
 #include <string>
 #include <vector>
+#include <functional>
 
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>
 
+#include "Transform.h"
 // Make sure you add "-lassimp" to your Makefile!
+
+using AddChildCallback = std::function<
+    void(const std::vector<float>&,
+         const std::vector<unsigned>&,
+         const Transform& t, const std::string& name)>;
+
+using AscendCallback = std::function<void()>;
 
 class AiScene
 {
@@ -41,12 +50,26 @@ public:
   std::vector<unsigned>
   readTriangleIndices(unsigned meshNum) const;
 
+  /**
+   * Walks all of the meshes in this object in order
+   *
+   * NODE
+   * LEFT
+   * RIGHT
+   */
+  void 
+  walkMeshes(AscendCallback ascend,
+             AddChildCallback child) const;
+
 private:
   // Importer dtor destroys the scene!
   Assimp::Importer m_importer;
   // Don't really need to hold this as the Importer can obtain it
   //   with GetScene. 
   const aiScene* m_scene;
+
+  void
+  walkHelper(aiNode* node, AscendCallback asc, AddChildCallback accb) const;
 };
 
 #endif//AISCENE_H

@@ -51,6 +51,15 @@ Mesh::Mesh(const AiScene& scene, int MeshNum)
     prepareVao();
 }
 
+Mesh::Mesh(const std::vector<unsigned>& ind, const std::vector<float>& geo) 
+: m_indices(ind), m_geometry(geo), usesNormals(true){
+    glGenVertexArrays (1, &m_vao);
+    glGenBuffers(1, &m_vbo);
+    glGenBuffers(1, &m_ibo);
+
+    prepareVao();
+}
+
 Mesh::~Mesh () {
     glDeleteVertexArrays (1, &m_vao);
     glDeleteBuffers(1, &m_vbo);

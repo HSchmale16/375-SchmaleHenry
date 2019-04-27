@@ -1,6 +1,6 @@
 Main.o: Main.cpp ShaderProgram.h Matrix4.h Vector4.h Vector3.h Mesh.h \
  AiScene.h Transform.h Matrix3.h Camera.h KeyBuffer.h MouseBuffer.h \
- Scene.h
+ Scene.h Model.h tree.hh
 
 ShaderProgram.h:
 
@@ -25,6 +25,10 @@ KeyBuffer.h:
 MouseBuffer.h:
 
 Scene.h:
+
+Model.h:
+
+tree.hh:
 ShaderProgram.o: ShaderProgram.cpp ShaderProgram.h Matrix4.h Vector4.h \
  Vector3.h
 
@@ -90,9 +94,20 @@ Vector3.h:
 Matrix4.h:
 
 Vector4.h:
-AiScene.o: AiScene.cpp AiScene.h
+AiScene.o: AiScene.cpp AiScene.h Transform.h Matrix3.h Vector3.h \
+ Matrix4.h Vector4.h
 
 AiScene.h:
+
+Transform.h:
+
+Matrix3.h:
+
+Vector3.h:
+
+Matrix4.h:
+
+Vector4.h:
 Matrix4.o: Matrix4.cpp Matrix4.h Vector4.h
 
 Matrix4.h:

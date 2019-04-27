@@ -25,6 +25,7 @@ public:
     Mesh();
     Mesh(const AiScene& s);
     Mesh(const AiScene& s, int meshNum);
+    Mesh(const std::vector<unsigned>& ind, const std::vector<float>& geo);
 
     // Remove access
     Mesh(const Mesh&) = delete;

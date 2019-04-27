@@ -31,6 +31,7 @@ added.
 #include "KeyBuffer.h"
 #include "MouseBuffer.h"
 #include "Scene.h"
+#include "Model.h"
 
 /******************************************************************/
 // Type declarations/globals variables/prototypes
@@ -38,7 +39,6 @@ added.
 // We use one VAO for each object we draw
 Scene g_scene;
 std::vector<Mesh*> g_vaos;
-size_t activeMeshId = 0;
 
 // Need a shader program to transform and light the primitives
 ShaderProgram* g_normalShader;
@@ -265,6 +265,7 @@ initScene ()
     g_scene.add("Bear 1", new Mesh(AiScene("bear.obj")));
     g_scene.add("Bear 2", new Mesh(AiScene("bear2.obj")));
     g_scene.add("SWORD", new Mesh(AiScene("SWORDS.obj")));
+Model model(AiScene("cubestack.fbx"));
 }
 
 /******************************************************************/
@@ -495,9 +496,6 @@ dealWithKeys()
     if (g_keybuffer.isKeyDown(GLFW_KEY_8)) {
         activeMesh->scaleLocal(0.99);
     }
-
-    static bool LAST_MINUS = 0;
-    static bool LAST_EQUALS = 0;
 
     if (g_keybuffer.isKeyDown(GLFW_KEY_MINUS)) {
         g_scene.activatePreviousMesh();
