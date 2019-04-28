@@ -119,10 +119,14 @@ Vector4.h:
 MouseBuffer.o: MouseBuffer.cpp MouseBuffer.h
 
 MouseBuffer.h:
-Scene.o: Scene.cpp Scene.h Mesh.h ShaderProgram.h Matrix4.h Vector4.h \
- Vector3.h AiScene.h Transform.h Matrix3.h Camera.h
+Scene.o: Scene.cpp Scene.h Model.h tree.hh Mesh.h ShaderProgram.h \
+ Matrix4.h Vector4.h Vector3.h AiScene.h Transform.h Matrix3.h Camera.h
 
 Scene.h:
+
+Model.h:
+
+tree.hh:
 
 Mesh.h:
 

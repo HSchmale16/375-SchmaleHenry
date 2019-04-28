@@ -1,5 +1,9 @@
 #include "Scene.h"
 #include <iostream>
+
+using std::cout;
+using std::endl;
+
 /**
  * Scene.cpp
  *
@@ -20,7 +24,7 @@ Scene::~Scene() {
 }
 
 void
-Scene::add(const std::string& name, Mesh* mesh) {
+Scene::add(const std::string& name, Model* mesh) {
     auto thing = m_meshes.find(name);
 
     if (thing != m_meshes.end()) {
@@ -60,9 +64,15 @@ Scene::setActiveMesh(const std::string& name) {
     m_current = m_meshes.find(name);
 }
 
-Mesh*
+Model*
 Scene::getActiveMesh() {
     return m_current->second;
+}
+
+Model*
+Scene::getModel(std::string name) {
+    auto thing = m_meshes.find(name);
+    return thing != m_meshes.end() ? thing->second : nullptr;
 }
 
 void
@@ -83,6 +93,7 @@ Scene::activateNextMesh() {
     if (m_current == m_meshes.end()) {
         m_current = m_meshes.begin();
     }
+    cout << "PREV: MESH IS " << m_current->first << endl;
 }
 
 void
@@ -91,4 +102,5 @@ Scene::activatePreviousMesh() {
     if (m_current == m_meshes.end()) { 
         --m_current;
     }
+    cout << "NEXT: MESH IS " << m_current->first << endl;
 }

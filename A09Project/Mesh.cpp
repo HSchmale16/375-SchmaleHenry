@@ -129,6 +129,11 @@ Mesh::getWorld () const {
     return m_world;
 }
 
+void
+Mesh::setWorld(const Transform& t) {
+    m_world = t;
+}
+
 void 
 Mesh::moveRight(float d) {
     m_world.moveRight(d);

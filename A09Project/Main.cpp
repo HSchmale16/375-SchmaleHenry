@@ -38,7 +38,6 @@ added.
 
 // We use one VAO for each object we draw
 Scene g_scene;
-std::vector<Mesh*> g_vaos;
 
 // Need a shader program to transform and light the primitives
 ShaderProgram* g_normalShader;
@@ -262,10 +261,17 @@ resetViewport (GLFWwindow* window, int width, int height)
 void
 initScene ()
 {
-    g_scene.add("Bear 1", new Mesh(AiScene("bear.obj")));
-    g_scene.add("Bear 2", new Mesh(AiScene("bear2.obj")));
-    g_scene.add("SWORD", new Mesh(AiScene("SWORDS.obj")));
-Model model(AiScene("cubestack.fbx"));
+    //    g_scene.add("Bear 1", new Mesh(AiScene("bear.obj")));
+    //    g_scene.add("Bear 2", new Mesh(AiScene("bear2.obj")));
+    //   g_scene.add("SWORD", new Mesh(AiScene("SWORDS.obj")));
+    Model* model = new Model(AiScene("cubestack.fbx"));
+    g_scene.add("CubeStack", model);
+
+    model = new Model(new Mesh(AiScene("bear.obj")));
+    g_scene.add("Bear 1", model);
+
+    //model = new Model(AiScene("bear2.obj"));
+    //g_scene.add("Bear 2", model);
 }
 
 /******************************************************************/
@@ -343,10 +349,19 @@ processKeys (GLFWwindow* window, int key, int scanCode, int action,
 
     if (action == GLFW_PRESS) {
         g_keybuffer.setKeyDown(key);
+
+        if (g_keybuffer.isKeyDown(GLFW_KEY_MINUS)) {
+            g_scene.activatePreviousMesh();
+        }
+
+        if (g_keybuffer.isKeyDown(GLFW_KEY_EQUAL)) {
+            g_scene.activateNextMesh();
+        }
     } else if (action == GLFW_RELEASE) {
         g_keybuffer.setKeyUp(key);
     }
 
+    
 }
 
 /******************************************************************/
@@ -357,9 +372,7 @@ releaseGlResources ()
     // Delete OpenGL resources, particularly important if program will
     //   continue running
     delete g_normalShader;
-    for (auto mesh : g_vaos) {
-        delete mesh;
-    }
+    g_scene.clear();
 }
 
 /******************************************************************/
@@ -374,7 +387,6 @@ outputGlfwError (int error, const char* description)
 
 void
 updateProjection() {
-
     Matrix4 proj = g_camera.getProjectionMatrix();
 
     g_normalShader->enable();
@@ -446,7 +458,7 @@ dealWithKeys()
     }
 
     // Mesh changing
-    Mesh* activeMesh = g_scene.getActiveMesh();
+    Model* activeMesh = g_scene.getActiveMesh();
 
     if (g_keybuffer.isKeyDown(GLFW_KEY_J)) {
         activeMesh->yaw(ROT_ADJ_FACTOR);
@@ -495,14 +507,6 @@ dealWithKeys()
     }
     if (g_keybuffer.isKeyDown(GLFW_KEY_8)) {
         activeMesh->scaleLocal(0.99);
-    }
-
-    if (g_keybuffer.isKeyDown(GLFW_KEY_MINUS)) {
-        g_scene.activatePreviousMesh();
-    }
-
-    if (g_keybuffer.isKeyDown(GLFW_KEY_EQUAL)) {
-        g_scene.activateNextMesh();
     }
 }
 

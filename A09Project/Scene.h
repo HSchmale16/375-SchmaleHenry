@@ -12,7 +12,7 @@
 #include <string>
 #include <map>
 
-#include "Mesh.h"
+#include "Model.h"
 #include "Camera.h"
 
 class Scene
@@ -37,7 +37,7 @@ class Scene
   // Add Mesh "mesh" with name "meshName" to this Scene. 
   // Return type is up to you
   void
-  add (const std::string& meshName, Mesh* mesh);
+  add (const std::string& meshName, Model* mesh);
 
   // Remove the mesh named "meshName" from this Scene. 
   // Return type is up to you.
@@ -55,8 +55,11 @@ class Scene
   void
   setActiveMesh (const std::string& meshName);
 
+  Model*
+  getModel(std::string);
+
   // Return the active mesh. 
-  Mesh*
+  Model*
   getActiveMesh ();
 
   // Draw all meshes in this Scene.
@@ -77,8 +80,8 @@ class Scene
 
  private:
   //TODO: Some data members will be needed
-  std::map<std::string,Mesh*> m_meshes;
-  std::map<std::string,Mesh*>::iterator m_current;
+  std::map<std::string,Model*> m_meshes;
+  std::map<std::string,Model*>::iterator m_current;
   Vector3 m_lightIntensity;
   Vector3 m_lightSource; 
 };

@@ -47,6 +47,9 @@ public:
   
     Transform
     getWorld () const;
+
+    void
+    setWorld(const Transform& t);
   
     // Key: "1"
     void
