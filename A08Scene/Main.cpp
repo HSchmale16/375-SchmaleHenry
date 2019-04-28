@@ -119,6 +119,10 @@ main (int argc, char* argv[])
     GLFWwindow* window;
     init (window);
 
+    printf("Vendor  : %s\n", glGetString(GL_VENDOR));
+    printf("Render  : %s\n", glGetString(GL_RENDERER));
+    printf("Version : %s\n", glGetString(GL_VERSION)); 
+
     // Game/render loop
     double previousTime = glfwGetTime ();
     while (!glfwWindowShouldClose (window))
@@ -179,11 +183,11 @@ initWindow (GLFWwindow*& window)
 {
     glfwWindowHint (GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint (GLFW_CONTEXT_VERSION_MINOR, 3);
-// #ifdef __APPLE__
+ #ifdef __APPLE__
     // Necessary on MacOS! Was needed in one case on Linux too.
     glfwWindowHint (GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint (GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-// #endif
+ #endif
     window = glfwCreateWindow (1200, 900, "OpenGL Engine", nullptr, nullptr);
     if (window == nullptr)
     {
