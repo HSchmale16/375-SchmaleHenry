@@ -23,6 +23,13 @@ public:
         const Transform& t,
         const std::string& name);
 
+    /**
+     * Get a mesh by name, returns the occurance number found, in a 
+     * pre order traversal.
+     */
+    Mesh*
+    getMesh(std::string name, int occurance=0);
+
     void
     ascendCallback();
 

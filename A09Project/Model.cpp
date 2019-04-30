@@ -35,15 +35,28 @@ Model::~Model() {
     }
 }
 
+Mesh*
+Model::getMesh(std::string name, int occurance) {
+    int count = 0;
+    for(auto it = m_meshes.begin(); it != m_meshes.end(); ++it) {
+        if (it->first == name) {
+            ++count;
+            if (count >= occurance) {
+                return it->second;
+            }
+        }
+    }
+    return nullptr;
+}
+
 void
 Model::drawHelper(ModelTree::sibling_iterator iter, 
         ShaderProgram* shader,
         Transform t) {
-
-    std::cout << iter->first << std::endl;
     iter->second->draw(shader, t);
     t.combine(iter->second->getWorld());
-    for(ModelTree::sibling_iterator it = ModelTree::begin(iter); it != ModelTree::end(iter); ++it) {
+    for (ModelTree::sibling_iterator it = ModelTree::begin(iter); 
+            it != ModelTree::end(iter); ++it) {
         drawHelper(it, shader, t);
     }
 }

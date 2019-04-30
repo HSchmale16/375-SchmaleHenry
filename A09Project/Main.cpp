@@ -1,11 +1,13 @@
-/* Filename: Main.cpp
+/*
+Filename: Main.cpp
 Authors: Gary M. Zoppetti & Chad Hogg & Henry Schmale
 Course: CSCI375
 Assignment: A08 Scene
-Description: A beginning OpenGL program that uses OpenGL 3.3 to draw a 
-triangle. The triangle is now specified with 3D coordinates.
-A virtual camera has been defined and limited key-based movement has been 
-added.
+Description: 
+    A beginning OpenGL program that uses OpenGL 3.3 to draw a 
+    triangle. The triangle is now specified with 3D coordinates.
+    A virtual camera has been defined and limited key-based movement has been 
+    added.
 */
 
 /******************************************************************/
@@ -309,7 +311,11 @@ initCamera ()
 void
 updateScene (double time)
 {
-    // No updates in this simple program.
+    Mesh* mymesh = g_scene.getModel("CubeStack")->getMesh("middle");
+    mymesh->roll(10.0 * time);
+
+    mymesh = g_scene.getModel("CubeStack")->getMesh("left");
+    mymesh->yaw(20.0 * time);
 }
 
 /******************************************************************/
