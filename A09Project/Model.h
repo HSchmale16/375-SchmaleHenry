@@ -5,6 +5,8 @@
 #include "Mesh.h"
 #include "AiScene.h"
 
+using ModelTree = tree<std::pair<std::string,Mesh*>>;
+
 class Model {
 public:
     Model(const AiScene& s);
@@ -95,6 +97,10 @@ private:
     tree<std::pair<std::string,Mesh*>>::iterator m_current;
     Transform m_world;
 
+    void
+    drawHelper(ModelTree::sibling_iterator iter, 
+        ShaderProgram* shader,
+        Transform t); 
 };
 
 

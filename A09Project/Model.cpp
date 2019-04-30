@@ -1,15 +1,17 @@
 #include "Model.h"
 #include <iostream>
+#include <stack>
 
 using std::begin;
 using std::end;
 using std::cout;
 using std::endl;
 
+
 Model::Model(const AiScene& s) {
     using namespace std::placeholders;
-    m_current = m_meshes.insert(m_meshes.begin(), {"", nullptr});
 
+    m_current = m_meshes.end();
     auto addChild = std::bind(&Model::addChildCallback,
             this, _1, _2, _3, _4);
     auto upCb = std::bind(&Model::ascendCallback, this);
@@ -29,22 +31,27 @@ Model::Model(Mesh* mesh) {
 
 Model::~Model() {
     for(auto it = begin(m_meshes); it != end(m_meshes); ++it) {
-        if(it->second != nullptr)
-            delete it->second;
+        delete it->second;
+    }
+}
+
+void
+Model::drawHelper(ModelTree::sibling_iterator iter, 
+        ShaderProgram* shader,
+        Transform t) {
+
+    std::cout << iter->first << std::endl;
+    iter->second->draw(shader, t);
+    t.combine(iter->second->getWorld());
+    for(ModelTree::sibling_iterator it = ModelTree::begin(iter); it != ModelTree::end(iter); ++it) {
+        drawHelper(it, shader, t);
     }
 }
 
 void
 Model::draw(ShaderProgram* shader, const Transform& view) {
-
     Transform t(view);
-    t.combine(m_world);
-
-    for(auto it = begin(m_meshes); it != end(m_meshes); ++it) {
-        if (it->second != nullptr) {
-            it->second->draw(shader, t);
-        }
-    }
+    drawHelper(m_current, shader, t);
 }
 
 void
@@ -55,9 +62,13 @@ Model::addChildCallback(
         const std::string& name) {
 
     std::cout << t << std::endl;
-    m_current = m_meshes.append_child(m_current,
-            {name, new Mesh(ind, geo)});
-
+    if (m_current == m_meshes.end()) {
+        m_current = m_meshes.insert(m_meshes.begin(),
+                {name, new Mesh(ind, geo)});
+    } else {
+        m_current = m_meshes.append_child(m_current,
+                {name, new Mesh(ind, geo)});
+    }
     m_current->second->setWorld(t);
 }
 

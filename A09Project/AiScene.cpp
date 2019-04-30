@@ -127,10 +127,6 @@ AiScene::walkHelper(aiNode* node,
         std::vector<float> got_geo = readVertexData(node->mMeshes[i]);
         std::vector<unsigned> got_ind = readTriangleIndices(node->mMeshes[i]);
         
-        unsigned offset = got_geo.size() / 6;
-        for (auto& ind : got_ind) {
-            ind += offset; 
-        }
         indexes.insert(indexes.end(), got_ind.begin(), got_ind.end());
         geometry.insert(geometry.end(), got_geo.begin(), got_geo.end());
     }
