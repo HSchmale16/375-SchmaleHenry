@@ -30,7 +30,7 @@ LDFLAGS :=
 LDPATHS := 
 
 # Libraries used, prefaced with "-l".
-LDLIBS := -lassimp -lGLEW -lglfw -lGL
+LDLIBS := -lassimp -lGLEW -lglfw -lGL -lpthread
 
 # All source files, separated by spaces. Don't include header files. 
 SRCS := Main.cpp \
@@ -46,7 +46,8 @@ SRCS := Main.cpp \
 	Vector4.cpp \
 	MouseBuffer.cpp \
 	Scene.cpp \
-	Model.cpp
+	Model.cpp \
+	CommandInterface.cpp
 
 TESTSRCS := TestMain.cpp \
 	Vector3Test.cpp \

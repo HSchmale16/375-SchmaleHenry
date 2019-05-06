@@ -15,8 +15,14 @@ using std::endl;
 
 Scene::Scene() {
     m_current = m_meshes.end();
-    m_lightIntensity = Vector3(0,0,1);
-    m_lightSource = Vector3(0, 0, 1);
+
+    m_lights[0].position = Vector3(10, 10, 10);
+    m_lights[0].type = 1;
+    m_lights[0].direction = Vector3(-1, -1, -1);
+    m_lights[0].atten = Vector3(0.5, 0.5, 0.5);
+    m_lights[0].diffuse = Vector3(1,1,1);
+    m_lights[0].specular = Vector3(1,1,1);
+    m_max_active_light = 1;
 }
 
 Scene::~Scene() {
@@ -75,11 +81,52 @@ Scene::getModel(std::string name) {
     return thing != m_meshes.end() ? thing->second : nullptr;
 }
 
+const static char* formatStrings[] = {
+    "uLights[%d].type",
+    "uLights[%d].diffuseIntensity",
+    "uLights[%d].specularIntensity",
+    "uLights[%d].position",
+    "uLights[%d].attenuationCoefficients",
+    "uLights[%d].direction",
+    "uLights[%d].cutoffCosAngle",
+    "uLights[%d].falloff"
+};
+
 void
 Scene::draw(ShaderProgram* s, Camera& c) {
     s->enable();
-    s->setUniformVector("uLightDir", m_lightSource);
-    s->setUniformVector("uLightIntensity", m_lightIntensity);
+
+    m_max_active_light = 1;
+    s->setUniformMatrix("uView", c.getViewMatrix().getTransform());
+    s->setUniformInt("uNumLights", m_max_active_light);
+    for (int i = 0; i < m_max_active_light; ++i) {
+        char buff[100];
+        
+        snprintf(buff, sizeof(buff), formatStrings[0], i);
+        s->setUniformInt(buff, m_lights[i].type);
+
+        snprintf(buff, sizeof(buff), formatStrings[1], i);
+        s->setUniformVector(buff, m_lights[i].diffuse);
+        
+        snprintf(buff, sizeof(buff), formatStrings[2], i);
+        s->setUniformVector(buff, m_lights[i].specular);
+        
+        snprintf(buff, sizeof(buff), formatStrings[3], i);
+        s->setUniformVector(buff, m_lights[i].position);
+        
+        snprintf(buff, sizeof(buff), formatStrings[4], i);
+        s->setUniformVector(buff, m_lights[i].atten);
+        
+        snprintf(buff, sizeof(buff), formatStrings[5], i);
+        s->setUniformVector(buff, m_lights[i].direction);
+    
+        snprintf(buff, sizeof(buff), formatStrings[6], i);
+        s->setUniformFloat(buff, m_lights[i].cutoff);
+        
+        snprintf(buff, sizeof(buff), formatStrings[7], i);
+        s->setUniformFloat(buff, m_lights[i].falloff);
+    
+    }
 
     Transform t = c.getViewMatrix();
     for (const auto& m : m_meshes) {

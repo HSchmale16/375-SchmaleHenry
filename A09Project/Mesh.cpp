@@ -108,7 +108,8 @@ Mesh::draw(ShaderProgram* shader, const Transform& view) {
     Transform t(view);
     t.combine(m_world);
 
-    shader->setUniformMatrix("uModelView", t.getTransform());
+    shader->setUniformMatrix("uWorld", t.getTransform());
+
 
     glBindVertexArray(m_vao);
     //glDrawArrays(GL_TRIANGLES, 0, m_geometry.size() / 6);

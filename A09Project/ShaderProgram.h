@@ -37,6 +37,12 @@ public:
 
   void
   setUniformVector(const std::string& uniform, const Vector3& value);
+
+  void
+  setUniformFloat(const std::string& uniform, const float value);
+
+  void
+  setUniformInt(const std::string& u, const int v);
   
   void
   createVertexShader (const std::string& vertexShaderFilename);

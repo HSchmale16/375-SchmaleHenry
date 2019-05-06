@@ -1,0 +1,25 @@
+So I decided to add a command line interface to my program. It runs in a
+seperate thread and updates values in a shared memory segment. The stuff
+in shared memory is a series of MAX_LIGHTS light structs.
+
+All commands are on a single line
+
+The grammar is as follows:
+
+<object> <id> <property> [values...]
+
+So to update the position of the first light we would say 
+
+    light 0 position 50 50 50
+    light 0 type 1 
+
+For lights the properties are 
+
+    * type in [0,1,2] - int
+    * diffuse - vec3
+    * specular - vec3
+    * position - vec3
+    * atten - vec3
+    * direction - vec3
+    * cutoff - float 
+    * falloff - float

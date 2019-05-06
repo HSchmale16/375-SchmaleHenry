@@ -16,6 +16,9 @@ Description:
 #include <cstdlib>
 #include <vector>
 #include <cmath>
+#include <thread>
+#include <iostream>
+#include <sstream>
 
 // Use GLEW so we can access the latest OpenGL functionality
 // Always include GLEW before GLFW!
@@ -34,9 +37,13 @@ Description:
 #include "MouseBuffer.h"
 #include "Scene.h"
 #include "Model.h"
+#include "CommandInterface.h"
 
 /******************************************************************/
 // Type declarations/globals variables/prototypes
+using std::cin;
+using std::cout;
+
 
 // We use one VAO for each object we draw
 Scene g_scene;
@@ -120,6 +127,9 @@ main (int argc, char* argv[])
     GLFWwindow* window;
     init (window);
 
+    std::thread stdin_command_parser(runCommandInterface);
+    stdin_command_parser.detach();
+
     // Game/render loop
     double previousTime = glfwGetTime ();
     while (!glfwWindowShouldClose (window))
@@ -146,8 +156,8 @@ main (int argc, char* argv[])
     return EXIT_SUCCESS;
 }
 
-/******************************************************************/
 
+/******************************************************************/
 void
 init (GLFWwindow*& window)
 {
@@ -284,9 +294,17 @@ initShaders ()
     // Create shader programs, which consist of linked shaders.
     // No need to use the program until we draw or set uniform variables.
     g_normalShader = new ShaderProgram ();
-    g_normalShader->createVertexShader("Vec3Norm.vert");
+    g_normalShader->createVertexShader("GeneralShader.vert"); // "Vec3Norm.vert");
     g_normalShader->createFragmentShader("Vec3.frag");
     g_normalShader->link();
+    g_normalShader->enable();
+
+    g_normalShader->setUniformVector("uAmbientIntensity",  Vector3(0.5, 0.5, 0.5));
+    g_normalShader->setUniformVector("uAmbientReflection", Vector3(0.5, 0.5, 0.5));
+    g_normalShader->setUniformVector("uDiffuseReflection", Vector3(0.5, 0.5, 0.5));
+    g_normalShader->setUniformVector("uSpecularReflection", Vector3(0.5, 0.5, 0.5));
+    g_normalShader->setUniformFloat("uSpecularPower", 0.5);
+    g_normalShader->setUniformVector("uEmissiveIntensity", Vector3(0.5, 0.5, 0.5));
 }
 
 /******************************************************************/

@@ -15,6 +15,18 @@
 #include "Model.h"
 #include "Camera.h"
 
+struct Light {
+    int type;
+    Vector3 diffuse;
+    Vector3 specular;
+    Vector3 position;
+    Vector3 atten;
+    Vector3 direction;
+
+    float cutoff;
+    float falloff;
+};
+
 class Scene
 {
  public:
@@ -82,8 +94,9 @@ class Scene
   //TODO: Some data members will be needed
   std::map<std::string,Model*> m_meshes;
   std::map<std::string,Model*>::iterator m_current;
-  Vector3 m_lightIntensity;
-  Vector3 m_lightSource; 
+
+  Light m_lights[8];
+  size_t m_max_active_light;
 };
 
 #endif//SCENE_H

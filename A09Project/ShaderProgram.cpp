@@ -56,6 +56,18 @@ ShaderProgram::setUniformVector (const std::string& u, const Vector3& v) {
 }
 
 void
+ShaderProgram::setUniformFloat(const std::string& u, const float value) {
+    GLint loc = this->getUniformLocation(u);
+    glUniform1f(loc, value);
+}
+
+void
+ShaderProgram::setUniformInt(const std::string& u, const int v) {
+    GLint loc = this->getUniformLocation(u);
+    glUniform1i(loc, v);
+}
+
+void
 ShaderProgram::createVertexShader (const std::string& vertexShaderFilename)
 {
   m_vertexShaderId = glCreateShader (GL_VERTEX_SHADER);
