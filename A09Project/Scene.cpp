@@ -16,10 +16,10 @@ using std::endl;
 Scene::Scene() {
     m_current = m_meshes.end();
 
-    m_lights[0].position = Vector3(10, 10, 10);
+    m_lights[0].position = Vector3(1000, 1000, 1000);
     m_lights[0].type = 1;
     m_lights[0].direction = Vector3(-1, -1, -1);
-    m_lights[0].atten = Vector3(0.5, 0.5, 0.5);
+    m_lights[0].atten = Vector3(0.f);
     m_lights[0].diffuse = Vector3(1,1,1);
     m_lights[0].specular = Vector3(1,1,1);
     m_max_active_light = 1;

@@ -299,12 +299,12 @@ initShaders ()
     g_normalShader->link();
     g_normalShader->enable();
 
-    g_normalShader->setUniformVector("uAmbientIntensity",  Vector3(0.5, 0.5, 0.5));
-    g_normalShader->setUniformVector("uAmbientReflection", Vector3(0.5, 0.5, 0.5));
-    g_normalShader->setUniformVector("uDiffuseReflection", Vector3(0.5, 0.5, 0.5));
-    g_normalShader->setUniformVector("uSpecularReflection", Vector3(0.5, 0.5, 0.5));
-    g_normalShader->setUniformFloat("uSpecularPower", 0.5);
-    g_normalShader->setUniformVector("uEmissiveIntensity", Vector3(0.5, 0.5, 0.5));
+    g_normalShader->setUniformVector("uAmbientIntensity",  Vector3(0.1, 0.1, 0.3));
+    g_normalShader->setUniformVector("uAmbientReflection", Vector3(0.1, 0.1, 0.1));
+    g_normalShader->setUniformVector("uDiffuseReflection", Vector3(0.1, 0.1, 0.1));
+    g_normalShader->setUniformVector("uSpecularReflection", Vector3(0.1, 0.1, 0.1));
+    g_normalShader->setUniformFloat("uSpecularPower", 0.1);
+    g_normalShader->setUniformVector("uEmissiveIntensity", Vector3(0.1, 0.1, 0.1));
 }
 
 /******************************************************************/
@@ -422,7 +422,7 @@ void
 dealWithKeys() 
 {
     // Translate camera/eye point using WASD keys
-    const float MOVEMENT_DELTA = 1.0f;
+    float MOVEMENT_DELTA = 1.0f;
 
     // W & D
     if (g_keybuffer.isKeyDown(GLFW_KEY_W)) {
@@ -504,6 +504,8 @@ dealWithKeys()
     if (g_keybuffer.isKeyDown(GLFW_KEY_M)) {
         activeMesh->roll(-ROT_ADJ_FACTOR);
     }
+
+    MOVEMENT_DELTA *= 3;
 
     if (g_keybuffer.isKeyDown(GLFW_KEY_1)) {
         activeMesh->moveRight(ROT_ADJ_FACTOR);
