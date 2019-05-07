@@ -299,12 +299,15 @@ initShaders ()
     g_normalShader->link();
     g_normalShader->enable();
 
-    g_normalShader->setUniformVector("uAmbientIntensity",  Vector3(0.1, 0.1, 0.3));
-    g_normalShader->setUniformVector("uAmbientReflection", Vector3(0.1, 0.1, 0.1));
-    g_normalShader->setUniformVector("uDiffuseReflection", Vector3(0.1, 0.1, 0.1));
-    g_normalShader->setUniformVector("uSpecularReflection", Vector3(0.1, 0.1, 0.1));
-    g_normalShader->setUniformFloat("uSpecularPower", 0.1);
+    g_normalShader->setUniformVector("uAmbientIntensity",  Vector3(0.0, 0.0, 0.3));
+
+    g_normalShader->setUniformVector("uAmbientReflection", Vector3(1.0, 0.5, 0.31));
+    g_normalShader->setUniformVector("uDiffuseReflection", Vector3(1.0, 0.3, 0.2));
+    g_normalShader->setUniformVector("uSpecularReflection", Vector3(0.1, 0.4, 0.1));
+    g_normalShader->setUniformFloat("uSpecularPower", 0.4);
     g_normalShader->setUniformVector("uEmissiveIntensity", Vector3(0.1, 0.1, 0.1));
+
+    g_normalShader->disable();
 }
 
 /******************************************************************/

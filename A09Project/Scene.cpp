@@ -20,9 +20,18 @@ Scene::Scene() {
     m_lights[0].type = 1;
     m_lights[0].direction = Vector3(-1, -1, -1);
     m_lights[0].atten = Vector3(0.f);
-    m_lights[0].diffuse = Vector3(1,1,1);
-    m_lights[0].specular = Vector3(1,1,1);
-    m_max_active_light = 1;
+    m_lights[0].diffuse = Vector3(0.5,1,1);
+    m_lights[0].specular = Vector3(1,0.25,0.5);
+
+
+    m_lights[1].position = Vector3(0,0,50);
+    m_lights[1].type = 0;
+    m_lights[1].direction = Vector3(0,0,1);
+    m_lights[0].atten = Vector3(0.f);
+    m_lights[1].diffuse = Vector3(0.5,0.75, 0.25);
+    m_lights[1].specular = Vector3(0.5, 0, 0);
+
+    m_max_active_light = 2;
 }
 
 Scene::~Scene() {
@@ -102,10 +111,9 @@ void
 Scene::draw(ShaderProgram* s, Camera& c) {
     s->enable();
 
-    m_max_active_light = 1;
     s->setUniformMatrix("uView", c.getViewMatrix().getTransform());
     s->setUniformInt("uNumLights", m_max_active_light);
-    for (int i = 0; i < m_max_active_light; ++i) {
+    for (size_t i = 0; i < m_max_active_light; ++i) {
         char buff[100];
         
         snprintf(buff, sizeof(buff), formatStrings[0], i);
