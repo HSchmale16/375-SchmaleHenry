@@ -67,7 +67,13 @@ Scene::clear() {
 
 void
 Scene::setActiveMesh(const std::string& name) {
-    m_current = m_meshes.find(name);
+    auto it = m_meshes.find(name);
+    if (it != m_meshes.end()) {
+        std::cout << "Active Mesh IS : " << it->first << " " << it->second << "\n";
+        m_current = it;
+    } else {
+        std::cout << "Requested mesh is not found: " << name << std::endl;
+    }
 }
 
 Model*

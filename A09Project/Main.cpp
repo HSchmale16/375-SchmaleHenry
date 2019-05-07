@@ -505,27 +505,25 @@ dealWithKeys()
         activeMesh->roll(-ROT_ADJ_FACTOR);
     }
 
-    MOVEMENT_DELTA *= 3;
-
     if (g_keybuffer.isKeyDown(GLFW_KEY_1)) {
-        activeMesh->moveRight(ROT_ADJ_FACTOR);
+        activeMesh->moveRight(MOVEMENT_DELTA);
     }
     if (g_keybuffer.isKeyDown(GLFW_KEY_2)) {
-        activeMesh->moveRight(-ROT_ADJ_FACTOR);
+        activeMesh->moveRight(-MOVEMENT_DELTA);
     }
 
     if (g_keybuffer.isKeyDown(GLFW_KEY_3)) {
-        activeMesh->moveUp(ROT_ADJ_FACTOR);
+        activeMesh->moveUp(MOVEMENT_DELTA);
     }
     if (g_keybuffer.isKeyDown(GLFW_KEY_4)) {
-        activeMesh->moveUp(-ROT_ADJ_FACTOR);
+        activeMesh->moveUp(-MOVEMENT_DELTA);
     }
     
     if (g_keybuffer.isKeyDown(GLFW_KEY_5)) {
-        activeMesh->moveBack(ROT_ADJ_FACTOR);
+        activeMesh->moveBack(MOVEMENT_DELTA);
     }
     if (g_keybuffer.isKeyDown(GLFW_KEY_6)) {
-        activeMesh->moveBack(-ROT_ADJ_FACTOR);
+        activeMesh->moveBack(-MOVEMENT_DELTA);
     }
 
     if (g_keybuffer.isKeyDown(GLFW_KEY_7)) {

@@ -64,6 +64,7 @@ Model::drawHelper(ModelTree::sibling_iterator iter,
 void
 Model::draw(ShaderProgram* shader, const Transform& view) {
     Transform t(view);
+    t.combine(m_world);
     drawHelper(m_current, shader, t);
 }
 
